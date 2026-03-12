@@ -1,14 +1,22 @@
-use std::io;
+use std::{fmt::Debug, io};
 
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{buffer::Buffer, layout::Rect, widgets::{Paragraph, Widget}, DefaultTerminal, Frame};
 
-#[derive(Debug, Default)]
-pub struct App {
-    exit: bool
+use crate::data::state::State;
+
+
+#[derive(Debug)]
+pub struct App<'a> {
+    exit: bool,
+    state: &'a mut State
 }
 
-impl App {
+impl<'a> App<'a> {
+    pub fn new(state: &'a mut State) -> App<'a> {
+        App { state, exit: false }
+    }
+
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
         while !self.exit {
             terminal.draw(|frame| self.draw(frame))?;
@@ -35,11 +43,15 @@ impl App {
         if let KeyCode::Char('q') = key_event.code {
             self.exit = true;
         }
-    }
+    } 
 }
 
-impl Widget for &App {
+impl<'a> Widget for &App<'a> {
     fn render(self, area: Rect, buf: &mut Buffer) {
-       Paragraph::new("Hello world").centered().render(area, buf); 
+        let mut paragraph: String = String::new();
+        for c in self.state.get_content() {
+            paragraph.push_str(&format!("{:?}\n", c.get_path()));
+        }
+        Paragraph::new(paragraph).centered().render(area, buf);
     }
 }
