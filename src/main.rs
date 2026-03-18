@@ -1,12 +1,15 @@
 mod data;
-mod ui;
 
 use std::{io, path::PathBuf};
 
-use crate::{data::state::State, ui::app::App};
+use crate::data::state::AppState;
 
 fn main() -> io::Result<()> {
-    let mut state = State::new(PathBuf::from("content"), None);
-    let mut app = App::new(&mut state);
-    ratatui::run(|terminal| app.run(terminal))
+    let state: AppState = AppState::new(PathBuf::from("content"), None)?;
+    for chapter in state.get_chapters() {
+        println!("{:?}", chapter);
+    }
+    Ok(())
+    /*let mut ui = AppUI::new(&mut state);
+    ratatui::run(|terminal| ui.run(terminal))*/
 }

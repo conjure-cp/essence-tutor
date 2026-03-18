@@ -1,30 +1,30 @@
-use std::{fs, path::PathBuf};
+use std::{fs, io, path::PathBuf};
 
-use crate::data::content::Content;
+use crate::data::content::Chapter;
 
 #[derive(Debug)]
-pub struct State {
+pub struct AppState {
     root_dir: PathBuf,
-    content: Vec<Content>,
+    chapters: Vec<Chapter>,
     current: usize,
 }
 
-impl State {
-    pub fn new(root_dir: PathBuf, current: Option<usize>) -> State {
-        let mut content: Vec<Content> = Vec::new();
+impl AppState {
+    pub fn new(root_dir: PathBuf, current: Option<usize>) -> io::Result<AppState> {
+        let mut chapters: Vec<Chapter> = Vec::new();
 
-        match fs::read_dir(&root_dir) {
-            Ok(paths) => for path in paths {
-                content.push(Content::new(path.unwrap().path(), None));
+        for f in fs::read_dir(&root_dir)? {
+            let path: PathBuf = f?.path();
+            if path.is_dir() {
+                chapters.push(Chapter::new(path, None)?)
             }
-            Err(e) => panic!("{:?}", e),
         }
 
-        State {
+        Ok(AppState {
             root_dir,
-            content,
+            chapters,
             current: current.unwrap_or(0),
-        }
+        })
     }
 
     pub fn get_root_dir(&self) -> &PathBuf {
@@ -32,15 +32,15 @@ impl State {
     }
 
     pub fn is_finished(&self) -> bool {
-        self.content.len() <= self.current as usize
+        self.chapters.len() <= self.current as usize
     }
    
-    pub fn get_current(&self) -> Option<&Content> {
-        self.content.get(self.current as usize)
+    pub fn get_current(&self) -> Option<&Chapter> {
+        self.chapters.get(self.current as usize)
     }
 
-    pub fn get_content(&self) -> &Vec<Content> {
-        &self.content
+    pub fn get_chapters(&self) -> &Vec<Chapter> {
+        &self.chapters
     }
 
     pub fn incr_current(&mut self) -> usize {
