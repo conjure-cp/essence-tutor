@@ -11,3 +11,5 @@ Conjure is a tool which takes an Essence model, determines the best way to solve
 From this point in the guide, Conjure will be mentioned sparingly. If you would like to learn more about it, see the [Conjure documentation](https://conjure.readthedocs.io/).
 
 > **Aside:** [Conjure Oxide](https://github.com/conjure-cp/conjure-oxide) is a re-write of Conjure in Rust and is the subject of the AI for Decision Making VIP at the University of St. Andrews. While it has not yet reached feature parity, you can try it out with Essence Tutor by <insert how that works here>.
+
+In the next section, we will see an example Essence model for a simple CSP.
