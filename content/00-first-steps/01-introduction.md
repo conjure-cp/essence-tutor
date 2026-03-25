@@ -1,26 +1,19 @@
 # Introduction
 Welcome to Essence Tutor!
 
-Have you ever solved a [Sudoku](https://en.wikipedia.org/wiki/Sudoku) puzzle or completed a [Nonogram](https://en.wikipedia.org/wiki/Nonogram)?
-These are both famous examples of constraint satisfaction problems! 
-
-Constraints Programming is where computers search for solutions to these kinds of problems. Essence is a modelling language
-which allows a user to describe these problems in detail and obtain these solutions, without having any knowledge of how
-exactly they are to be solved.
+Essence is a modelling language used to describe and solve constraint satisfaction problems (CSPs). It is declarative, meaning you do not need to have knowledge of _how_ to solve such problems to be able to solve them.
 
 ## What To Expect
-By the end of this guide, you will gain an understanding of Constraint Satisfaction Problems (CSP) and Constraints
-Programming. You will be able to create models to solve a variety of CSPs using Essence.
+By the end of this guide, you will have an understanding of CSPs and how to use Essence to model and solve them.
 
-Essence Tutor contains two types of materials: notes and exercises. You will learn Essence concepts before putting them into
-practice by working with example models. You will also be given real-world problems to solve from scratch throughout.
+Essence Tutor contains two types of material: notes and exercises. You will learn Essence concepts before putting them into practice by working with example models. You will also be given real-world problems to solve from scratch throughout.
 
 ## How To Use This Guide
-> **Don't want to use the runner?** No problem! Essence Tutor is made up of a series of Markdown and Essence files which you
-> can follow by yourself. See the `/content` directory in the [repository](https://github.com/conjure-cp/essence-tutor).
+Essence Tutor is composed of two parts: the learning material and the runner.
 
-Essence Tutor is designed to be used alongside an editor of your choice. All you have to do is open a text editor in this
-directory and follow along with the runner in a terminal alongside!
+> **Don't want to use the runner?** No problem! You can follow the guide with any Markdown viewer and text editor using the files in the directory you created when you ran `estut new`. You may want to view the [Conjure documentation](https://conjure.readthedocs.io/en/latest/welcome.html) to learn how to run models yourself.
+
+The runner is designed to be used alongside an editor of your choice. All you have to do is open a text editor in this directory and follow along!
 
 ### Quick Tips!
 If you're editing a model, the runner will automatically process it for you when you save your changes. 
