@@ -11,20 +11,26 @@ pub struct AppState {
 
 impl AppState {
     pub fn new(root_dir: PathBuf, current: Option<usize>) -> io::Result<AppState> {
-        let mut chapters: Vec<Chapter> = Vec::new();
+        Ok(AppState {
+            chapters: AppState::load_chapters(&root_dir).expect("failed to load chapters"),
+            root_dir,
+            current: current.unwrap_or(0),
+        })
+    }
 
+    fn load_chapters(root_dir: &PathBuf) -> io::Result<Vec<Chapter>> {
+        let mut chapters: Vec<Chapter> = Vec::new();
+        // traverse root directory for chapter directories
         for f in fs::read_dir(&root_dir)? {
             let path: PathBuf = f?.path();
+            // not a directory? ignore
             if path.is_dir() {
                 chapters.push(Chapter::new(path, None)?)
             }
         }
 
-        Ok(AppState {
-            root_dir,
-            chapters,
-            current: current.unwrap_or(0),
-        })
+        chapters.sort_by_key(|c| *c.get_number());
+        Ok(chapters)
     }
 
     pub fn get_root_dir(&self) -> &PathBuf {
