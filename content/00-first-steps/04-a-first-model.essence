@@ -1,0 +1,10 @@
+/*
+    PROBLEM: Find all possible values, x and y, for which x + y <= 5.
+    ARGUMENTS: -s sat -n all
+*/
+
+/* Try changing some of the numbers below and see how it affects the results you get when the model is solved. */
+
+find x : int(0..10)
+find y : int(0..10)
+such that x + y <= 5
