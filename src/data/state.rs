@@ -3,17 +3,19 @@ use std::{fs, io, path::PathBuf};
 use crate::data::content::Chapter;
 
 #[derive(Debug)]
-pub struct AppState {
+pub struct State {
     root_dir: PathBuf,
+    running: bool,
     chapters: Vec<Chapter>,
     current: usize,
 }
 
-impl AppState {
-    pub fn new(root_dir: PathBuf, current: Option<usize>) -> io::Result<AppState> {
-        Ok(AppState {
-            chapters: AppState::load_chapters(&root_dir).expect("failed to load chapters"),
+impl State {
+    pub fn new(root_dir: PathBuf, current: Option<usize>) -> io::Result<State> {
+        Ok(State {
+            chapters: State::load_chapters(&root_dir).expect("failed to load chapters"),
             root_dir,
+            running: true,
             current: current.unwrap_or(0),
         })
     }
@@ -31,6 +33,14 @@ impl AppState {
 
         chapters.sort_by_key(|c| *c.get_number());
         Ok(chapters)
+    }
+
+    pub fn exit(&mut self) {
+        self.running = false;
+    }
+
+    pub fn is_running(&self) -> bool {
+        self.running
     }
 
     pub fn get_root_dir(&self) -> &PathBuf {
