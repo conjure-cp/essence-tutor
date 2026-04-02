@@ -1,55 +1,27 @@
 mod event_handler;
 mod widgets;
 
-use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders}};
+use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders, Widget}};
 
-use crate::{data::state::State, ui::{event_handler::UIEventHandler, widgets::UIWidget}};
+use crate::{data::state::State, ui::{event_handler::UIEventHandler, widgets::{keymap_widget::KeymapWidget, sidebar_widget::SidebarWidget}}};
 
 pub struct UI<'a> {
-    exit: bool,
     state: &'a mut State,
     event_handler: UIEventHandler,
-    views: Vec<Box<dyn UIWidget>>,
-    current_view: Option<usize>
+    widget: Option<Box<dyn Widget>>
 }
 
 impl<'a> UI<'a> {
     pub fn new(state: &'a mut State) -> UI<'a> {
         UI {
-            exit: false,
             state,
             event_handler: UIEventHandler::default(),
-            views: Vec::new(),
-            current_view: None
+            widget: None 
         }
     }
 
     pub fn get_state(&mut self) -> &mut State {
         &mut self.state
-    }
-
-    pub fn get_views(&self) -> &Vec<Box<dyn UIWidget>> {
-        &self.views
-    }
-
-    pub fn register_view(&mut self, view: Box<dyn UIWidget>) {
-        self.views.push(view);
-    }
-
-    pub fn deregister_view(&mut self, i: usize) {
-        self.views.remove(i);
-    }
-
-    pub fn set_current_view(&mut self, i: Option<usize>) {
-        self.current_view = i;
-    }
-
-    pub fn get_current_view(&self) -> Option<&Box<dyn UIWidget>> {
-        self.views.get(self.current_view?)
-    }
-
-    pub fn exit(&mut self) {
-        self.exit = true;
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<(), Box<dyn std::error::Error>> {
@@ -65,7 +37,7 @@ impl<'a> UI<'a> {
     }
 
     pub fn render(&mut self, frame: &mut Frame) {
-        let top_level = Layout::default()
+        let layout = Layout::default()
             .direction(Direction::Vertical)
             .constraints(vec![
                 Constraint::Percentage(90),
@@ -73,27 +45,26 @@ impl<'a> UI<'a> {
             ])
             .split(frame.area());
 
+        frame.render_widget(
+            KeymapWidget::default().block(Block::new().title("Keymap").borders(Borders::ALL)),
+            layout[1]
+        );
 
-        let content = Layout::default()
+        let body = Layout::default()
             .direction(ratatui::layout::Direction::Horizontal)
             .constraints(vec![
                 Constraint::Percentage(80),
                 Constraint::Percentage(20)
             ])
-            .split(top_level[0]);
+            .split(layout[0]);
 
-        if let Some(view) = self.get_current_view() {
-            view.render(content[0], frame.buffer_mut());
-        }
+        /*if let Some(widget) = self.widget {
+            widget.render(body[0], frame.buffer_mut());
+        }*/
 
         frame.render_widget(
-            Block::new().title("Sidebar").borders(Borders::ALL),
-            content[1]
-        );
-        
-        frame.render_widget(
-            Block::new().title("Keymap").borders(Borders::ALL),
-            top_level[1]
+            SidebarWidget::default().block(Block::new().title("Sidebar").borders(Borders::ALL)),
+            body[1]
         );
     }
 }

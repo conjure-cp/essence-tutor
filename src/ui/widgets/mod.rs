@@ -1,8 +1,4 @@
-use ratatui::{buffer::Buffer, layout::Rect};
-
+pub mod keymap_widget;
 pub mod markdown_widget;
 pub mod runner_widget;
-
-pub trait UIWidget {
-    fn render(&self, area: Rect, buf: &mut Buffer);
-}
+pub mod sidebar_widget;
