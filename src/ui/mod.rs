@@ -1,15 +1,15 @@
-pub mod components;
 mod event_handler;
+mod widgets;
 
-use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Layout}, widgets::{Block, Borders, Paragraph, Widget}};
+use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders}};
 
-use crate::{data::state::State, ui::{event_handler::UIEventHandler, components::UIComponent}};
+use crate::{data::state::State, ui::{event_handler::UIEventHandler, widgets::UIWidget}};
 
 pub struct UI<'a> {
     exit: bool,
     state: &'a mut State,
     event_handler: UIEventHandler,
-    views: Vec<Box<dyn UIComponent>>,
+    views: Vec<Box<dyn UIWidget>>,
     current_view: Option<usize>
 }
 
@@ -28,11 +28,11 @@ impl<'a> UI<'a> {
         &mut self.state
     }
 
-    pub fn get_views(&self) -> &Vec<Box<dyn UIComponent>> {
+    pub fn get_views(&self) -> &Vec<Box<dyn UIWidget>> {
         &self.views
     }
 
-    pub fn register_view(&mut self, view: Box<dyn UIComponent>) {
+    pub fn register_view(&mut self, view: Box<dyn UIWidget>) {
         self.views.push(view);
     }
 
@@ -42,6 +42,10 @@ impl<'a> UI<'a> {
 
     pub fn set_current_view(&mut self, i: Option<usize>) {
         self.current_view = i;
+    }
+
+    pub fn get_current_view(&self) -> Option<&Box<dyn UIWidget>> {
+        self.views.get(self.current_view?)
     }
 
     pub fn exit(&mut self) {
@@ -61,28 +65,35 @@ impl<'a> UI<'a> {
     }
 
     pub fn render(&mut self, frame: &mut Frame) {
-        Paragraph::new("hello world").render(frame.area(), frame.buffer_mut());
-
-        let layout = Layout::default()
-            .direction(ratatui::layout::Direction::Vertical)
+        let top_level = Layout::default()
+            .direction(Direction::Vertical)
             .constraints(vec![
-                Constraint::Percentage(10),
-                Constraint::Percentage(80),
+                Constraint::Percentage(90),
                 Constraint::Percentage(10)
             ])
             .split(frame.area());
 
+
+        let content = Layout::default()
+            .direction(ratatui::layout::Direction::Horizontal)
+            .constraints(vec![
+                Constraint::Percentage(80),
+                Constraint::Percentage(20)
+            ])
+            .split(top_level[0]);
+
+        if let Some(view) = self.get_current_view() {
+            view.render(content[0], frame.buffer_mut());
+        }
+
         frame.render_widget(
-            Paragraph::new("header").block(Block::new().borders(Borders::ALL)),
-            layout[0],
+            Block::new().title("Sidebar").borders(Borders::ALL),
+            content[1]
         );
+        
         frame.render_widget(
-            Paragraph::new("content").block(Block::new().borders(Borders::ALL)),
-            layout[1]
-        );
-        frame.render_widget(
-            Paragraph::new("footer").block(Block::new().borders(Borders::ALL)),
-            layout[2]
+            Block::new().title("Keymap").borders(Borders::ALL),
+            top_level[1]
         );
     }
 }
