@@ -1,14 +1,14 @@
 mod event_handler;
-mod widgets;
+mod components;
 
-use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders, Widget}};
+use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders}};
 
-use crate::{data::state::State, ui::{event_handler::UIEventHandler, widgets::{keymap_widget::KeymapWidget, sidebar_widget::SidebarWidget}}};
+use crate::{data::state::State, ui::{components::{UIComponent, keymap_component::KeymapWidget, sidebar_component::SidebarWidget}, event_handler::UIEventHandler}};
 
 pub struct UI<'a> {
     state: &'a mut State,
     event_handler: UIEventHandler,
-    widget: Option<Box<dyn Widget>>
+    component: Option<Box<dyn UIComponent>>
 }
 
 impl<'a> UI<'a> {
@@ -16,12 +16,8 @@ impl<'a> UI<'a> {
         UI {
             state,
             event_handler: UIEventHandler::default(),
-            widget: None 
+            component: None 
         }
-    }
-
-    pub fn get_state(&mut self) -> &mut State {
-        &mut self.state
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<(), Box<dyn std::error::Error>> {
@@ -45,10 +41,9 @@ impl<'a> UI<'a> {
             ])
             .split(frame.area());
 
-        frame.render_widget(
-            KeymapWidget::default().block(Block::new().title("Keymap").borders(Borders::ALL)),
-            layout[1]
-        );
+        KeymapWidget::default()
+            .block(Block::new().title("Keymap").borders(Borders::ALL))
+            .render(layout[1], frame.buffer_mut());
 
         let body = Layout::default()
             .direction(ratatui::layout::Direction::Horizontal)
@@ -58,13 +53,12 @@ impl<'a> UI<'a> {
             ])
             .split(layout[0]);
 
-        /*if let Some(widget) = self.widget {
-            widget.render(body[0], frame.buffer_mut());
-        }*/
+        if let Some(component) = &self.component {
+            component.render(body[0], frame.buffer_mut());
+        }
 
-        frame.render_widget(
-            SidebarWidget::default().block(Block::new().title("Sidebar").borders(Borders::ALL)),
-            body[1]
-        );
+        SidebarWidget::new(self.state, &mut self.event_handler)
+            .block(Block::new().title("Sidebar").borders(Borders::ALL))
+            .render(body[1], frame.buffer_mut());
     }
 }

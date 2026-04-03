@@ -27,6 +27,7 @@ impl<'a> UIEventHandler {
             match key.code {
                 // hard-coded values
                 KeyCode::Char('q') | KeyCode::Esc => state.exit(),
+                KeyCode::Char('d') => state.chapters.get_mut(0).expect("asdf").set_state(crate::data::content::ContentState::Skipped),
                 _ => {}
             }
         }

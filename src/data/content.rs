@@ -1,10 +1,20 @@
-use std::{ffi::OsStr, fs, io, path::PathBuf};
+use std::{ffi::OsStr, fmt::{Display, Formatter, Result}, fs, io, path::PathBuf};
 
 #[derive(Debug)]
 pub enum ContentState {
-    Incomplete,
     Complete,
+    Incomplete,
     Skipped,
+}
+
+impl Display for ContentState {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        match self {
+            ContentState::Complete => write!(f, "🟩"),
+            ContentState::Incomplete => write!(f, "🟨"),
+            ContentState::Skipped => write!(f, "⬜")
+        }
+    }
 }
 
 #[derive(Debug)]

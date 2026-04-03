@@ -1,12 +1,12 @@
 use std::{fs, io, path::PathBuf};
 
-use crate::data::content::Chapter;
+use crate::data::content::{Chapter, ContentState};
 
 #[derive(Debug)]
 pub struct State {
     root_dir: PathBuf,
     running: bool,
-    chapters: Vec<Chapter>,
+    pub chapters: Vec<Chapter>,
     current: usize,
 }
 
@@ -42,30 +42,14 @@ impl State {
     pub fn is_running(&self) -> bool {
         self.running
     }
-
-    pub fn get_root_dir(&self) -> &PathBuf {
-        &self.root_dir
+    
+    pub fn get_chapter_count(&self) -> usize {
+        self.chapters.len()
     }
 
-    pub fn is_finished(&self) -> bool {
-        self.chapters.len() <= self.current as usize
-    }
-   
-    pub fn get_current(&self) -> Option<&Chapter> {
-        self.chapters.get(self.current as usize)
-    }
-
-    pub fn get_chapters(&self) -> &Vec<Chapter> {
-        &self.chapters
-    }
-
-    pub fn incr_current(&mut self) -> usize {
-        self.current += 1;
-        self.current
-    }
-
-    pub fn decr_current(&mut self) -> usize {
-        self.current -= 1;
-        self.current
+    pub fn get_complete_chapter_count(&self) -> usize {
+        self.chapters.iter()
+            .filter(|i| matches!(i.get_state(), ContentState::Complete) || matches!(i.get_state(), ContentState::Skipped))
+            .count()
     }
 }
