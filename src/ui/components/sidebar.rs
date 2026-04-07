@@ -1,16 +1,16 @@
-use ratatui::{buffer::Buffer, layout::{Constraint, Direction, Layout, Margin, Rect}, style::{Modifier, Style}, symbols, widgets::{Block, BlockExt, Gauge, LineGauge, Paragraph, Row, Table, Widget}};
+use ratatui::{buffer::Buffer, layout::{Constraint, Direction, Layout, Rect}, style::Style, widgets::{Block, BlockExt, LineGauge, Row, Table, Widget}};
 
 use crate::{data::state::State, ui::{components::UIComponent, event_handler::UIEventHandler}};
 
-pub struct SidebarWidget<'a> {
+pub struct SidebarComponent<'a> {
     block: Option<Block<'a>>,
     state: &'a mut State,
     event_handler: &'a mut UIEventHandler
 }
 
-impl<'a> SidebarWidget<'a> {
-    pub fn new(state: &'a mut State, event_handler: &'a mut UIEventHandler) -> SidebarWidget<'a> {
-        SidebarWidget {
+impl<'a> SidebarComponent<'a> {
+    pub fn new(state: &'a mut State, event_handler: &'a mut UIEventHandler) -> SidebarComponent<'a> {
+        SidebarComponent {
             block: None,
             state,
             event_handler
@@ -23,7 +23,7 @@ impl<'a> SidebarWidget<'a> {
     }
 }
 
-impl UIComponent for SidebarWidget<'_> {
+impl UIComponent for SidebarComponent<'_> {
     fn render(&self, area: Rect, buf: &mut Buffer) {
         self.block.as_ref().render(area, buf);
         let layout = Layout::default()

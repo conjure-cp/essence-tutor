@@ -2,10 +2,10 @@ use ratatui::{buffer::Buffer, layout::Rect, widgets::{Paragraph, Widget}};
 
 use crate::ui::components::UIComponent;
 
-pub struct RunnerWidget {}
+pub struct MarkdownComponent {}
 
-impl UIComponent for RunnerWidget {
+impl UIComponent for MarkdownComponent {
     fn render(&self, area: Rect, buf: &mut Buffer) {
-        Paragraph::new("runner").render(area, buf);
+        Paragraph::new("markdown").render(area, buf);
     }
 }

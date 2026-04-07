@@ -3,7 +3,7 @@ mod components;
 
 use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders}};
 
-use crate::{data::state::State, ui::{components::{UIComponent, keymap_component::KeymapWidget, sidebar_component::SidebarWidget}, event_handler::UIEventHandler}};
+use crate::{data::state::State, ui::{components::{UIComponent, keymap::KeymapComponent, sidebar::SidebarComponent}, event_handler::UIEventHandler}};
 
 pub struct UI<'a> {
     state: &'a mut State,
@@ -34,31 +34,32 @@ impl<'a> UI<'a> {
 
     pub fn render(&mut self, frame: &mut Frame) {
         let layout = Layout::default()
+            .direction(Direction::Horizontal)
+            .constraints(vec![
+                Constraint::Percentage(80),
+                Constraint::Percentage(20)
+            ])
+            .split(frame.area());
+
+        SidebarComponent::new(self.state, &mut self.event_handler)
+            .block(Block::new().title("Sidebar").borders(Borders::ALL))
+            .render(layout[1], frame.buffer_mut());
+
+        let body = Layout::default()
             .direction(Direction::Vertical)
             .constraints(vec![
                 Constraint::Percentage(90),
                 Constraint::Percentage(10)
             ])
-            .split(frame.area());
-
-        KeymapWidget::default()
-            .block(Block::new().title("Keymap").borders(Borders::ALL))
-            .render(layout[1], frame.buffer_mut());
-
-        let body = Layout::default()
-            .direction(ratatui::layout::Direction::Horizontal)
-            .constraints(vec![
-                Constraint::Percentage(80),
-                Constraint::Percentage(20)
-            ])
             .split(layout[0]);
+
+        KeymapComponent::default()
+            .block(Block::new().title("Keymap").borders(Borders::ALL))
+            .render(body[1], frame.buffer_mut());
 
         if let Some(component) = &self.component {
             component.render(body[0], frame.buffer_mut());
         }
 
-        SidebarWidget::new(self.state, &mut self.event_handler)
-            .block(Block::new().title("Sidebar").borders(Borders::ALL))
-            .render(body[1], frame.buffer_mut());
     }
 }
