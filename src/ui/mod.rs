@@ -15,7 +15,7 @@ impl<'a> UI<'a> {
     pub fn new(state: &'a mut State) -> UI<'a> {
         UI {
             state,
-            event_handler: UIEventHandler::default(),
+            event_handler: UIEventHandler::new(),
             component: None 
         }
     }
