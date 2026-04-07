@@ -53,7 +53,7 @@ impl<'a> UI<'a> {
             ])
             .split(layout[0]);
 
-        KeymapComponent::default()
+        KeymapComponent::new(&mut self.event_handler)
             .block(Block::new().title("Keymap").borders(Borders::ALL))
             .render(body[1], frame.buffer_mut());
 

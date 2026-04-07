@@ -1,13 +1,20 @@
 use ratatui::{buffer::Buffer, layout::Rect, widgets::{Block, BlockExt, Paragraph, Widget}};
 
-use crate::ui::components::UIComponent;
+use crate::ui::{components::UIComponent, event_handler::UIEventHandler};
 
-#[derive(Default)]
 pub struct KeymapComponent<'a> {
-    block: Option<Block<'a>>
+    event_handler: &'a UIEventHandler,
+    block: Option<Block<'a>>,
 }
 
 impl<'a> KeymapComponent<'a> {
+    pub fn new(event_handler: &'a UIEventHandler) -> KeymapComponent<'a> {
+        KeymapComponent { 
+            event_handler,
+            block: None
+        }
+    }
+
     pub fn block(mut self, block: Block<'a>) -> Self {
         self.block = Some(block);
         self
