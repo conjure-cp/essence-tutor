@@ -3,7 +3,7 @@ mod components;
 
 use ratatui::{DefaultTerminal, Frame, layout::{Constraint, Direction, Layout}, widgets::{Block, Borders}};
 
-use crate::{data::state::State, ui::{components::{UIComponent, keymap::KeymapComponent, sidebar::SidebarComponent}, event_handler::UIEventHandler}};
+use crate::{data::{content::TaskFileType, state::State}, ui::{components::{UIComponent, keymap::KeymapComponent, markdown::MarkdownComponent, runner::RunnerComponent, sidebar::SidebarComponent}, event_handler::UIEventHandler}};
 
 pub struct UI<'a> {
     state: &'a mut State,
@@ -20,15 +20,20 @@ impl<'a> UI<'a> {
         }
     }
 
-    pub fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn run(&'a mut self, terminal: &mut DefaultTerminal) -> Result<(), Box<dyn std::error::Error>> {
         loop {
-            terminal.draw(|frame| self.render(frame))?;
-
-            self.event_handler.process_events(self.state)?;
+            let current = self.state.get_current().clone();
+            self.component = match current.get_filetype() {
+                TaskFileType::Markdown => Some(Box::from(MarkdownComponent::new(current))),
+                TaskFileType::Essence => Some(Box::from(RunnerComponent::new(current)))
+            };
 
             if !self.state.is_running() {
                 return Ok(());
             }
+
+            terminal.draw(|frame| self.render(frame))?;
+            self.event_handler.process_events(&mut self.state)?;
         }
     }
 
@@ -60,6 +65,5 @@ impl<'a> UI<'a> {
         if let Some(component) = &self.component {
             component.render(body[0], frame.buffer_mut());
         }
-
     }
 }

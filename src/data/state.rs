@@ -1,22 +1,24 @@
 use std::{fs, io, path::PathBuf};
 
-use crate::data::content::{Chapter, ContentState};
+use crate::data::content::{Chapter, ContentState, Task};
 
 #[derive(Debug)]
 pub struct State {
     root_dir: PathBuf,
     running: bool,
     pub chapters: Vec<Chapter>,
-    current: usize,
+    current_chapter: usize,
+    current_task: usize
 }
 
 impl State {
-    pub fn new(root_dir: PathBuf, current: Option<usize>) -> io::Result<State> {
+    pub fn new(root_dir: PathBuf, current_chapter: Option<usize>, current_task: Option<usize>) -> io::Result<State> {
         Ok(State {
             chapters: State::load_chapters(&root_dir).expect("failed to load chapters"),
             root_dir,
             running: true,
-            current: current.unwrap_or(0),
+            current_chapter: current_chapter.unwrap_or(0),
+            current_task: current_task.unwrap_or(0),
         })
     }
 
@@ -42,7 +44,31 @@ impl State {
     pub fn is_running(&self) -> bool {
         self.running
     }
-    
+   
+    pub fn get_current(&self) -> &Task {
+        &self.chapters[self.current_chapter].get_tasks()[self.current_task]
+    }
+
+    pub fn next(&mut self) {
+        // TODO: better checking (e.g. for start/end of all)
+        if self.current_task + 1 >= self.chapters[self.current_chapter].get_tasks().len() {
+            self.current_task = 0;
+            self.current_chapter += 1;
+        } else {
+            self.current_task += 1;
+        }
+    }
+
+    pub fn previous(&mut self) {
+        // TODO: better checking
+        if self.current_task <= 0 {
+            self.current_chapter -= 1;
+            self.current_task = self.chapters[self.current_chapter].get_tasks().len() - 1;
+        } else {
+            self.current_task -= 1;
+        }
+    }
+
     pub fn get_chapter_count(&self) -> usize {
         self.chapters.len()
     }

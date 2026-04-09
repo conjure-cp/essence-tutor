@@ -1,6 +1,6 @@
 use std::{ffi::OsStr, fmt::{Display, Formatter, Result}, fs, io, path::PathBuf};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum ContentState {
     Complete,
     Incomplete,
@@ -108,13 +108,13 @@ impl Chapter {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum TaskFileType {
     Markdown,
     Essence,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Task {
     number: u8,
     title: String,

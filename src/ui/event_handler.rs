@@ -52,6 +52,18 @@ impl UIEventHandler {
                 category: KeybindCategory::General,
                 action: |state| state.exit()
             },
+            Keybind {
+                codes: vec![KeyCode::Char('n')],
+                description: String::from("next"),
+                category: KeybindCategory::General,
+                action: |state| state.next()
+            },
+            Keybind {
+                codes: vec![KeyCode::Char('p')],
+                description: String::from("previous"),
+                category: KeybindCategory::General,
+                action: |state| state.previous()
+            }
         ]
     }
 
