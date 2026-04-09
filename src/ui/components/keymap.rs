@@ -36,6 +36,7 @@ impl UIComponent for KeymapComponent<'_> {
             spans.push(format!(" {} ", codes).black().on_white());
             spans.push(" ".into());
             spans.push(keybind.get_description().into());
+            spans.push(" ".into());
         }
 
         let line = Line::from(spans);
