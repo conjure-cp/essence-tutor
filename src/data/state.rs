@@ -23,7 +23,7 @@ impl State {
     fn load_chapters(root_dir: &PathBuf) -> io::Result<Vec<Chapter>> {
         let mut chapters: Vec<Chapter> = Vec::new();
         // traverse root directory for chapter directories
-        for f in fs::read_dir(&root_dir)? {
+        for f in fs::read_dir(root_dir)? {
             let path: PathBuf = f?.path();
             // not a directory? ignore
             if path.is_dir() {

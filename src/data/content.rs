@@ -50,7 +50,7 @@ fn filename_to_number(filename: &str) -> u8 {
 
 impl Chapter {
     pub fn new(path: PathBuf, state: Option<ContentState>) -> io::Result<Chapter> {
-        let filename: &str = (&path).file_stem().and_then(OsStr::to_str).expect("failed to get file stem");
+        let filename: &str = path.file_stem().and_then(OsStr::to_str).expect("failed to get file stem");
         Ok(Chapter {
             number: filename_to_number(filename),
             title: filename_to_title(filename),
@@ -63,16 +63,15 @@ impl Chapter {
     fn load_tasks(path: &PathBuf) -> io::Result<Vec<Task>> {
         let mut tasks: Vec<Task> = Vec::new();
         // traverse chapter directory to get tasks
-        for f in fs::read_dir(&path)? {
+        for f in fs::read_dir(path)? {
             let path: PathBuf = f?.path();
-            let ft: Option<TaskFileType>;
            
             // parse filetype
-            match path.extension().and_then(OsStr::to_str) {
-                Some("md") => ft = Some(TaskFileType::Markdown),
-                Some("essence") => ft = Some(TaskFileType::Essence),
-                _ => ft = None
-            }
+            let ft: Option<TaskFileType> = match path.extension().and_then(OsStr::to_str) {
+                Some("md") => Some(TaskFileType::Markdown),
+                Some("essence") => Some(TaskFileType::Essence),
+                _ => None
+            };
 
             // filetype not md or essence? ignore file
             if ft.is_some() {
@@ -126,7 +125,7 @@ pub struct Task {
 
 impl Task {
     pub fn new(path: PathBuf, ft: TaskFileType, state: Option<ContentState>) -> Task {
-        let filename: &str = (&path).file_stem().and_then(OsStr::to_str).expect("failed to get file stem");
+        let filename: &str = path.file_stem().and_then(OsStr::to_str).expect("failed to get file stem");
 
         Task {
             number: filename_to_number(filename),
