@@ -41,19 +41,21 @@ impl<'a> UI<'a> {
         let layout = Layout::default()
             .direction(Direction::Horizontal)
             .constraints(vec![
-                Constraint::Percentage(80),
-                Constraint::Percentage(20)
+                Constraint::Fill(1),
+                Constraint::Percentage(if self.state.is_sidebar_shown() { 20 } else { 0 })
             ])
             .split(frame.area());
 
-        SidebarComponent::new(self.state, &mut self.event_handler)
-            .block(Block::new().title("Sidebar").borders(Borders::ALL))
-            .render(layout[1], frame.buffer_mut());
+        if self.state.is_sidebar_shown() {
+            SidebarComponent::new(self.state)
+                .block(Block::new().title("Sidebar").borders(Borders::ALL))
+                .render(layout[1], frame.buffer_mut());
+        }
 
         let body = Layout::default()
             .direction(Direction::Vertical)
             .constraints(vec![
-                Constraint::Percentage(90),
+                Constraint::Fill(1),
                 Constraint::Percentage(10)
             ])
             .split(layout[0]);

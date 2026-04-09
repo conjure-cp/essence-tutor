@@ -6,6 +6,7 @@ use crate::data::content::{Chapter, ContentState, Task};
 pub struct State {
     root_dir: PathBuf,
     running: bool,
+    sidebar_shown: bool,
     pub chapters: Vec<Chapter>,
     current_chapter: usize,
     current_task: usize
@@ -17,6 +18,7 @@ impl State {
             chapters: State::load_chapters(&root_dir).expect("failed to load chapters"),
             root_dir,
             running: true,
+            sidebar_shown: true,
             current_chapter: current_chapter.unwrap_or(0),
             current_task: current_task.unwrap_or(0),
         })
@@ -77,5 +79,13 @@ impl State {
         self.chapters.iter()
             .filter(|i| matches!(i.get_state(), ContentState::Complete) || matches!(i.get_state(), ContentState::Skipped))
             .count()
+    }
+
+    pub fn is_sidebar_shown(&self) -> bool {
+        self.sidebar_shown
+    }
+
+    pub fn toggle_sidebar(&mut self) {
+        self.sidebar_shown = !self.sidebar_shown;
     }
 }

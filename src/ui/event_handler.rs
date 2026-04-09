@@ -11,10 +11,10 @@ pub enum KeybindCategory {
 }
 
 pub struct Keybind {
-    codes: Vec<KeyCode>,
-    description: String,
-    category: KeybindCategory,
-    action: fn(state: &mut State)
+    pub codes: Vec<KeyCode>,
+    pub description: String,
+    pub category: KeybindCategory,
+    pub action: fn(state: &mut State)
 }
 
 impl Keybind {
@@ -63,6 +63,12 @@ impl UIEventHandler {
                 description: String::from("previous"),
                 category: KeybindCategory::General,
                 action: |state| state.previous()
+            },
+            Keybind {
+                codes: vec![KeyCode::Char('s')],
+                description: String::from("show/hide sidebar"),
+                category: KeybindCategory::Sidebar,
+                action: |state| state.toggle_sidebar()
             }
         ]
     }

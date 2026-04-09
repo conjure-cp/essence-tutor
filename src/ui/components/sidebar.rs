@@ -1,19 +1,17 @@
 use ratatui::{buffer::Buffer, layout::{Constraint, Direction, Layout, Rect}, style::Style, widgets::{Block, BlockExt, LineGauge, Row, Table, Widget}};
 
-use crate::{data::state::State, ui::{components::UIComponent, event_handler::UIEventHandler}};
+use crate::{data::state::State, ui::{components::UIComponent}};
 
 pub struct SidebarComponent<'a> {
     block: Option<Block<'a>>,
     state: &'a mut State,
-    event_handler: &'a mut UIEventHandler
 }
 
 impl<'a> SidebarComponent<'a> {
-    pub fn new(state: &'a mut State, event_handler: &'a mut UIEventHandler) -> SidebarComponent<'a> {
+    pub fn new(state: &'a mut State) -> SidebarComponent<'a> {
         SidebarComponent {
             block: None,
             state,
-            event_handler
         }
     }
 
