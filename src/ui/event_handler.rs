@@ -5,16 +5,32 @@ use crate::data::state::State;
 #[derive(PartialEq)]
 pub enum KeybindCategory {
     General,
-    Control,
+    Sidebar,
+    Keybinds,
     Content
 }
 
-#[derive(PartialEq)]
 pub struct Keybind {
     codes: Vec<KeyCode>,
     description: String,
     category: KeybindCategory,
     action: fn(state: &mut State)
+}
+
+impl Keybind {
+    pub fn get_codes(&self) -> &Vec<KeyCode> {
+        &self.codes
+    }
+
+    pub fn get_description(&self) -> &str {
+        &self.description
+    }
+}
+
+impl PartialEq for Keybind {
+    fn eq(&self, other: &Self) -> bool {
+        self.codes == other.codes && self.description == other.description && self.category == other.category
+    }
 }
 
 pub struct UIEventHandler {
@@ -35,7 +51,7 @@ impl UIEventHandler {
                 description: String::from("quit"),
                 category: KeybindCategory::General,
                 action: |state| state.exit()
-            }
+            },
         ]
     }
 
