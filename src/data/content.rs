@@ -103,8 +103,8 @@ impl Chapter {
         self.state = state;
     }
 
-    pub fn get_tasks(&self) -> &Vec<Task> {
-        &self.tasks
+    pub fn get_tasks(&mut self) -> &mut Vec<Task> {
+        &mut self.tasks
     }
 }
 

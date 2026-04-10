@@ -69,6 +69,12 @@ impl UIEventHandler {
                 description: String::from("show/hide sidebar"),
                 category: KeybindCategory::Sidebar,
                 action: |state| state.toggle_sidebar()
+            },
+            Keybind {
+                codes: vec![KeyCode::Char('d')],
+                description: String::from("debug"),
+                category: KeybindCategory::General,
+                action: |state| state.get_current_chapter().set_state(crate::data::content::ContentState::Complete)
             }
         ]
     }

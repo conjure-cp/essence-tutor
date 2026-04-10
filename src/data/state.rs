@@ -47,8 +47,12 @@ impl State {
         self.running
     }
    
-    pub fn get_current(&self) -> &Task {
-        &self.chapters[self.current_chapter].get_tasks()[self.current_task]
+    pub fn get_current_task(&mut self) -> &mut Task {
+        &mut self.chapters[self.current_chapter].get_tasks()[self.current_task]
+    }
+
+    pub fn get_current_chapter(&mut self) -> &mut Chapter {
+        &mut self.chapters[self.current_chapter]
     }
 
     pub fn next(&mut self) {

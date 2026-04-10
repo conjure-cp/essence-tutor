@@ -22,7 +22,7 @@ impl<'a> UI<'a> {
 
     pub fn run(&'a mut self, terminal: &mut DefaultTerminal) -> Result<(), Box<dyn std::error::Error>> {
         loop {
-            let current = self.state.get_current().clone();
+            let current = self.state.get_current_task().clone();
             self.component = match current.get_filetype() {
                 TaskFileType::Markdown => Some(Box::from(MarkdownComponent::new(current))),
                 TaskFileType::Essence => Some(Box::from(RunnerComponent::new(current)))
