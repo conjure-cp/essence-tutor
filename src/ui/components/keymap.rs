@@ -22,7 +22,7 @@ impl<'a> KeymapComponent<'a> {
 }
 
 impl UIComponent for KeymapComponent<'_> {
-    fn render(&self, area: Rect, buf: &mut Buffer) {
+    fn render(&mut self, area: Rect, buf: &mut Buffer) {
         self.block.as_ref().render(area, buf);
         
         let mut spans: Vec<Span> = Vec::new();

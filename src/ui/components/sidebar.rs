@@ -1,6 +1,6 @@
 use ratatui::{buffer::Buffer, layout::{Constraint, Direction, Layout, Rect}, style::Style, widgets::{Block, BlockExt, LineGauge, Row, Table, Widget}};
 
-use crate::{data::state::State, ui::{components::UIComponent}};
+use crate::{data::state::State, ui::components::UIComponent};
 
 pub struct SidebarComponent<'a> {
     block: Option<Block<'a>>,
@@ -22,7 +22,7 @@ impl<'a> SidebarComponent<'a> {
 }
 
 impl UIComponent for SidebarComponent<'_> {
-    fn render(&self, area: Rect, buf: &mut Buffer) {
+    fn render(&mut self, area: Rect, buf: &mut Buffer) {
         self.block.as_ref().render(area, buf);
         let layout = Layout::default()
             .direction(Direction::Vertical)

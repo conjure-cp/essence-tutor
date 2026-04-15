@@ -64,7 +64,7 @@ impl<'a> UI<'a> {
             .block(Block::new().title("Keymap").borders(Borders::ALL))
             .render(body[1], frame.buffer_mut());
 
-        if let Some(component) = &self.component {
+        if let Some(component) = &mut self.component {
             component.render(body[0], frame.buffer_mut());
         }
     }

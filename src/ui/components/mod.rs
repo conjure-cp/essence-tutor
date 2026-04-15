@@ -6,5 +6,5 @@ pub mod runner;
 pub mod sidebar;
 
 pub trait UIComponent {
-    fn render(&self, area: Rect, buf: &mut Buffer);
+    fn render(&mut self, area: Rect, buf: &mut Buffer);
 }

@@ -13,7 +13,7 @@ impl RunnerComponent {
 }
 
 impl UIComponent for RunnerComponent {
-    fn render(&self, area: Rect, buf: &mut Buffer) {
+    fn render(&mut self, area: Rect, buf: &mut Buffer) {
         Paragraph::new("runner").render(area, buf);
     }
 }
