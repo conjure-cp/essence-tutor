@@ -7,7 +7,7 @@ This part covers the fundamental logical operators in detail. If you already kno
 ### AND (Conjunction)
 Essence uses `/\` as its logical AND operator. For an AND operation to be true, both operands also must be true.
 
-`x /\ y` can be read as *"x and y"*, and has the following truth table:
+`x /\ y` can be read as *"x and y"* and has the following truth table:
 
 | `x`   | `y`   | `x /\ y` |
 |-------|-------|----------|
@@ -19,7 +19,7 @@ Essence uses `/\` as its logical AND operator. For an AND operation to be true, 
 ### OR (Disjunction)
 Essence uses `\/` as its logical OR operator. For an OR operation to be true, one or more of its operands must be true.
 
-`x \/ y` can be read as *"x or y,"* and has the following truth table:
+`x \/ y` can be read as *"x or y"* and has the following truth table:
 
 | `x`   | `y`   | `x \/ y` |
 |-------|-------|----------|
@@ -36,7 +36,7 @@ Implies takes two operands: an antecedent and a consequent. It effectively state
 > **Tip:** This is confusing at first for some. Remember that it's only one-way! 
 > To illustrate, the statement *"the Sun is blue implies Earth has land"* is *always* true because the colour of the Sun has no bearing on the fact Earth has land. Earth has land whether or not the Sun is blue.
 
-`x -> y` can be read as *"x implies y"* or *"if x, then y,"* and has the following truth table:
+`x -> y` can be read as *"x implies y"* or *"if x, then y"* and has the following truth table:
 
 | `x`   | `y`   | `x -> y` |
 |-------|-------|----------|
@@ -50,7 +50,7 @@ Essence uses `<->` to denote iff.
 
 Once again, iff takes two operands: an antecedent and a consequent. The difference is that now it works both ways: it is only true if the antecedent and consequent have the same truth-value.
 
-`x <-> y` can be read as *"if and only if (iff) x, then y,"* and the following truth table:
+`x <-> y` can be read as *"if and only if (iff) x, then y"* and the following truth table:
 
 | `x`   | `y`   | `x <-> y` |
 |-------|-------|-----------|
@@ -64,7 +64,7 @@ Once again, iff takes two operands: an antecedent and a consequent. The differen
 ### NOT (Negation)
 Finally, Essence uses `!` as its logical NOT operator. For a NOT operation to be true, it's sole operand must be false.
 
-`!x` can be read as *"not x,"* and has the following truth table:
+`!x` can be read as *"not x"* and has the following truth table:
 
 | `x`   | `!x`  |
 |-------|-------|
