@@ -6,10 +6,9 @@ Some properties:
 - The Boolean domain is finite, since there are only two possible values within it.
 - Objective statements cannot be used on declarations with a Boolean domain at this time. That means they cannot be directly minimised or maximised.
 
-The keyword `bool` is used to denote this domain. So, if you wanted to declare a decision variable `x` with a Boolean domain, you would write the following in your model:
+The keyword `bool` is used to denote this domain. So, if you wanted to declare a decision variable `a` with a Boolean domain, you would write the following in your model:
 
 ```
-find x : bool
+find a : bool
 ```
-
-*Find an x which is either true or false.*
+*Find an a which is either true or false.*
