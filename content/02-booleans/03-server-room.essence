@@ -1,0 +1,30 @@
+$  Three staff members A, B and C work in IT at a large company.
+$  If they want to carry out work in the server room, at least two of them
+$  must be in the room. When no work needs to be done, the room can be empty.
+$
+$  Find all combinations of who may be in the room at one time.
+
+$  TASK 1: Declare the decision variable(s) needed to model whether each staff
+$  member is present in the server room.
+
+find (...) : (...)
+
+$  TASK 2: Declare the constraint(s) required to ensure either none or at least
+$  two are in the server room at one time.
+
+such that (...)
+
+
+$  A and C no longer wish to work in the same room as one another.
+
+$  TASK 3: Declare the constraint(s) required to model this.
+
+such that (...)
+
+
+$  A fourth member of staff D is added. The existing requirements for working
+$  staff remain.
+
+$  TASK 4: Extend the model to consider this fourth member of staff.
+
+(...)
