@@ -12,3 +12,10 @@ The keyword `bool` is used to denote this domain. So, if you wanted to declare a
 find a : bool
 ```
 *Find an a which is either true or false.*
+
+Remember you can't directly minimise or maximise a Boolean!
+
+```
+$ Invalid!
+maximise a
+```

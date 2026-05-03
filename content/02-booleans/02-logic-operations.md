@@ -50,7 +50,7 @@ Essence uses `<->` to denote iff.
 
 Once again, iff takes two operands: an antecedent and a consequent. The difference is that now it works both ways: it is only true if the antecedent and consequent have the same truth-value.
 
-`x <-> y` can be read as *"if and only if (iff) x, then y"* and the following truth table:
+`x <-> y` can be read as *"if and only if (iff) x, then y"* and has the following truth table:
 
 | `x`   | `y`   | `x <-> y` |
 |-------|-------|-----------|

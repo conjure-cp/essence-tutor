@@ -7,7 +7,7 @@ Essence includes the standard arithmetic and comparison operators.
 - `x * y` - multiplication.
 - `x / y` - *integer* division.
 - `x % y` - modulo (remainder of `x` divided by `y`).
-- `x ** y` - exponention (`x` to the power of `y`).
+- `x ** y` - exponential (`x` to the power of `y`).
 - `x!` or `factorial(x)` - factorial.
 - `|x|` - absolute value (positive value).
 
