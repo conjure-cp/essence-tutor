@@ -1,22 +1,29 @@
-$
 $  Adapted from https://pganalyze.com/blog/a-practical-introduction-to-constraint-programming-using-cp-sat
 $
 $  Alice, Bob and Carol each have £10 and want to jointly buy £25 worth of snacks. 
 $  Alice has said she will contribute at least as much as Bob, and Carol only has
 $  two £5 notes, so will have to contribute a multiple of that. How much should they
 $  each contribute?
-$
 
 given total : int(1..25)
 letting individual be 10
 
-$  Add the missing decision variable statement(s) for Alice (a), Bob (b) and Carol (c).
+$  STEP 1: Add the missing decision variable statement(s) for Alice (a), Bob (b) and Carol (c).
 $  Think about what the domain and range of values will be for each.
 
-such that a + b + c = total
+(...)
 
-$  Add the missing constraints that satisfy the conditions that Alice will pay at least
+
+$  STEP 2: Add the missing constraints that satisfy the conditions that Alice will pay at least
 $  as much as Bob and that Carol will pay in multiples of £5.
 
-$  Carol wanted to save her money to pay for the group to go to the cinema. Adapt the
-$  model such that Carol will pay as little as possible by adding an objective statement.
+such that a + b + c = total
+(...)
+
+
+$  Carol wanted to save her money to pay for the group to go to the cinema. 
+
+$  STEP 3: Adapt the model such that Carol will pay as little as possible by adding an
+$  objective statement.
+
+(...)
