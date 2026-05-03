@@ -1,14 +1,14 @@
 $  I am a positive three digit number.
 $  Find all possible numbers I could be.
 
-$  TASK 1: Complete the decision variable declaration(s) below to model the problem.
+$  STEP 1: Complete the decision variable declaration(s) below to model the problem.
 
 find (...) : (...)
 
 
 $  My tens digit is evenly divisible by my units digit.
 
-$  TASK 2: Write constraint(s) to find suitable solutions below.
+$  STEP 2: Write constraint(s) to find suitable solutions below.
 $   (HINT) Think about what the value of a % b might be if a is evenly divisible by b.
 
 (...)
@@ -16,7 +16,7 @@ $   (HINT) Think about what the value of a % b might be if a is evenly divisible
 
 $  The sum of my digits is ten. What number am I?
 
-$  TASK 3: Write constraint(s) to find suitable solutions below.
+$  STEP 3: Write constraint(s) to find suitable solutions below.
 
 (...)
 
@@ -25,6 +25,6 @@ $  I am now a number, positive OR negative, which is made up from the digits of 
 $  the previous number.
 $  Find all possible numbers I could be.
 
-$  TASK 4: Complete the model to solve the problem above.
+$  STEP 4: Complete the model to solve the problem above.
 
 (...)
