@@ -1,10 +1,32 @@
-/*
-    PROBLEM: Find all possible values, x and y, for which x + y <= 5.
-    ARGUMENTS: -s sat -n all
-*/
+$  Let's write a model which will solve a Sudoku puzzle!
+$  https://en.wikipedia.org/wiki/Sudoku
 
-/* Try changing some of the numbers below and see how it affects the results you get when the model is solved. */
+$  We need to start by declaring the 9x9 grid that is given to us when we start a puzzle. Each space
+$  can be empty (let's call this 0) or can contain a number from 1 to 9.
 
-find x : int(0..10)
-find y : int(0..10)
-such that x + y <= 5
+$  STEP 1: In the space below, write `given initial : matrix indexed by [int(1..9),int(1..9)] of int(0..9)`.
+
+(...)
+
+
+$  Now we want to declare that we want to find a completed grid. This is similar to before, only we
+$  no longer want spaces to be empty.
+
+$  STEP 2: In the space below, write `given complete : matrix indexed by [int(1..9),int(1..9)] of int(1..9)`.
+
+(...)
+
+
+$  We need to make sure the numbers from the initial grid are copied to the complete grid.
+
+$  STEP 3: In the space below, write (...)
+
+(...)
+
+
+$  Next, we need to declare the constraints for Sudoku. In Sudoku, each row, column and 3x3 grid must
+$  contain the numbers 1 to 9 with no repeats.
+
+$  STEP 4: In the space below, write (...)
+
+(...)
