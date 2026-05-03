@@ -19,12 +19,14 @@ For example, if you wanted to assign the expression `4 * 5` to the name `twenty`
 ```
 letting twenty be 4 * 5
 ```
+_Let twenty refer to the value that is 4 times 5 (20)._
 
 Similarly, if you wanted to easily refer to the domain of numbers between one and ten by the name `range`, you could do as follows:
 
 ```
 letting range be domain int(1..5)
 ```
+_Let range refer to the domain of integers between 1 and 5._
 
 ### Parameters
 Parameters are similar in that they assign a name to a provided value, only the provided value is not part of the model itself. When you declare that a parameter is expected, it will need to be provided in a separate file. You declare parameters using `given` statements, giving the domain it is expected to be.
@@ -38,6 +40,7 @@ For instance, if you wanted the user of your model to provide a variable tempera
 ```
 given temp : int(-100..100)
 ```
+_Given the parameter temp which is an integer between -100 and 100._
 
 ### Decision Variables
 Decision variables are used to tell the solver what it is supposed to look for. These are declared alongside the domain they are expected to be within with `find` statements. You need one or more of these within your model for it to do anything useful.
@@ -51,6 +54,7 @@ Say you wanted to look for an integer between one and ten and you wanted to call
 ```
 find x : int(1..10)
 ```
+_Find an x which is an integer between 1 and 10._
 
 ## Constraints
 Constraints are where you tell the solver the conditions that the values it finds must satisfy. For example, that the number `x` must be twice that of `y`. You do this with `such that` statements with expressions which outline said conditions.
@@ -64,6 +68,7 @@ Using the example mentioned before, you would do as follows:
 ```
 such that x = 2 * y
 ```
+_Such that x must be two times y._
 
 ## Objectives
 Finally, objectives optionally tell the solver additional requirements, like that it needs to minimise or maximise a final result.
@@ -78,3 +83,4 @@ Say you wanted to minimise the value of `x`, you would include this in the model
 ```
 minimising x
 ```
+_Making x as small as possible._
