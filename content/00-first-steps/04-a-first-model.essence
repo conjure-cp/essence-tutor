@@ -12,14 +12,18 @@ $  STEP 1: In the space below, write `given initial : matrix indexed by [int(1..
 $  Now we want to declare that we want to find a completed grid. This is similar to before, only we
 $  no longer want spaces to be empty.
 
-$  STEP 2: In the space below, write `given complete : matrix indexed by [int(1..9),int(1..9)] of int(1..9)`.
+$  STEP 2: In the space below, write `find complete : matrix indexed by [int(1..9),int(1..9)] of int(1..9)`.
 
 (...)
 
 
 $  We need to make sure the numbers from the initial grid are copied to the complete grid.
 
-$  STEP 3: In the space below, write (...)
+$  STEP 3: In the space below, write:
+$  ```
+$  forAll row,col : int(1..9) .
+$      initial[row,col] > 0 -> complete[row,col] = initial[row,col]
+$  ```
 
 (...)
 
