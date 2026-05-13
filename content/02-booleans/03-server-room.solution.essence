@@ -7,7 +7,7 @@ $  Find all combinations of who may be in the room at one time.
 $  STEP 1: Declare the decision variable(s) needed to model whether each staff
 $  member is present in the server room.
 
-find (...) : (...)
+find a,b,c : bool
 
 
 $  STEP 2: Declare the constraint(s) required to ensure either none or at least
@@ -15,14 +15,19 @@ $  two are in the server room at one time.
 
 $  TIP: You may find it useful to use the `sum(list)` and `toInt(bool)` functions.
 
-such that (...)
+such that 
+    sum([
+        toInt(a),
+        toInt(b),
+        toInt(c)
+    ]) = 2
 
 
 $  A and C are no longer able to work together.
 
 $  STEP 3: Declare the constraint(s) required to model this.
 
-such that (...)
+such that a != c
 
 
 $  A fourth member of staff D is added. The existing requirements for working
@@ -30,4 +35,11 @@ $  staff remain.
 
 $  STEP 4: Extend the model to consider this fourth member of staff.
 
-(...)
+find d : bool
+such that
+    sum([
+        toInt(a),
+        toInt(b),
+        toInt(c),
+        toInt(d)
+    ]) = 2
