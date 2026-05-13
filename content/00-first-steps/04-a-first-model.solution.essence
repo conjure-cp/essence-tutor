@@ -6,15 +6,14 @@ $  can be empty (let's call this 0) or can contain a number from 1 to 9.
 
 $  STEP 1: In the space below, write `given initial : matrix indexed by [int(1..9),int(1..9)] of int(0..9)`.
 
-(...)
-
+given initial : matrix indexed by [int(1..9),int(1..9)] of int(0..9)
 
 $  Now we want to declare that we want to find a completed grid. This is similar to before, only we
 $  no longer want spaces to be empty.
 
 $  STEP 2: In the space below, write `find complete : matrix indexed by [int(1..9),int(1..9)] of int(1..9)`.
 
-(...)
+find complete : matrix indexed by [int(1..9),int(1..9)] of int(1..9)
 
 
 $  We need to make sure the numbers from the initial grid are copied to the complete grid.
@@ -26,7 +25,9 @@ $   forAll row,col : int(1..9) .
 $       initial[row,col] > 0 -> complete[row,col] = initial[row,col]
 $  ```
 
-(...)
+such that
+    forAll row,col : int(1..9) .
+        initial[row,col] > 0 -> complete[row,col] = initial[row,col]
 
 
 $  Next, we need to declare the constraints for Sudoku. In Sudoku, each row, column and 3x3 grid must
@@ -39,7 +40,9 @@ $   forAll row : int(1..9) .
 $       allDiff(complete[row])
 $  ```
 
-(...)
+such that
+    forAll row : int(1..9) .
+        allDiff(complete[row])
 
 $  STEP 5: Complete the constraint for columns by writing the following in the space below:
 $  ```
@@ -48,7 +51,9 @@ $   forAll col : int(1..9) .
 $       allDiff([complete[i,col] | i : int(1..9)])
 $  ```
 
-(...)
+such that
+    forAll col : int(1..9) .
+        allDiff(complete[i,col] | i : int(1..9))
 
 $  STEP 6: Complete the constraint for 3x3 grids by writing the following in the space below:
 $  ```
@@ -57,4 +62,6 @@ $    forAll h,v : int(0..2) .
 $        allDiff([complete[v * 3 + row,h * 3 + col] | row,col : int(1..3)])
 $  ```
 
-(...)
+such that
+    forAll h,v : int(0..2) .
+        allDiff([complete[v * 3 + row, h * 3 + col] | row,col : int(1..3)])
