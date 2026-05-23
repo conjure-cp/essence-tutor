@@ -1,5 +1,5 @@
 # Content
-Essence Tutor should contain two broad types of content: notes and exercises. Notes should introduce learners to new concepts within the language and exercises should serve as a way for learners to play with said concepts and see how Essence can be used for actual problems.
+Essence Tutor should contain two broad types of content: notes and exercises. Notes should introduce learners to new concepts within the language and exercises should serve as a way for learners to use said concepts and see how Essence can be used for actual problems.
 
 The focus of Essence Tutor should be getting learners in front of models and encouraging them to see how their changes affect the outcome of their models. Therefore, exercises should be a priority when writing content.
 
@@ -20,7 +20,7 @@ At intervals throughout this chapter structure, there should be quiz exercises w
 ## Notes
 The aim of notes is to introduce learners to Essence concepts in a way that is accessible and easy to consume. In practice, this means they should use accessible language, explain complex concepts in a way that makes them easier to understand and they should be able to be broken down into "chunks" to prevent information overload.
 
-Markdown should be the preferred format for writing notes, as it is easy to parse and is accessible even without a Markdown viewer. The [CommonMark](https://commonmark.org/) format should be used due to its widespread support. Where appropriate, certain syntax may be interpreted differently by an interface to achieve the goals set out above (for example using a horizontal line to indicate a page break).
+Markdown should be the preferred format for writing notes, as it is easy to parse and is readable even without a Markdown viewer. The [CommonMark](https://commonmark.org/) format should be used due to its widespread support. Where appropriate, certain syntax may be interpreted differently by an interface to achieve the goals set out above (for example using a horizontal line to indicate a page break).
 
 ## Exercises
 The aim of exercises is to give learners a space to use the concepts they have learnt from notes with real problems. They should encourage tinkering with models so that learners can see how their changes affect the results produced.
