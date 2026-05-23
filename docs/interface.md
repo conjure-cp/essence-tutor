@@ -41,6 +41,7 @@ Essence Tutor could be built as a terminal runner, similar to that of [Rustlings
 
 ### Web
 Essence Tutor could be built as a web application that potentially uses [Conjure-aaS](https://conjure-aas.cs.st-andrews.ac.uk/) to run models. It would implement its own editor or use an editor component.
+
 **Pros:**
 - Extremely easy to get started with; learners simply have to open a web page.
 - Notes and exercises can be viewed alongside each other in the same window.
