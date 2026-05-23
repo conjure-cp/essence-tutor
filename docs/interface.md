@@ -18,6 +18,13 @@ Essence Tutor should have an accompanying interface that can be used by learners
 - Check written models not only for correctness but for specific syntax (e.g. compact declarations) if they are required by an exercise.
 - Work offline so learners do not have to be tethered to an internet connection.
 
+## Wireframe
+The following shows a rough wireframe for how the user interface may be layed out if Essence Tutor were to have its own editor:
+
+![wireframe](img/wireframe.svg)
+
+Note that, in cases where the editor is not implemented by Essence Tutor, the main content focus would be the current task (e.g. a single note or the runner box when working on an exercise).
+
 ## Implementation Considerations
 With the above aims in mind, and the findings of building the existing prototype, this section will consider the pros and cons of different implementation types.
 
@@ -93,3 +100,8 @@ Existing examples for Essence have worked with Jupyter notebooks through Google 
 - Much more difficult to work with Essence Tutor on a local machine, requiring significant effort from a learner.
 - Offline access would similarly require much more significant effort from a learner.
 - The overhead for the project would be significantly higher than before, since Conjure would have to run on a server per instance of the project (or we would have to use Google Colab).
+
+## Overall
+At this stage, building for the web (potentially using VS Code) appears to give Essence Tutor the most flexibility while maintaining ease-of-use for learners.
+
+With that said, it would be worth discussing the benefits and drawbacks to each approach with the rest of the VIP before concretely deciding on a path forwards. In addition, it is necessary to consider how Essence Tutor would be implemented in any case (e.g. what libraries would we use, etc.).
