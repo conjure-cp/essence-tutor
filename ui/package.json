@@ -12,6 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
+    "@tailwindcss/typography": "^0.5.20",
     "postcss": "^8.4.49",
     "solid-devtools": "^0.34.3",
     "tailwindcss": "^4.1.13",
@@ -19,7 +20,11 @@
     "vite-plugin-solid": "^2.11.8"
   },
   "dependencies": {
+    "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
+    "marked": "^18.1.1",
+    "solid-dismiss": "^1.8.2",
+    "solid-heroicons": "^3.2.4",
     "solid-js": "^1.9.5"
   }
 }

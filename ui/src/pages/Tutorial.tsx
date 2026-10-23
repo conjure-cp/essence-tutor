@@ -10,19 +10,18 @@ import {
   batch,
   ErrorBoundary,
 } from 'solid-js';
-import Repl from 'solid-repl/dist/repl';
+// import Repl from 'solid-repl/dist/repl'; // replace this with the conjure oxide path 
 import { A } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { arrowLeft, arrowRight, chevronDown, chevronDoubleRight } from 'solid-heroicons/solid';
-import { Title } from '@solidjs/meta';
+import { Title } from '@solidjs/meta'; // Sets the browser tab title
 
-import { compiler, formatter, linter } from '../components/setupRepl';
 import type { TutorialRouteData } from './Tutorial.data';
 import Dismiss from 'solid-dismiss';
 import { useRouteReadyState } from '../utils/routeReadyState';
 import { reflow } from '../utils/reflow';
-import { useAppState } from '../AppContext';
-import type { LessonLookup } from '@solid.js/docs';
+import { useAppState } from '../AppContext.tsx';
+import type { LessonLookup } from '../docs'; 
 import type { editor } from 'monaco-editor';
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 

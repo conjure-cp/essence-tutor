@@ -1,7 +1,7 @@
 import type { RouteLoadFunc } from '@solidjs/router';
 import { createResource } from 'solid-js';
-import { getTutorial, getTutorialDirectory, type LessonLookup } from '@solid.js/docs';
-import { useAppState } from '../AppContext';
+import { getTutorial, getTutorialDirectory, type LessonLookup } from '../docs';
+import { useAppState } from '../AppContext.tsx';
 
 type JsFiles = {
   files: { name: string; type?: string; content: string }[];
