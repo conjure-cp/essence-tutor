@@ -1,0 +1,68 @@
+:root {
+  --nav-bg: #515151;
+  --nav-text: #111827;
+  --nav-border: #9ca3af;
+}
+
+:root.dark {
+  --nav-bg: #515151;
+  --nav-text: #f3f4f6;
+  --nav-border: #6b7280;
+}
+
+.nav {
+  height: 64px; /* the tutorial page assumes a 64px nav */
+  background: var(--nav-bg);
+  color: var(--nav-text);
+}
+
+.nav__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav__brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-right: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-right: auto; /* pushes the button to the far right */
+}
+
+.nav__link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  text-decoration: underline;
+}
+
+.nav__link--active {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.nav__toggle {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--nav-border);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
