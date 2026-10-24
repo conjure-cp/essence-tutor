@@ -20,9 +20,8 @@ import type { TutorialRouteData } from './Tutorial.data';
 import Dismiss from 'solid-dismiss';
 import { useRouteReadyState } from '../utils/routeReadyState';
 import { reflow } from '../utils/reflow';
-import { useAppState } from '../AppContext.tsx';
+import { useAppState } from '../AppContext';
 import type { LessonLookup } from '../docs'; 
-import type { editor } from 'monaco-editor';
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 interface DirectoryMenuProps {

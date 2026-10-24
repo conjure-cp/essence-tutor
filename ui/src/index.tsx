@@ -1,11 +1,11 @@
 /* @refresh reload */
 import 'solid-devtools';
-import './index.css';
+import './css/index.css';
 
-import { render, Suspense } from 'solid-js/web';
+import { render } from 'solid-js/web';
+import { Router } from '@solidjs/router';
 
 import App from './app';
-import { Router } from '@solidjs/router';
 import { routes } from './routes';
 
 const root = document.getElementById('root');
@@ -16,7 +16,4 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(
-  () => <Router root={(props) => <App>{props.children}</App>}>{routes}</Router>,
-  root,
-);
+render(() => <Router root={App}>{routes}</Router>, root!);

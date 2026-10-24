@@ -5,7 +5,7 @@ import Home from './pages/home';
 import AboutData from './pages/about.data';
 import { TutorialData } from './pages/Tutorial.data';
 
-export const routes: RouteDefinition[] = [
+export const routes: RouteDefinition<any, any>[]  = [
   {
     path: '/',
     component: Home,
@@ -13,12 +13,12 @@ export const routes: RouteDefinition[] = [
   {
     path: '/about',
     component: lazy(() => import('./pages/about')),
-    data: AboutData,
+    preload: AboutData,
   },
   {
-    path: '/Tutorial',
+    path: '/tutorial/:id?',
     component: lazy(() => import('./pages/Tutorial')),
-    data: TutorialData,
+    preload: TutorialData,
   },
   {
     path: '**',

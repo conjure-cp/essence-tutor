@@ -5,9 +5,8 @@ import '../css/Nav.css';
 
 const links = [
   { label: 'Home', href: '/', end: true },
-  { label: 'Tutorial', href: '/tutorial/01_intro' },
-  { label: 'Features', href: '/features' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Tutorials', href: '/tutorial/01_intro' },
+  { label: 'Features', href: '/features' }
 ];
 
 export default function Nav() {

@@ -3,7 +3,7 @@ export interface LessonLookup { lessonName: string; internalName: string }
 const text = (g: Record<string, unknown>) => g as Record<string, string>;
 const mds    = text(import.meta.glob('./lessons/*/lesson.md',      { query: '?raw', import: 'default', eager: true }));
 const starts = text(import.meta.glob('./lessons/*/start.essence',  { query: '?raw', import: 'default', eager: true }));
-const sols   = text(import.meta.glob('./lessons/*/solved.essence', { query: '?raw', import: 'default', eager: true }));
+const sols   = text(import.meta.glob('./lessons/*/solution.essence', { query: '?raw', import: 'default', eager: true }));
 const metas  = import.meta.glob('./lessons/*/meta.json', { import: 'default', eager: true }) as Record<string, { lessonName: string }>;
 
 const idOf = (path: string) => path.split('/')[2];
