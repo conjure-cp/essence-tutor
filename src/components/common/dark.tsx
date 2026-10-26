@@ -8,6 +8,13 @@ export function prefersDarkTheme() {
             .addEventListener('change', e => {
                 setDark(e.matches);
             })
+
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        setDark(mq.matches);
+
+        mq.addEventListener('change', e => {
+            setDark(e.matches);
+        })
     }, []);
 
     return dark

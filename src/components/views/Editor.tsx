@@ -83,7 +83,6 @@ const CodeEditor = ({
     const languageExtension = useMemo(() => getLanguageExtension(filename), [filename]);
 
     return (
-        <div>
             <CodeMirror
                 ref={editorRef}
                 value={value}
@@ -94,14 +93,8 @@ const CodeEditor = ({
                 style={{
                     lineHeight: '1.6',
                 }}
-                className='h-screen max-w-full text-sm md:text-lg'
+                className='h-full max-w-full text-sm md:text-lg'
             />
-            {/*<div className='flex flex-row gap-4 items-center mt-4'>*/}
-            {/*    <button onClick={() => onSave(filename, value)} className="btn">*/}
-            {/*        Save*/}
-            {/*    </button>*/}
-            {/*</div>*/}
-        </div>
     );
 };
 
