@@ -9,6 +9,7 @@ import { markdown } from '@codemirror/lang-markdown';
 
 // Import for ref
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import {prefersDarkTheme} from "@/components/common/dark";
 
 
 const languageExtensions: { [key: string]: any } = {
@@ -30,12 +31,12 @@ const getLanguageExtension = (filename: string) => {
 const CodeEditor = ({
                         filename = "../../docs/content.md",
                         content,
-                        onSave,
+                        // onSave,
                         onContentChange,
                     }: {
     filename?: string,
     content: string,
-    onSave: (filename: string, content: string) => void,
+    // onSave: (filename: string, content: string) => void,
     onContentChange?: (content: string) => void,
 }) => {
     let editorRef = useRef<ReactCodeMirrorRef>(null);
@@ -65,19 +66,19 @@ const CodeEditor = ({
         }
     }, [onContentChange]);
 
-    const handleKeyDown = useCallback((event: KeyboardEvent) => {
-        if (event.ctrlKey && event.key === 's') {
-            event.preventDefault(); // Prevent default save behavior
-            onSave(filename, value); // Call the save function with current content
-        }
-    }, [filename, value, onSave]);
+    // const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    //     if (event.ctrlKey && event.key === 's') {
+    //         event.preventDefault(); // Prevent default save behavior
+    //         onSave(filename, value); // Call the save function with current content
+    //     }
+    // }, [filename, value, onSave]);
 
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [handleKeyDown]);
+    // useEffect(() => {
+    //     window.addEventListener('keydown', handleKeyDown);
+    //     return () => {
+    //         window.removeEventListener('keydown', handleKeyDown);
+    //     };
+    // }, [handleKeyDown]);
 
     const languageExtension = useMemo(() => getLanguageExtension(filename), [filename]);
 
@@ -86,20 +87,20 @@ const CodeEditor = ({
             <CodeMirror
                 ref={editorRef}
                 value={value}
-                height="600px"
+                height="100%"
                 extensions={[languageExtension]}
-                theme="dark"
+                theme={prefersDarkTheme() ? "dark" : "light"}
                 onChange={handleChange}
                 style={{
                     lineHeight: '1.6',
                 }}
-                className='max-w-full text-sm md:text-lg'
+                className='h-screen max-w-full text-sm md:text-lg'
             />
-            <div className='flex flex-row gap-4 items-center mt-4'>
-                <button onClick={() => onSave(filename, value)} className="btn">
-                    Save
-                </button>
-            </div>
+            {/*<div className='flex flex-row gap-4 items-center mt-4'>*/}
+            {/*    <button onClick={() => onSave(filename, value)} className="btn">*/}
+            {/*        Save*/}
+            {/*    </button>*/}
+            {/*</div>*/}
         </div>
     );
 };

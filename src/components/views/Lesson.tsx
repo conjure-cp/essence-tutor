@@ -15,7 +15,7 @@ export const Lesson = () => {
         <>
             {
                 <div
-                    className="prose max-w-none p-10"
+                    className="prose max-w-none p-10 h-screen"
                     dangerouslySetInnerHTML={getMarkdown(content)}
                 />
             }
