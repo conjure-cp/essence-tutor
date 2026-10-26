@@ -1,7 +1,7 @@
 "use client"
 
 import {prefersDarkTheme} from "@/components/common/dark";
-import CodeMirror from "@uiw/react-codemirror/esm";
+import CodeMirror from "@uiw/react-codemirror";
 import React from "react";
 
 interface consoleProps {

@@ -1,8 +1,8 @@
 import { marked } from 'marked';
 import * as fs from "node:fs";
-import {Cell, Grid, Gridline, Separator} from "react-resizable-panels";
-import CodeEditor from "@/components/views/Editor";
+import {Cell, Grid, Gridline} from "react-resizable-panels";
 import {Console} from "@/components/views/console";
+import {CodeEditor} from "@/components/views/Editor";
 
 interface lessonPanelProps {
     className?: string;
@@ -45,7 +45,7 @@ const Markdown = ({
 
     const getMarkdown = (content: string) => {
         if (content) {
-            let markdown = marked(content , { sanitize: true })
+            let markdown = marked(content)
             return { __html: markdown }
         }
     }

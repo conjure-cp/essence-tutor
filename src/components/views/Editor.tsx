@@ -2,43 +2,20 @@
 
 import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { html } from '@codemirror/lang-html';
-import { css } from '@codemirror/lang-css';
-import { markdown } from '@codemirror/lang-markdown';
-
-// Import for ref
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
+
 import {prefersDarkTheme} from "@/components/common/dark";
 
-
-const languageExtensions: { [key: string]: any } = {
-    js: javascript({ jsx: true }),
-    jsx: javascript({ jsx: true }),
-    ts: javascript({ typescript: true }),
-    tsx: javascript({ typescript: true, jsx: true }),
-    html: html(),
-    css: css(),
-    md: markdown(),
-    // Add more mappings for other languages
-};
-
-const getLanguageExtension = (filename: string) => {
-    const extension = filename.split('.').pop();
-    return languageExtensions[extension || ''] || javascript(); // Default to JavaScript if the language is not supported
-};
-
-const CodeEditor = ({
-                        filename = "../../docs/content.md",
-                        content,
-                        // onSave,
-                        onContentChange,
-                    }: {
-    filename?: string,
+interface codeEditorProps {
+    filename?: string, // keeping because we may later use this
     content: string,
-    // onSave: (filename: string, content: string) => void,
-    onContentChange?: (content: string) => void,
-}) => {
+    onContentChange?: (content: string) => void
+}
+
+export const CodeEditor = ({
+                        content,
+                        onContentChange
+}: codeEditorProps) => {
     let editorRef = useRef<ReactCodeMirrorRef>(null);
 
     const [value, setValue] = useState(content);
@@ -66,28 +43,11 @@ const CodeEditor = ({
         }
     }, [onContentChange]);
 
-    // const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    //     if (event.ctrlKey && event.key === 's') {
-    //         event.preventDefault(); // Prevent default save behavior
-    //         onSave(filename, value); // Call the save function with current content
-    //     }
-    // }, [filename, value, onSave]);
-
-    // useEffect(() => {
-    //     window.addEventListener('keydown', handleKeyDown);
-    //     return () => {
-    //         window.removeEventListener('keydown', handleKeyDown);
-    //     };
-    // }, [handleKeyDown]);
-
-    const languageExtension = useMemo(() => getLanguageExtension(filename), [filename]);
-
     return (
             <CodeMirror
                 ref={editorRef}
                 value={value}
                 height="100%"
-                extensions={[languageExtension]}
                 theme={prefersDarkTheme() ? "dark" : "light"}
                 onChange={handleChange}
                 style={{
@@ -97,6 +57,4 @@ const CodeEditor = ({
             />
     );
 };
-
-export default CodeEditor;
 
