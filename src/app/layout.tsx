@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/* Here's the top ribbon that shows about, uses, help, etc. TODO: Add in real page links later */}
+      <body className="min-h-full flex flex-col">
+        <nav className="flex gap-8 border-b p-6">
+          {/* Here's our lil Merpy, aka the site icon TODO: Add in Merp later, remove imposter */}
+          <Image src="/merp.png" alt="site icon" width={30} height={30}></Image>
+          <a href="PLACEHOLDER_LINK">About Essence</a>
+          <a href="PLACEHOLDER_LINK">Uses</a>
+          <a href="PLACEHOLDER_LINK">Help</a>
+        </nav>
+        
+        {children}
+      </body>
     </html>
   );
 }
