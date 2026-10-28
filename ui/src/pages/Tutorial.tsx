@@ -1,27 +1,19 @@
 import {
-  For,
-  type Component,
-  Show,
-  createSignal,
-  createEffect,
-  Suspense,
-  createMemo,
-  on,
-  batch,
-  ErrorBoundary,
+  For, type Component, Show, createSignal, createEffect, Suspense, createMemo, on, batch,
 } from 'solid-js';
-// import Repl from 'solid-repl/dist/repl'; // replace this with the conjure oxide path 
-import { A } from '@solidjs/router';
+import { A, useParams, useLocation } from '@solidjs/router';
 import { Icon } from 'solid-heroicons';
 import { arrowLeft, arrowRight, chevronDown, chevronDoubleRight } from 'solid-heroicons/solid';
 import { Title } from '@solidjs/meta'; // Sets the browser tab title
-
-import type { TutorialRouteData } from './Tutorial.data';
 import Dismiss from 'solid-dismiss';
-import { useRouteReadyState } from '../utils/routeReadyState';
+import { marked } from 'marked'; // Markdown parser for the md files
+
+import { TutorialData } from './Tutorial.data';
 import { reflow } from '../utils/reflow';
 import { useAppState } from '../AppContext';
-import type { LessonLookup } from '../docs'; 
+import type { LessonLookup } from '../docs';
+import ConjurePanel from '../components/ConjurePannel';
+
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 interface DirectoryMenuProps {
@@ -152,56 +144,72 @@ const DirectoryMenu: Component<DirectoryMenuProps> = (props) => {
   );
 };
 
-const Tutorial: Component<{ data: TutorialRouteData }> = (props) => {
-  const data = props.data;
-  const context = useAppState();
-  const { t } = context;
-  let replEditor: editor.IStandaloneCodeEditor;
-  const [tabs, setTabs] = createSignal([
-    {
-      name: 'main.jsx',
-      source: '',
-    },
-  ]);
-  const [current, setCurrent] = createSignal('main.jsx', { equals: false });
+const Tutorial: Component = () => {
+  const params = useParams();
+  const location = useLocation();
+  const data = TutorialData({ params, location });
+  const { t } = useAppState();
+
+  const [tabs, setTabs] = createSignal([{ name: 'model.essence', source: '' }]);
+  const [current, setCurrent] = createSignal('model.essence', { equals: false });
   const [open, setOpen] = createSignal(true);
   let markDownRef!: HTMLDivElement;
 
-  useRouteReadyState();
+  // resizable split
+  const [leftPct, setLeftPct] = createSignal(40);
+  const [dragging, setDragging] = createSignal(false);
+  let gridRef!: HTMLDivElement;
+  const startDrag = (e: PointerEvent) => {
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    setDragging(true);
+  };
+  const onDrag = (e: PointerEvent) => {
+    if (!dragging()) return;
+    const rect = gridRef.getBoundingClientRect();
+    setLeftPct(Math.min(70, Math.max(20, ((e.clientX - rect.left) / rect.width) * 100)));
+  };
+  const endDrag = (e: PointerEvent) => {
+    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    setDragging(false);
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') setLeftPct((p) => Math.max(20, p - 2));
+    if (e.key === 'ArrowRight') setLeftPct((p) => Math.min(70, p + 2));
+  };
 
-  createEffect(() => {
-    if (markDownRef) {
-      markDownRef.scrollTop = 0;
-    }
-    replEditor?.setScrollPosition({ scrollTop: 0 });
-    const fileset = data.solved ? data.solvedJs : data.js;
-    const files = fileset?.files;
+  const loadFiles = () => {
+    const files = (data.solved ? data.solvedJs : data.js)?.files;
     if (!files) return;
     batch(() => {
-      const newTabs = files.map((file) => {
-        return {
-          name: file.name + (file.type ? `.${file.type}` : '.jsx'),
-          source: file.content,
-        };
-      });
+      const newTabs = files.map((file) => ({
+        name: file.name + (file.type ? `.${file.type}` : '.essence'),
+        source: file.content,
+      }));
       setTabs(newTabs);
       setCurrent(newTabs[0].name);
     });
+  };
+
+  createEffect(() => {
+    if (markDownRef) markDownRef.scrollTop = 0;
+    loadFiles();
   });
 
   return (
     <>
-      <Title>Tutorials | SolidJS </Title>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Title>Tutorial | Conjure</Title>
+      <Suspense fallback={<p class="p-10">Loading...</p>}>
         <div
+          ref={gridRef}
           dir="ltr"
-          class="md:grid transition-all duration-300 h-[calc(100vh-64px)]"
+          class="md:grid h-[calc(100vh-64px)]"
           classList={{
-            'grid-cols-[minmax(40%,_600px)_auto]': open(),
-            'grid-cols-[minmax(100%,_600px)_auto]': !open(),
+            'transition-all duration-300': !dragging(),
+            'select-none': dragging(),
           }}
+          style={{ 'grid-template-columns': open() ? `${leftPct()}% 6px 1fr` : '100%' }}
         >
-          <div class="flex flex-col bg-gray-50 dark:bg-solid-darkbg h-full overflow-hidden border-r-2 dark:border-solid-darkLighterBg border-grey mb-10 md:mb-0 ">
+          <div class="flex flex-col bg-gray-50 dark:bg-solid-darkbg h-full overflow-hidden border-r-2 dark:border-solid-darkLighterBg mb-10 md:mb-0">
             <div class="box-border pt-3 pb-2 rounded-t border-b-2 border-solid bg-white dark:bg-solid-darkLighterBg dark:border-solid-darkLighterBg">
               <button
                 type="button"
@@ -219,12 +227,12 @@ const Tutorial: Component<{ data: TutorialRouteData }> = (props) => {
                 directory={data.tutorialDirectory}
               />
             </div>
+
             <div
               ref={markDownRef}
               class="p-10 prose dark:prose-invert flex-1 max-w-full overflow-auto"
-            >
-              {data.markdown}
-            </div>
+              innerHTML={marked.parse(data.markdown ?? '') as string}
+            />
 
             <div class="py-4 px-10 flex items-center justify-between border-t-2 dark:border-solid-darkLighterBg">
               <Show
@@ -251,68 +259,40 @@ const Tutorial: Component<{ data: TutorialRouteData }> = (props) => {
                 <span data-tooltip={data.previousLesson}>
                   <A href={data.previousUrl ?? '#'}>
                     <span class="sr-only">Previous step</span>
-                    <Icon
-                      path={arrowLeft}
-                      class="h-6"
-                      classList={{ 'opacity-25': !data.previousUrl }}
-                    />
+                    <Icon path={arrowLeft} class="h-6" classList={{ 'opacity-25': !data.previousUrl }} />
                   </A>
                 </span>
-
                 <span data-tooltip={data.nextLesson}>
                   <A href={data.nextUrl ?? '#'}>
                     <span class="sr-only">Next step</span>
-                    <Icon
-                      path={arrowRight}
-                      class="h-6"
-                      classList={{ 'opacity-25': !data.nextUrl }}
-                    />
+                    <Icon path={arrowRight} class="h-6" classList={{ 'opacity-25': !data.nextUrl }} />
                   </A>
                 </span>
               </div>
             </div>
           </div>
+
           <Show when={open()}>
-            <ErrorBoundary
-              fallback={
-                <>
-                  Repl failed to load. You may be using a browser that doesn't support Web Workers.
-                </>
-              }
-            >
-              <Repl
-                onEditorReady={(editor) => {
-                  replEditor = editor;
-                }}
-                compiler={compiler}
-                formatter={formatter}
-                linter={linter}
-                isHorizontal={true}
-                dark={context.isDark}
-                tabs={tabs()}
-                reset={() => {
-                  batch(() => {
-                    const fileset = data.solved ? data.solvedJs : data.js;
-                    const files = fileset?.files;
-                    if (!files) return;
-                    batch(() => {
-                      const newTabs = files.map((file) => {
-                        return {
-                          name: file.name + (file.type ? `.${file.type}` : '.jsx'),
-                          source: file.content,
-                        };
-                      });
-                      setTabs(newTabs);
-                      setCurrent(newTabs[0].name);
-                    });
-                  });
-                }}
-                setTabs={setTabs}
-                current={current()}
-                setCurrent={setCurrent}
-                id="tutorial"
-              />
-            </ErrorBoundary>
+            <div
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="Resize panels"
+              tabindex="0"
+              class="hidden md:block cursor-col-resize touch-none bg-gray-300 dark:bg-solid-darkLighterBg hover:bg-solid-default focus:bg-solid-default"
+              classList={{ 'bg-solid-default': dragging() }}
+              onPointerDown={startDrag}
+              onPointerMove={onDrag}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+              onKeyDown={onKey}
+            />
+            <ConjurePanel
+              tabs={tabs()}
+              setTabs={setTabs}
+              current={current()}
+              setCurrent={setCurrent}
+              reset={loadFiles}
+            />
           </Show>
         </div>
       </Suspense>

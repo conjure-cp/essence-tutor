@@ -16,11 +16,24 @@ export async function getTutorialDirectory(_lang: string): Promise<LessonLookup[
 }
 
 export async function getTutorial(_lang: string, id: string) {
+  const markdown = lessonMarkdown(id);
+  if (markdown === undefined) return undefined;
   const key = (name: string) => `./lessons/${id}/${name}`;
-  if (!mds[key('lesson.md')]) return undefined;
   return {
-    markdown: mds[key('lesson.md')],
+    markdown,
     lesson: file(starts[key('start.essence')] ?? ''),
-    solved: file(sols[key('solved.essence')] ?? ''),
+    solved: file(sols[key('solved.essence')] ?? starts[key('start.essence')] ?? ''),
   };
 }
+
+const allMds = text(import.meta.glob('./lessons/*/*.md', { query: '?raw', import: 'default', eager: true }));
+
+function lessonMarkdown(id: string): string | undefined {
+  const parts = Object.keys(allMds)
+    .filter((p) => idOf(p) === id)
+    .sort()
+    .map((p) => allMds[p]);
+  return parts.length ? parts.join('\n\n') : undefined;
+}
+
+console.log('lesson files found:', Object.keys(allMds), Object.keys(metas));

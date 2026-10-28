@@ -1,4 +1,3 @@
-import type { RouteLoadFunc } from '@solidjs/router';
 import { createResource } from 'solid-js';
 import { getTutorial, getTutorialDirectory, type LessonLookup } from '../docs';
 import { useAppState } from '../AppContext';
@@ -22,7 +21,10 @@ export interface TutorialRouteData {
   solved?: boolean;
 }
 
-export const TutorialData: RouteLoadFunc<TutorialRouteData> = (props) => {
+export const TutorialData = (props:{
+    params: Record<string, string | undefined>;
+    location: { search: string };
+  }): TutorialRouteData => {
   const ctx = useAppState();
   const paramList = () => ({ lang: ctx.locale, id: props.params.id || 'introduction_basics' });
   const [directory] = createResource(paramList, async ({ lang }) => {

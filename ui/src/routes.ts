@@ -13,12 +13,10 @@ export const routes: RouteDefinition<any, any>[]  = [
   {
     path: '/about',
     component: lazy(() => import('./pages/about')),
-    preload: AboutData,
   },
   {
     path: '/tutorial/:id?',
     component: lazy(() => import('./pages/Tutorial')),
-    preload: TutorialData,
   },
   {
     path: '**',
