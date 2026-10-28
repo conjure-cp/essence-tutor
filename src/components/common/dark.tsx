@@ -1,3 +1,5 @@
+// i think you can do this either with daisyui or with global css, no need for useEffect here
+
 import {useEffect, useState} from "react";
 
 export function prefersDarkTheme() {

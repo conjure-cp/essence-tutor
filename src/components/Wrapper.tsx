@@ -1,7 +1,7 @@
 "use client"
 
 import {ReactNode} from "react";
-import {solve} from "@/components/common/solver";
+import {solve} from "@/lib/solver";
 
 interface wrapperProps {
     title: string

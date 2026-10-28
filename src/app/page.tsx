@@ -1,4 +1,4 @@
-import {LessonPanel} from "@/components/views/Lesson";
+import {LessonPanel} from "@/components/Lesson";
 
 export default function Home() {
   return (

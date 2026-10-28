@@ -1,10 +1,10 @@
 import { marked } from 'marked';
 import * as fs from "node:fs";
 import {Cell, Grid, Gridline} from "react-resizable-panels";
-import {Console} from "@/components/views/Console";
-import {CodeEditor} from "@/components/views/Editor";
-import {Wrapper} from "@/components/views/Wrapper";
-import {solve} from "@/components/common/solver";
+import {Console} from "@/components/panels/Console";
+import {CodeEditor} from "@/components/panels/Editor";
+import {Wrapper} from "@/components/Wrapper";
+import {solve} from "@/lib/solver";
 
 interface lessonPanelProps {
     className?: string;
@@ -52,7 +52,7 @@ const Markdown = ({
 
     const getMarkdown = (content: string) => {
         if (content) {
-            let markdown = marked(content)
+            const markdown = marked(content)
             return { __html: markdown }
         }
     }
