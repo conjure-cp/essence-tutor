@@ -12,40 +12,52 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { ChevronDown } from "lucide-react"
 
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
-
 export function AppSidebar() {
   return (
-    <ResizablePanelGroup
-      orientation="horizontal"
-      className="min-h-[200px] max-w-sm rounded-lg border">
-      <ResizablePanel defaultSize="25%">
-
     <Sidebar>
         <SidebarHeader>
-            <SidebarMenu>
-            <SidebarMenuItem>
-                <DropdownMenu>
-                <DropdownMenuTrigger render={<SidebarMenuButton />}>
-                    Select Workspace
-                    <ChevronDown className="ml-auto" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem>
-                    <span>Acme Inc</span>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-                </DropdownMenu>
-            </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarHeader>
-    </Sidebar>
+            <span>Estute</span>
 
-    </ResizablePanel>
-    </ResizablePanelGroup>
+            <SidebarMenuButton>
+            <span>Home</span>
+            </SidebarMenuButton>
+        </SidebarHeader>
+
+        <SidebarContent>
+            <SidebarGroup>
+                <SidebarMenu>
+                <SidebarMenuItem>
+                    <DropdownMenu>
+                    <DropdownMenuTrigger render={<SidebarMenuButton />}>
+                        Select Chapter
+                        <ChevronDown className="ml-auto" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem>
+                        <span>Chapter ?: meow</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
+        </SidebarContent>
+
+        <SidebarFooter>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton>
+                    <span>Report a bug</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                    <SidebarMenuButton>
+                    <span>Help</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarFooter>
+    </Sidebar>
   )
 }
