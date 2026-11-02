@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/sidebar"
+import { AppSidebar } from "@/components/Sidebar"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +26,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <body className="min-h-full flex flex-col">
       <SidebarProvider>
         <AppSidebar />
         <main>
           <SidebarTrigger />
-          {/* dark mode */}
-          <body className="min-h-full flex flex-col">{children}</body>
+          {/* add dark mode trigger */}
+          {children}
         </main>
       </SidebarProvider>
+      </body>
     </html>
   );
 }

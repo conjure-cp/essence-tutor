@@ -12,7 +12,11 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { ChevronDown } from "lucide-react"
 
+import Link from "next/link"
+
 export function AppSidebar() {
+//   const pathname = usePathname()
+
   return (
     <Sidebar>
         <SidebarHeader>
@@ -52,7 +56,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
-                    <SidebarMenuButton>
+                    <SidebarMenuButton render={<Link href="/help" />}>
                     <span>Help</span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
