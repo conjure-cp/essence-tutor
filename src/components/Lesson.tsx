@@ -17,7 +17,7 @@ export const LessonPanel = ({
         <div className={className}>
             <Grid columns={2} rows={3}>
                 <Cell row={0} column={0} rowSpan={3}>
-                    <Markdown filename="public/docs/content.md" />
+                    <Markdown filename="public/content/00-first-steps/01-introduction.md" />
                 </Cell>
 
                 <Gridline className="w-1.5 z-1 bg-base-300 transition-colors hover:bg-primary data-[resize-handle-state=drag]:bg-primary"  type="column" column={1} />
@@ -45,6 +45,7 @@ interface markdownProps {
     filename: string;
 }
 
+// FIXME: not sure i like how this is working right now, why are we dangerouslySettingInnerHTML?
 const Markdown = ({
     filename
 }: markdownProps) => {
