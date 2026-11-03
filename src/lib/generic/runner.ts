@@ -1,11 +1,8 @@
+import { Model } from "../impl/model";
+
 export enum RunnerSolvers {
     Minion,
     SAT
-}
-
-export interface RunnerResult {
-    count: number;
-    solutions: JSON;
 }
 
 export interface RunnerOptions {
@@ -14,5 +11,6 @@ export interface RunnerOptions {
 }
 
 export abstract class Runner {
-    abstract solve(model: string, parameters: string, options: RunnerOptions): RunnerResult;
+    abstract queue(model: Model, options: RunnerOptions): void;
+    abstract poll(model: Model): void;
 }
