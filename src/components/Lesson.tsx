@@ -4,7 +4,6 @@ import {Cell, Grid, Gridline} from "react-resizable-panels";
 import {Console} from "@/components/panels/Console";
 import {CodeEditor} from "@/components/panels/Editor";
 import {Wrapper} from "@/components/Wrapper";
-import {solve} from "@/lib/solver";
 
 interface lessonPanelProps {
     className?: string;
