@@ -36,7 +36,7 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
 
                 <Cell row={0} column={1} rowSpan={2}>
                     <Wrapper title="Code" button>
-                        <CodeEditor content="testing" ></CodeEditor>
+                        <CodeEditor content="testing" isEditable ></CodeEditor>
                     </Wrapper>
                 </Cell>
 

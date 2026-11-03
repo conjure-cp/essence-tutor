@@ -1,6 +1,5 @@
 import { Suspense } from "react"
-import { LessonPanel } from "@/components/Lesson"
-import { getChapters } from "@/lib/chapters"
+import {LessonPanel, LessonParams} from "@/components/views/Lesson"
 
 // Suspense handles the asynchronous loading of the Lesson component. It's a fallback while the data is being fetched.
 export default function Home({ searchParams }: { searchParams: LessonParams }) {

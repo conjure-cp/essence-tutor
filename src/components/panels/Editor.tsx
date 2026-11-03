@@ -3,8 +3,7 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
-
-import {prefersDarkTheme} from "@/components/common/dark";
+import {useTheme} from "next-themes";
 
 interface codeEditorProps {
     filename?: string, // keeping because we may later use this
@@ -14,7 +13,7 @@ interface codeEditorProps {
 
 export const CodeEditor = ({
                         content,
-                        onContentChange
+                        onContentChange,
 }: codeEditorProps) => {
     let editorRef = useRef<ReactCodeMirrorRef>(null);
 
@@ -43,12 +42,14 @@ export const CodeEditor = ({
         }
     }, [onContentChange]);
 
+    const {theme} = useTheme();
+
     return (
             <CodeMirror
                 ref={editorRef}
                 value={value}
                 height="100%"
-                theme={prefersDarkTheme() ? "dark" : "light"}
+                theme={theme == "dark" ? "dark" : "light"}
                 onChange={handleChange}
                 style={{
                     lineHeight: '1.6',
