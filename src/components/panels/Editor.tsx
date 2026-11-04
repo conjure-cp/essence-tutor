@@ -41,15 +41,19 @@ export const CodeEditor = ({
             onContentChange(val);
         }
     }, [onContentChange]);
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
-    const {theme} = useTheme();
+    useEffect(() => setMounted(true), []);
+
+    const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
 
     return (
             <CodeMirror
                 ref={editorRef}
                 value={value}
                 height="100%"
-                theme={theme == "dark" ? "dark" : "light"}
+                theme={theme}
                 onChange={handleChange}
                 style={{
                     lineHeight: '1.6',

@@ -1,8 +1,7 @@
 "use client"
 
-import {prefersDarkTheme} from "@/components/common/dark";
 import CodeMirror from "@uiw/react-codemirror";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useTheme} from "next-themes";
 
 interface consoleProps {
@@ -13,13 +12,18 @@ export const Console = ({
     output
 }: consoleProps) => {
 
-    const {theme} = useTheme();
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
+
+    const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
 
     return (
         <CodeMirror
             value={output}
             height="100%"
-            theme={theme == "dark" ? "dark" : "light"}
+            theme={theme}
             basicSetup={{
                 foldGutter: false,
                 highlightActiveLineGutter: false,

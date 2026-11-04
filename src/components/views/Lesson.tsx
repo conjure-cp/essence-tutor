@@ -1,10 +1,15 @@
 import { marked } from 'marked';
 import * as fs from "node:fs";
-import {Cell, Grid, Gridline} from "react-resizable-panels";
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable"
 import {Console} from "@/components/panels/Console";
 import {CodeEditor} from "@/components/panels/Editor";
 import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
+import {cn} from "cn";
 
 export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 
@@ -26,29 +31,36 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
     
     return (
-        <div className={className}>
-            <Grid columns={2} rows={3}>
-                <Cell row={0} column={0} rowSpan={3}>
-                    <Markdown filename={currentLesson.filename} />
-                </Cell>
-
-                <Gridline className="w-1.5 z-1 bg-base-300 transition-colors hover:bg-primary data-[resize-handle-state=drag]:bg-primary"  type="column" column={1} />
-
-                <Cell row={0} column={1} rowSpan={2}>
-                    <Wrapper title="Code" button>
-                        <CodeEditor content="testing" isEditable ></CodeEditor>
-                    </Wrapper>
-                </Cell>
-
-                <Gridline className="h-1.5 bg-base-300 transition-colors hover:bg-primary data-[resize-handle-state=drag]:bg-primary"  type="row" row={2} column={1} />
-
-                <Cell row={2} column={1}>
-                    <Wrapper title="Output">
-                        <Console output="x = 3" />
-                    </Wrapper>
-                </Cell>
-            </Grid>
-        </div>
+            <ResizablePanelGroup
+                orientation="horizontal"
+                className={cn(className, "w-full min-h-0 flex-1")}
+            >
+                <ResizablePanel defaultSize="50%">
+                    <div className="flex h-full w-full items-center justify-center py-2 pl-6 pr-2">
+                        <Markdown filename={currentLesson.filename} />
+                    </div>
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel defaultSize="50%">
+                    <ResizablePanelGroup orientation="vertical">
+                        <ResizablePanel defaultSize="75%">
+                            <div className="flex h-full items-center justify-center p-0">
+                                <Wrapper title="Code" button>
+                                    <CodeEditor content="testing"></CodeEditor>
+                                </Wrapper>
+                            </div>
+                        </ResizablePanel>
+                        <ResizableHandle withHandle />
+                        <ResizablePanel defaultSize="25%">
+                            <div className="flex h-full items-center justify-center p-0">
+                                <Wrapper title="Output">
+                                    <Console output="x = 3" />
+                                </Wrapper>
+                            </div>
+                        </ResizablePanel>
+                    </ResizablePanelGroup>
+                </ResizablePanel>
+            </ResizablePanelGroup>
     )
 }
 
@@ -60,10 +72,19 @@ interface markdownProps {
 const Markdown = ({ filename }: markdownProps) => {
     const content = fs.readFileSync(filename, 'utf8')
 
+    const getMarkdown = (content: string) => {
+        if (content) {
+            const markdown = marked(content)
+            return { __html: markdown }
+        }
+    }
+
     return (
-        <div
-            className="prose max-w-none p-10 h-full"
-            dangerouslySetInnerHTML={{ __html: marked(content) as string }}
-        />
+        <div className="bg-white dark:bg-secondary rounded-lg border-1 w-full h-full overflow-y-scroll">
+            <div
+                className="prose max-w-none p-10 dark:prose-invert"
+                dangerouslySetInnerHTML={getMarkdown(content)}
+            />
+        </div>
     )
 }
