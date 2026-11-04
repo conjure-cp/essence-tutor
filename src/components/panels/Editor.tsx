@@ -4,6 +4,7 @@ import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import {useTheme} from "next-themes";
+import {secondaryBg} from "@/components/panels/Console";
 
 interface codeEditorProps {
     filename?: string, // keeping because we may later use this
@@ -53,7 +54,8 @@ export const CodeEditor = ({
                 ref={editorRef}
                 value={value}
                 height="100%"
-                theme={theme}
+                theme={"none"}
+                extensions={[secondaryBg]}
                 onChange={handleChange}
                 style={{
                     lineHeight: '1.6',

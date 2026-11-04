@@ -80,7 +80,7 @@ const Markdown = ({ filename }: markdownProps) => {
     }
 
     return (
-        <div className="bg-white dark:bg-secondary rounded-lg border-1 w-full h-full overflow-y-scroll">
+        <div className="bg-secondary rounded-lg border-1 w-full h-full overflow-y-scroll">
             <div
                 className="prose max-w-none p-10 dark:prose-invert"
                 dangerouslySetInnerHTML={getMarkdown(content)}

@@ -30,13 +30,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="h-svh overflow-hidden flex flex-col dark:bg-background bg-primary">
+      <body className="h-svh overflow-hidden flex flex-col bg-background">
         <TooltipProvider>
           <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
-              disableTransitionOnChange
+              disableTransitionOnChange={false}
           >
             <SidebarProvider className="h-svh">
               <AppSidebar />

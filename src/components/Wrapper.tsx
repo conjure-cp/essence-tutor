@@ -23,9 +23,9 @@ export const Wrapper = ({
 }: wrapperProps) => {
     return (
         <div className="h-full w-full p-2">
-            <div className="flex h-full w-full flex-col rounded-xl bg-white p-3 dark:bg-secondary border-1">
+            <div className="flex h-full w-full flex-col rounded-xl p-3 bg-secondary border-1">
                 <div className="flex h-12 w-full shrink-0 flex-row px-3 py-1">
-                    <h1 className="flex-1 text-2xl font-bold text-black dark:text-white">{title}</h1>
+                    <h1 className="flex-1 text-2xl font-bold">{title}</h1>
                     {button && (
                         <Tooltip>
                             <TooltipTrigger render={
