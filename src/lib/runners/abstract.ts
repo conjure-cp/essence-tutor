@@ -13,4 +13,5 @@ export interface RunnerOptions {
 export abstract class Runner {
   abstract loop(indefinite: boolean): void;
   abstract enqueue(model: Model, options: RunnerOptions): void;
+  abstract poll(model: Model): void;
 }
