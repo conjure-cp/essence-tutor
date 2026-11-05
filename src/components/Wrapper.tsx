@@ -1,7 +1,6 @@
 "use client"
 
 import {ReactNode} from "react";
-import {solve} from "@/lib/solver";
 
 interface wrapperProps {
     title: string
@@ -20,7 +19,7 @@ export const Wrapper = ({
             <div className="flex flex-row w-full h-12 px-3 py-1 bg-neutral">
                <h1 className="font-bold text-2xl text-white flex-1">{title}</h1>
                 {button && (
-                    <button className="btn tn-soft p-2 b-0" onClick={solve}>run</button>
+                    <button className="btn tn-soft p-2 b-0" onClick={() => {}}>run</button>
                 )}
             </div>
             <div className="min-h-0 flex-1">{children}</div>
