@@ -44,6 +44,7 @@ interface markdownProps {
     filename: string;
 }
 
+// FIXME: not sure i like how this is working right now, why are we dangerouslySettingInnerHTML?
 const Markdown = ({
     filename
 }: markdownProps) => {
