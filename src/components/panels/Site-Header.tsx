@@ -14,7 +14,8 @@ export function SiteHeader() {
                     orientation="vertical"
                     className="mx-2"
                 />
-                <h1 className="select-none text-base font-medium">Documents</h1>
+                {/*TODO: Once we have the functionality, this title should be a trail of the chapter and the current note the user is at*/}
+                <h1 className="select-none text-base font-medium">Essence Tutor</h1>
                 <div className="ml-auto flex items-center gap-2">
                     <Button variant="outline" size="sm" aria-label="Visit our Github" >
                         <a
