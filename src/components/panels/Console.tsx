@@ -1,8 +1,7 @@
 "use client"
 
 import CodeMirror, {EditorView} from "@uiw/react-codemirror";
-import React, {useEffect, useState} from "react";
-import {useTheme} from "next-themes";
+import React from "react";
 
 export const secondaryBg = EditorView.theme({
     "&": { backgroundColor: "var(--secondary)" },
@@ -19,14 +18,6 @@ interface consoleProps {
 export const Console = ({
     output
 }: consoleProps) => {
-
-    const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => setMounted(true), []);
-
-    const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
-
     return (
         <CodeMirror
             value={output}

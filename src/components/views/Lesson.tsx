@@ -36,7 +36,7 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
                 className={cn(className, "w-full min-h-0 flex-1")}
             >
                 <ResizablePanel defaultSize="50%">
-                    <div className="flex h-full w-full items-center justify-center py-2 pl-6 pr-2">
+                    <div className="flex h-full w-full items-center justify-center p-2">
                         <Markdown filename={currentLesson.filename} />
                     </div>
                 </ResizablePanel>

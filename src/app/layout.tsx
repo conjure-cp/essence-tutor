@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import {ThemeProvider} from "next-themes";
 import {AppSidebar} from "@/components/panels/Sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip"
+import {SiteHeader} from "@/components/panels/Site-Header";
 
 
 const geistSans = Geist({
@@ -41,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <SidebarProvider className="h-svh">
               <AppSidebar />
               <main className="flex min-w-0 flex-1 flex-col">
-                <SidebarTrigger />
+                <SiteHeader />
                 {/* add dark mode trigger */}
                 {children}
               </main>
