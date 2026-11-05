@@ -31,7 +31,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AppSidebar />
         <main>
           <SidebarTrigger />
-          {/* add dark mode trigger */}
           {children}
         </main>
       </SidebarProvider>

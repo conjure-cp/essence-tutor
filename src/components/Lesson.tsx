@@ -8,16 +8,15 @@ import {solve} from "@/lib/solver";
 
 interface lessonPanelProps {
     className?: string;
+    filename: string;
 }
 
-export const LessonPanel = ({
-                                className
-}: lessonPanelProps) => {
+export const LessonPanel = ({ className, filename }: lessonPanelProps ) => {
     return (
         <div className={className}>
             <Grid columns={2} rows={3}>
                 <Cell row={0} column={0} rowSpan={3}>
-                    <Markdown filename="public/docs/content.md" />
+                    <Markdown filename={filename} />
                 </Cell>
 
                 <Gridline className="w-1.5 z-1 bg-base-300 transition-colors hover:bg-primary data-[resize-handle-state=drag]:bg-primary"  type="column" column={1} />

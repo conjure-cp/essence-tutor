@@ -6,46 +6,64 @@ import {
   SidebarHeader,
   SidebarMenuItem,
   SidebarMenu,
-  SidebarMenuButton
+  SidebarMenuButton,
+  SidebarGroupContent,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarGroupLabel
 } from "@/components/ui/sidebar"
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { ChevronDown } from "lucide-react"
-
 import Link from "next/link"
+import { getChapters } from "@/lib/chapters"
 
 export function AppSidebar() {
-//   const pathname = usePathname()
+  const chapters = getChapters()
 
   return (
     <Sidebar>
         <SidebarHeader>
             <span>Estute</span>
 
-            <SidebarMenuButton>
+            <SidebarMenuButton render={<Link href="/" />}>
             <span>Home</span>
             </SidebarMenuButton>
         </SidebarHeader>
 
-        <SidebarContent>
-            <SidebarGroup>
+        <SidebarGroup>
+            <SidebarGroupLabel className="h-10 text-lg font-bold text-foreground">Chapters</SidebarGroupLabel>
+            <SidebarGroupContent>
                 <SidebarMenu>
-                <SidebarMenuItem>
-                    <DropdownMenu>
-                    <DropdownMenuTrigger render={<SidebarMenuButton />}>
-                        Select Chapter
-                        <ChevronDown className="ml-auto" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>
-                        <span>Chapter ?: meow</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                    </DropdownMenu>
-                </SidebarMenuItem>
+                {chapters.map((c) => (
+                    <SidebarMenuItem key={c.urlFriendly}>
+                    <SidebarMenuButton
+                        render={
+                        <Link
+                            href={`/?chapter=${c.urlFriendly}&lesson=${c.lessons[0]?.urlFriendly ?? ""}`}
+                        />
+                        }
+                    >
+                        <span>{c.title}</span>
+                    </SidebarMenuButton>
+
+                    <SidebarMenuSub>
+                        {c.lessons.map((l) => (
+                        <SidebarMenuSubItem key={l.urlFriendly}>
+                            <SidebarMenuSubButton
+                            render={
+                                <Link href={`/?chapter=${c.urlFriendly}&lesson=${l.urlFriendly}`} />
+                            }
+                            >
+                            <span>{l.title}</span>
+                            </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                        ))}
+                    </SidebarMenuSub>
+                    </SidebarMenuItem>
+                ))}
                 </SidebarMenu>
+            </SidebarGroupContent>
             </SidebarGroup>
-        </SidebarContent>
 
         <SidebarFooter>
             <SidebarMenu>
