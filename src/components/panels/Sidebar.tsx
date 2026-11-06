@@ -1,6 +1,5 @@
 import {
   Sidebar,
-  SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
@@ -21,7 +20,7 @@ export function AppSidebar() {
   const chapters = getChapters()
 
   return (
-    <Sidebar>
+    <Sidebar variant="floating">
         <SidebarHeader>
             <span>Essence Tutor</span>
 
@@ -60,13 +59,7 @@ export function AppSidebar() {
         <SidebarFooter>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton>
-                    <span>Report a bug</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                    <SidebarMenuButton render={<Link href="/help" />}>
+                    <SidebarMenuButton render={<Link href={"/help"} />} >
                     <span>Help</span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
