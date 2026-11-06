@@ -52,6 +52,10 @@ export class Model {
     return this.solutions;
   }
 
+  getError(): string | undefined {
+    return this.error;
+  }
+
   // mutators
   setState(state: ModelState) {
     this.state = state;
