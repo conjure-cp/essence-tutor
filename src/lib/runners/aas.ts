@@ -39,7 +39,7 @@ export class AASRunner implements Runner {
     )).json();
 
     model.setState(ModelState.Waiting);
-
+    
     return (await response).jobid;
   }
 
