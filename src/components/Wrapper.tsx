@@ -1,5 +1,8 @@
 "use client"
 
+import { Model } from "@/lib/model";
+import { AASRunner } from "@/lib/runners/aas";
+import { Runner } from "@/lib/runners/abstract";
 import {ReactNode} from "react";
 import {Button} from "@/components/ui/button";
 import {PlayIcon} from "lucide-react";
@@ -44,4 +47,12 @@ export const Wrapper = ({
             </div>
         </div>
     );
+}
+
+async function solve() {
+    let model: Model = new Model("find x : int(1..3)", new Map<string, string>());
+    Runner.setInstance(new AASRunner());
+    Runner.getInstance()!.solve(model, "kissat");
+
+    console.log(model);
 }
