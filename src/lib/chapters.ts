@@ -29,7 +29,7 @@ export function getChapters(): Chapter[] {
     .map((folder) => {
       const lessons = fs
         .readdirSync(path.join(CONTENT_DIR, folder))
-        .filter((f) => f.endsWith(".md")) // ignores the .essence files
+        .filter((f) => f.endsWith(".md")) // ignores the .essence files (for now)
         .sort()
         .map((f) => {
           const text = fs.readFileSync(path.join(CONTENT_DIR, folder, f), "utf8")

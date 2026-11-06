@@ -36,15 +36,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                 {chapters.map((c) => (
                     <SidebarMenuItem key={c.urlFriendly}>
-                    <SidebarMenuButton
-                        render={
-                        <Link
-                            href={`/?chapter=${c.urlFriendly}&lesson=${c.lessons[0]?.urlFriendly ?? ""}`}
-                        />
-                        }
-                    >
                         <span>{c.title}</span>
-                    </SidebarMenuButton>
 
                     <SidebarMenuSub>
                         {c.lessons.map((l) => (
