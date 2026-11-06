@@ -4,9 +4,7 @@ import { Runner } from "./abstract";
 export const CONJURE_AAS_DOMAIN = "https://conjure-aas.cs.st-andrews.ac.uk";
 export const CONJURE_AAS_APPNAME = "essence-tutor";
 
-
 const sleep = (period: number) => new Promise(resolve => setTimeout(resolve, period));
-
 
 export class AASRunner implements Runner {
   public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
@@ -39,7 +37,7 @@ export class AASRunner implements Runner {
     )).json();
 
     model.setState(ModelState.Waiting);
-    
+
     return (await response).jobid;
   }
 
