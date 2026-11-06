@@ -12,7 +12,7 @@ export class Model {
   private model: string;
   private parameters: Map<string, string>;
 
-  private solutions: object[] | undefined;
+  private solutions: Map<string, string>[] | undefined;
   private error: string | undefined;
 
   constructor(model: string, parameters: Map<string, string>) {
@@ -48,15 +48,18 @@ export class Model {
     return this.solutions?.length;
   }
 
-  getSolutions(): object[] | undefined {
+  getSolutions(): Map<string, string>[] | undefined {
     return this.solutions;
   }
 
-  getError(): string | undefined {
-    return this.error;
+  // mutators
+  setState(state: ModelState) {
+    this.state = state;
   }
 
-  // mutators
+  setModel(model: string) {
+    this.model = model;
+  }
 
   setModel(model: string) {
     this.model = model;
