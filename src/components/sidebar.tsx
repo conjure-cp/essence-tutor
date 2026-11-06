@@ -23,20 +23,20 @@ export function AppSidebar() {
   return (
     <Sidebar>
         <SidebarHeader>
-            <span>Estute</span>
+            <span>Essence Tutor</span>
 
             <SidebarMenuButton render={<Link href="/" />}>
             <span>Home</span>
             </SidebarMenuButton>
         </SidebarHeader>
 
-        <SidebarGroup>
+        <SidebarGroup className="overflow-x-hidden">
             <SidebarGroupLabel className="h-10 text-lg font-bold text-foreground">Chapters</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                 {chapters.map((c) => (
                     <SidebarMenuItem key={c.urlFriendly}>
-                        <span>{c.title}</span>
+                        <span className="whitespace-normal break-words">{c.title}</span>
 
                     <SidebarMenuSub>
                         {c.lessons.map((l) => (
