@@ -4,7 +4,6 @@ import { Runner } from "./abstract";
 export const CONJURE_AAS_DOMAIN = "https://conjure-aas.cs.st-andrews.ac.uk";
 export const CONJURE_AAS_APPNAME = "essence-tutor";
 
-
 const sleep = (period: number) => new Promise(resolve => setTimeout(resolve, period));
 
 
@@ -57,11 +56,6 @@ export class AASRunner implements Runner {
         })
       }
     )).json());
-
-    if (response.status.startsWith("terminated")) {
-      model.setError(response.logs.toString());
-      return;
-    }
 
     if (response.status.startsWith("terminated")) {
       model.setError(response.logs.toString());
