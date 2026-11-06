@@ -57,13 +57,12 @@ export class Model {
   }
 
   // mutators
+  setState(state: ModelState) {
+    this.state = state;
+  }
 
   setModel(model: string) {
     this.model = model;
-  }
-
-  setState(state: ModelState) {
-    this.state = state;
   }
 
   setParameter(k: string, v: string) {
