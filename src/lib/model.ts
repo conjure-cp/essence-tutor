@@ -52,6 +52,10 @@ export class Model {
     return this.solutions;
   }
 
+  getError(): string | undefined {
+    return this.error;
+  }
+
   // mutators
   setState(state: ModelState) {
     this.state = state;
@@ -59,14 +63,6 @@ export class Model {
 
   setModel(model: string) {
     this.model = model;
-  }
-
-  setModel(model: string) {
-    this.model = model;
-  }
-
-  setState(state: ModelState) {
-    this.state = state;
   }
 
   setParameter(k: string, v: string) {
