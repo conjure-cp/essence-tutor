@@ -11,6 +11,8 @@ import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
 import {cn} from "cn";
 
+import {TabsLine} from "@/components/panels/Tabs"
+
 export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 
 interface lessonPanelProps {
@@ -45,9 +47,10 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
                     <ResizablePanelGroup orientation="vertical">
                         <ResizablePanel defaultSize="75%">
                             <div className="flex h-full items-center justify-center p-0">
-                                <Wrapper title="Code" button>
-                                    <CodeEditor content="testing"></CodeEditor>
-                                </Wrapper>
+                                <TabsLine
+                                    code={<CodeEditor content="testing" />}
+                                    parameters={<CodeEditor content="params..." />}
+                                />
                             </div>
                         </ResizablePanel>
                         <ResizableHandle withHandle />
