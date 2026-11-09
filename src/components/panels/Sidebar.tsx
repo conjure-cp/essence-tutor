@@ -15,27 +15,19 @@ import {
 
 import Link from "next/link"
 import { getChapters } from "@/lib/chapters"
-// import { Span } from "next/dist/trace"
 
 export function AppSidebar() {
   const chapters = getChapters()
-// TODO: where should i put home
   return (
     <Sidebar variant="floating">
         <SidebarHeader>
-            <span className="text-lg font-bold">Essence Tutor</span>
-
             <SidebarMenuButton render={<Link href="/" />}>
-                <span>Home</span>
+                <span className="text-lg font-bold">Essence Tutor</span>
             </SidebarMenuButton>
         </SidebarHeader>
 
         <SidebarGroup className="overflow-x-hidden">
             <SidebarGroupContent> 
-                <SidebarMenuButton render={<Link href="/" />}>
-                <span>Home</span>
-                </SidebarMenuButton>
-
                 <SidebarMenu>
                     <span className="text-lg">Chapters</span>
                 </SidebarMenu>
