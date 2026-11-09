@@ -1,4 +1,4 @@
-import { marked } from 'marked';
+import ReactMarkdown from 'react-markdown'
 import * as fs from "node:fs";
 import {
     ResizableHandle,
@@ -68,23 +68,14 @@ interface markdownProps {
     filename: string;
 }
 
-// FIXME: not sure i like how this is working right now, why are we dangerouslySettingInnerHTML?
 const Markdown = ({ filename }: markdownProps) => {
     const content = fs.readFileSync(filename, 'utf8')
 
-    const getMarkdown = (content: string) => {
-        if (content) {
-            const markdown = marked(content)
-            return { __html: markdown }
-        }
-    }
-
     return (
-        <div className="bg-secondary rounded-lg border-1 w-full h-full overflow-y-scroll">
-            <div
-                className="prose max-w-none p-10"
-                dangerouslySetInnerHTML={getMarkdown(content)}
-            />
+        <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
+            <div className="prose dark:prose-invert max-w-none p-10">
+                <ReactMarkdown>{content}</ReactMarkdown>
+            </div>
         </div>
     )
 }
