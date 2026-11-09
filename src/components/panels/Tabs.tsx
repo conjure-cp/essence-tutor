@@ -11,7 +11,7 @@ export function TabsLine({
   parameters: React.ReactNode
 }) {
   return (
-    <Tabs defaultValue="code" className="flex h-full w-full flex-col">
+    <Tabs defaultValue="code" className="flex h-full w-full flex-col gap-0">
         <Wrapper
             button
             header={

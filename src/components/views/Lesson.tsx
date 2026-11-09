@@ -46,7 +46,7 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
                 <ResizablePanel defaultSize="50%">
                     <ResizablePanelGroup orientation="vertical">
                         <ResizablePanel defaultSize="75%">
-                            <div className="flex h-full items-center justify-center p-0">
+                            <div className="flex h-full w-full items-center justify-center p-0">
                                 <TabsLine
                                     code={<CodeEditor content="testing" />}
                                     parameters={<CodeEditor content="params..." />}

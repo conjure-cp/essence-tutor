@@ -1,6 +1,8 @@
 "use client"
 
 import {ReactNode} from "react";
+import { Button } from "@/components/ui/button"
+import { Play } from "lucide-react"
 
 interface wrapperProps {
     title: string
@@ -24,7 +26,10 @@ export const Wrapper = ({
                     )}
                 </div>
                 {button && (
-                    <button className="btn tn-soft p-2 b-0" onClick={() => {}}>run</button>
+                    <Button size="sm" variant="secondary" onClick={() => {}}>
+                        <Play />
+                        Run
+                    </Button>
                 )}
             </div>
             <div className="min-h-0 flex-1">{children}</div>
