@@ -25,9 +25,9 @@ export const Wrapper = ({
     return (
         <div className="flex flex-col h-full w-full p-2">
             <div className="flex h-full w-full flex-col rounded-xl p-3 bg-secondary border-1">
-                <div className="flex h-12 w-full shrink-0 flex-row px-3 py-1">
+                <div className="flex h-12 w-full shrink-0 flex-row items-center justify-between px-3 py-1">
                     {header ?? (
-                        <h1 className="flex-1 text-2xl font-bold">{title}</h1>
+                        <h1 className="text-2xl font-bold">{title}</h1>
                     )}
                     {button && (
                         <Tooltip>
@@ -41,7 +41,7 @@ export const Wrapper = ({
                             </TooltipContent>
                         </Tooltip>
                     )}
-                </div>
+                </ div>
                 <div className="min-h-0 flex-1">{children}</div>
             </div>
         </div>
