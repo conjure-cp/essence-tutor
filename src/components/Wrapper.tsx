@@ -1,6 +1,6 @@
 "use client"
 
-import { Model } from "@/lib/model";
+import { Model, ModelState } from "@/lib/model";
 import { AASRunner } from "@/lib/runners/aas";
 import { Runner } from "@/lib/runners/abstract";
 import {ReactNode} from "react";
@@ -51,8 +51,8 @@ export const Wrapper = ({
 
 async function solve() {
     let model: Model = new Model("find x : int(1..3)", new Map<string, string>());
-    Runner.setInstance(new AASRunner());
-    Runner.getInstance()!.solve(model, "kissat");
+    let runner: Runner = new AASRunner();
+    await runner.solve(model, "kissat");
 
     console.log(model);
 }
