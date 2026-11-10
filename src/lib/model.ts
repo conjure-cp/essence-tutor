@@ -14,6 +14,7 @@ export class Model {
 
   private solutions: Map<string, string>[] | undefined;
   private error: string | undefined;
+  private error: string | undefined;
 
   constructor(model: string, parameters: Map<string, string>) {
     this.state = ModelState.Unsolved;
@@ -56,13 +57,18 @@ export class Model {
     return this.error;
   }
 
-  // mutators
-  setState(state: ModelState) {
-    this.state = state;
+  getError(): string | undefined {
+    return this.error;
   }
+
+  // mutators
 
   setModel(model: string) {
     this.model = model;
+  }
+
+  setState(state: ModelState) {
+    this.state = state;
   }
 
   setParameter(k: string, v: string) {
@@ -75,6 +81,13 @@ export class Model {
 
   setSolutions(sols: Map<string, string>[] | undefined) {
     this.solutions = sols;
+  }
+
+  setError(error: string | undefined) {
+    this.error = error;
+    if (error != undefined) {
+      this.state = ModelState.Error;
+    }
   }
 
   setError(error: string | undefined) {

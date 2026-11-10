@@ -63,6 +63,11 @@ export class AASRunner implements Runner {
       return;
     }
 
+    if (response.status.startsWith("terminated")) {
+      model.setError(response.logs.toString());
+      return;
+    }
+
     switch (response.status) {
       case "ok":
         model.setState(ModelState.Solved);
