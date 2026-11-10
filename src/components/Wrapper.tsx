@@ -31,7 +31,7 @@ export const Wrapper = ({
                     {button && (
                         <Tooltip>
                             <TooltipTrigger render={
-                                <Button size="icon-lg" aria-label="Run" variant="outline" onClick={() => {}}>
+                                <Button size="icon-lg" aria-label="Run" variant="outline" onClick={solve}>
                                     <PlayIcon />
                                 </Button>
                             } />
