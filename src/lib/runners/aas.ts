@@ -4,6 +4,7 @@ import { Runner } from "./abstract";
 export const CONJURE_AAS_DOMAIN = "https://conjure-aas.cs.st-andrews.ac.uk";
 export const CONJURE_AAS_APPNAME = "essence-tutor";
 
+
 const sleep = (period: number) => new Promise(resolve => setTimeout(resolve, period));
 
 export class AASRunner implements Runner {
@@ -73,8 +74,5 @@ export class AASRunner implements Runner {
         model.setState(ModelState.Unsolved);
         break;
     }
-
-    // FIXME: this seems to work, but i can't get it to go through to the main thing yet and idk what's going on
-    console.log(model);
   }
 }
