@@ -10,6 +10,7 @@ import {CodeEditor} from "@/components/panels/Editor";
 import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
 import {cn} from "cn";
+import { RunnerPanel } from '../panels/Runner';
 
 export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 
@@ -42,23 +43,7 @@ export const LessonPanel = async ({ className, searchParams }: lessonPanelProps)
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <ResizablePanelGroup orientation="vertical">
-                        <ResizablePanel defaultSize="75%">
-                            <div className="flex h-full items-center justify-center p-0">
-                                <Wrapper title="Code" button>
-                                    <CodeEditor content="testing"></CodeEditor>
-                                </Wrapper>
-                            </div>
-                        </ResizablePanel>
-                        <ResizableHandle withHandle />
-                        <ResizablePanel defaultSize="25%">
-                            <div className="flex h-full items-center justify-center p-0">
-                                <Wrapper title="Output">
-                                    <Console output="x = 3" />
-                                </Wrapper>
-                            </div>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
+                    <RunnerPanel initialEditorContent="testing" initialConsoleContent="x = 0" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )
