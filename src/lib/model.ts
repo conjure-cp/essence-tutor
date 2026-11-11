@@ -3,16 +3,17 @@ export enum ModelState {
   Waiting,
   Solved,
   NonTerminating,
+  Error
 }
 
 export class Model {
-  protected state: ModelState;
+  private state: ModelState;
 
   private model: string;
   private parameters: Map<string, string>;
 
-  protected runnerId: string | undefined;
-  protected solutions: Map<string, string>[] | undefined;
+  private solutions: object[] | undefined;
+  private error: string | undefined;
 
   constructor(model: string, parameters: Map<string, string>) {
     this.state = ModelState.Unsolved;
@@ -31,7 +32,11 @@ export class Model {
     return this.model;
   }
 
-  getParameterString(): string {
+  getParameterJSONString(): string {
+    return JSON.stringify(this.parameters);
+  }
+
+  getParameterEssenceString(): string {
     let result = "";
     this.parameters.forEach((k: string, v: string) => {
       result += `letting ${k} be ${v}\n`;
@@ -39,19 +44,27 @@ export class Model {
     return result;
   }
 
-  getRunnerId(): string | undefined {
-    return this.runnerId;
-  }
-
   getSolutionCount(): number | undefined {
     return this.solutions?.length;
   }
 
-  getSolutions(): Map<string, string>[] | undefined {
+  getSolutions(): object[] | undefined {
     return this.solutions;
   }
 
+  getError(): string | undefined {
+    return this.error;
+  }
+
   // mutators
+
+  setModel(model: string) {
+    this.model = model;
+  }
+
+  setState(state: ModelState) {
+    this.state = state;
+  }
 
   setParameter(k: string, v: string) {
     this.parameters.set(k, v);
@@ -59,5 +72,16 @@ export class Model {
 
   deleteParameter(k: string) {
     this.parameters.delete(k);
+  }
+
+  setSolutions(sols: Map<string, string>[] | undefined) {
+    this.solutions = sols;
+  }
+
+  setError(error: string | undefined) {
+    this.error = error;
+    if (error != undefined) {
+      this.state = ModelState.Error;
+    }
   }
 }

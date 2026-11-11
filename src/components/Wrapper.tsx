@@ -1,5 +1,8 @@
 "use client"
 
+import { Model, ModelState } from "@/lib/model";
+import { AASRunner } from "@/lib/runners/aas";
+import { Runner } from "@/lib/runners/abstract";
 import {ReactNode} from "react";
 import {Button} from "@/components/ui/button";
 import {PlayIcon} from "lucide-react";
@@ -28,7 +31,7 @@ export const Wrapper = ({
                     {button && (
                         <Tooltip>
                             <TooltipTrigger render={
-                                <Button size="icon-lg" aria-label="Run" variant="outline" onClick={() => {}}>
+                                <Button size="icon-lg" aria-label="Run" variant="outline" onClick={solve}>
                                     <PlayIcon />
                                 </Button>
                             } />
@@ -44,4 +47,12 @@ export const Wrapper = ({
             </div>
         </div>
     );
+}
+
+async function solve() {
+    let model: Model = new Model("find x : int(1..3)", new Map<string, string>());
+    let runner: Runner = new AASRunner();
+    await runner.solve(model, "kissat");
+
+    console.log(model);
 }
