@@ -1,8 +1,15 @@
 "use client"
 
-import {prefersDarkTheme} from "@/components/common/dark";
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, {EditorView} from "@uiw/react-codemirror";
 import React from "react";
+
+export const secondaryBg = EditorView.theme({
+    "&": { backgroundColor: "var(--secondary)" },
+    ".cm-gutters": {
+        backgroundColor: "var(--secondary)",
+        border: "none",
+    },
+});
 
 interface consoleProps {
     output: string;
@@ -15,7 +22,8 @@ export const Console = ({
         <CodeMirror
             value={output}
             height="100%"
-            theme={prefersDarkTheme() ? "dark" : "light"}
+            theme={"none"}
+            extensions={[secondaryBg]}
             basicSetup={{
                 foldGutter: false,
                 highlightActiveLineGutter: false,

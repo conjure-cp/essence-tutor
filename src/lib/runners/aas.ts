@@ -4,20 +4,20 @@ import { Runner } from "./abstract";
 export const CONJURE_AAS_DOMAIN = "https://conjure-aas.cs.st-andrews.ac.uk";
 export const CONJURE_AAS_APPNAME = "essence-tutor";
 
+
+const sleep = (period: number) => new Promise(resolve => setTimeout(resolve, period));
+
+
 export class AASRunner implements Runner {
   public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
-      // TODO: make this work in a separate thread so it doesn't lock everything up
       const jobId = await this.submit(model, solver ? solver : "kissat", options ? options : []);
-      let interval = 1000;
+      let timeout = 1000;
 
-      let refresh = setInterval(async () => {
+      while (model.getState() == ModelState.Waiting) {
+        await sleep(timeout);
         await this.poll(model, jobId);
-        if (model.getState() != ModelState.Waiting) {
-          clearInterval(refresh);
-        } else {
-          interval *= 2;
-        }
-      }, interval)
+        timeout *= 2;
+      }
   }
 
   private async submit(model: Model, solver: string, options: string[]): Promise<string> {
@@ -37,6 +37,8 @@ export class AASRunner implements Runner {
         })
       }
     )).json();
+
+    model.setState(ModelState.Waiting);
 
     return (await response).jobid;
   }
@@ -61,6 +63,11 @@ export class AASRunner implements Runner {
       return;
     }
 
+    if (response.status.startsWith("terminated")) {
+      model.setError(response.logs.toString());
+      return;
+    }
+
     switch (response.status) {
       case "ok":
         model.setState(ModelState.Solved);
@@ -73,8 +80,5 @@ export class AASRunner implements Runner {
         model.setState(ModelState.Unsolved);
         break;
     }
-
-    // FIXME: this seems to work, but i can't get it to go through to the main thing yet and idk what's going on
-    console.log(model);
   }
 }
