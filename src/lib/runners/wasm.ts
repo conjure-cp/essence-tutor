@@ -57,7 +57,7 @@ export class WASMRunner implements Runner {
         }
 
         return new Promise((resolve, reject) => {
-            let worker, timer;
+            let worker: any, timer: NodeJS.Timeout | undefined;
             let finished: boolean = false;
 
             // CWW: Every outcome terminates the worker and removes the timer and abort listener.
