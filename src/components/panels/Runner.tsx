@@ -80,9 +80,9 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
     let model: Model = new Model(editorState || "", new Map<string, string>());
     let runner: Runner = new AASRunner();
     await runner.solve(model, "kissat");
-    setOutputState(JSON.stringify(model.getSolutions() || "", null, 4));
+    console.log(model);
+    setOutputState(JSON.stringify(model.getSolutions() || ""));
   }
-
   const updateRunner = (type: string) => {
     switch (type) {
       case "aas":
