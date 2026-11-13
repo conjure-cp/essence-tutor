@@ -1,0 +1,23 @@
+Meeting Minutes -- (2026-11-13 @ 14:00)
+
+    **TL;DR: **
+    Continue working on UI, WASM, and reviewing the content
+    
+People Present:
+*Changes to be made:*
+- There’s a dropdown menu to choose between Conjure as a service and Conjure Oxide- look at what Hayden’s done for the options. You also need to be able to choose how many solutions you want out of it (and potentially other options in the future)
+Instead of JSON output in the Output menu, it would be nice to show results as text or in a table (Jamie has completed Tables just now)
+When you click the solver, it should have some feedback (like a spinning circle) to show that it’s working
+- Getting exercises and content up
+- Could use YAML for the code blocks
+- Jamie’s still working on WASM
+- London will continue reviewing content and working on the home page
+- Adding a dropdown feature to the chapters would be nice, to hide them away if desired
+- Would be nice to have someone plan the lesson content out, like making a learning roadmap to format the course
+
+*Notes:*
+- Users shouldn't be locked away from future content. They shouldn't be forced to complete the first few chapters 
+order to see future ones, for instance
+
+
+
