@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import * as fs from "node:fs";
 import {
     ResizableHandle,
@@ -74,7 +75,7 @@ const Markdown = ({ filename }: markdownProps) => {
     return (
         <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
             <div className="prose dark:prose-invert max-w-none p-10">
-                <ReactMarkdown>{content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
         </div>
     )
