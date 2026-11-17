@@ -1,21 +1,6 @@
 import {Model} from "@/lib/model";
 import {Runner} from "@/lib/runners/abstract";
-
-interface RunOptions {
-    /** Wall-clock limit including startup; defaults to 30000 ms. */
-    timeoutMs?: number;
-    signal?: AbortSignal;
-    onStage?: (stage: "loading" | "running") => void;
-    /** Files to return as UTF-8 text after the CLI finishes; missing files reject. */
-    captureFiles?: string[];
-}
-interface RunResult {
-    exitCode: number;
-    stdout: string;
-    stderr: string;
-    elapsedMs: number;
-    files: Record<string, string>;
-}
+import {RunOptions, RunResult} from "@/lib/runners/wasm-interfaces";
 
 export class WASMRunner implements Runner {
     public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
@@ -41,11 +26,11 @@ export class WASMRunner implements Runner {
 
     private async run(
         args: string[],
-        files: {[key: string]: string} = {},
+        files: Record<string, string>,
         options: RunOptions = {}
-    ) {
+    ): Promise<RunResult> {
         const started = performance.now();
-        const { timeoutMs = 30000, signal, onStage, captureFiles = []} = options;
+        const { timeoutMs = 30000, signal, onStage, captureFiles = [] } = options;
 
         // Chris' wise words (CWW): Invalid timer values can silently become a 1 ms deadline in JavaScript.
         if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 2147483647) {
@@ -62,7 +47,7 @@ export class WASMRunner implements Runner {
 
             // CWW: Every outcome terminates the worker and removes the timer and abort listener.
             // FIXME: are the arguments actually optional
-            const finish = (error?: any, result?: string) => {
+            const finish = (error?: any, result?: any) => {
                 if (finished) return;
 
                 finished = true;
@@ -80,7 +65,7 @@ export class WASMRunner implements Runner {
                 signal?.addEventListener("abort", cancel, {once: true});
                 timer = setTimeout(() => finish(new DOMException(`Run exceeded ${timeoutMs} ms.`, "TimeoutError")), timeoutMs);
 
-                worker = new Worker(new URL("./worker.mjs", import.meta.url), { type: "module" });
+                worker = new Worker(new URL("./worker.ts", import.meta.url), { type: "module" });
                 worker.onmessage = ({ data }) => {
                     if (finished) return;
 
@@ -94,7 +79,7 @@ export class WASMRunner implements Runner {
                     else finish(null, data.result)
                 };
 
-                worker.onerror = error => finish(new Error(`Could not load or run worker.mjs. Check that the complete Wasm package is being served: ${error.message}`));
+                worker.onerror = (error: { message: any; }) => finish(new Error(`Could not load or run worker.mjs. Check that the complete Wasm package is being served: ${error.message}`));
                 worker.onmessageerror = () => finish(new Error("Could not read a message from the CLI worker."));
                 worker.postMessage({ args, files, captureFiles });
             }

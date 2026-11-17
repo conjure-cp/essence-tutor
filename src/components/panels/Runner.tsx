@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
+import {WASMRunner} from "@/lib/runners/wasm";
 
 
 interface WrapperProps {
@@ -76,11 +77,13 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
 
   const solve = async () => {
     let model: Model = new Model(editorState || "", new Map<string, string>());
-    let runner: Runner = new AASRunner();
+    let runner: Runner = new WASMRunner();
+
     await runner.solve(model, "kissat");
     console.log(model);
     setOutputState(JSON.stringify(model.getSolutions() || ""));
   }
+
   const updateRunner = (type: string) => {
     switch (type) {
       case "aas":
@@ -88,6 +91,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
         Runner.setInstance(new AASRunner());
         break;
       case "oxide":
+        Runner.setInstance(new AASRunner());
         setRunnerType("oxide");
         break;
       default:
