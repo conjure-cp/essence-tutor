@@ -10,7 +10,7 @@ import {
 import { Chapter } from '@/lib/content';
 import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
-import { RunnerPanel } from '../panels/Runner';
+import { RunnerPanel } from '@/components/panels/Runner';
 
 interface lessonPanelProps {
     className?: string,
