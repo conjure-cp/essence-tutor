@@ -65,6 +65,14 @@ export class Model {
     this.model = model;
   }
 
+  setModel(model: string) {
+    this.model = model;
+  }
+
+  setState(state: ModelState) {
+    this.state = state;
+  }
+
   setParameter(k: string, v: string) {
     this.parameters.set(k, v);
   }
