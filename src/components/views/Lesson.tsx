@@ -12,7 +12,7 @@ import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
 import {cn} from "cn";
 
-export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
+export type LessonParams = { chapter?: string; lesson?: string }
 
 interface lessonPanelProps {
     className?: string
@@ -20,7 +20,7 @@ interface lessonPanelProps {
 }
 
 export const LessonPanel = async ({ className, searchParams }: lessonPanelProps) => {
-    const { chapter, lesson } = await searchParams
+    const { chapter, lesson } = searchParams
     const chapters = getChapters()
 
     const currentChapter =
