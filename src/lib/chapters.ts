@@ -12,7 +12,7 @@ export type Lesson = {
 export type Chapter = {
   urlFriendly: string   // from folder names
   title: string     
-  filename: Lesson[]  
+  lessons: Lesson[]  
 }
 
 function prettify(name: string) {
@@ -38,9 +38,9 @@ export function getChapters(): Chapter[] {
             urlFriendly: f.replace(/\.md$/, ""),
             title: heading ? heading[1].trim() : prettify(f),
             filename: `public/content/${folder}/${f}`,
-          }
+          } satisfies Lesson;
         })
 
-      return { urlFriendly: folder, title: prettify(folder), lessons }
+      return { urlFriendly: folder, title: prettify(folder), lessons } satisfies Chapter;
     })
 }
