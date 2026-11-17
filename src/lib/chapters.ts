@@ -21,7 +21,8 @@ function prettify(name: string) {
 }
 
 export function getChapters(): Chapter[] {
-  return fs
+  return []
+  /*return fs
     .readdirSync(CONTENT_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name)
@@ -42,5 +43,5 @@ export function getChapters(): Chapter[] {
         })
 
       return { urlFriendly: folder, title: prettify(folder), lessons } satisfies Chapter;
-    })
+    })*/
 }

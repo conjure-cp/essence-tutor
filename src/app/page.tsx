@@ -1,8 +1,8 @@
-import {LessonPanel, LessonParams} from "@/components/views/Lesson"
+import {LessonPanel} from "@/components/views/Lesson"
 
-export default function Home({ searchParams }: { searchParams: LessonParams }) {
+export default function Home() {
   return (
-    <LessonPanel searchParams={searchParams} />
+    <LessonPanel />
   )
 }
 

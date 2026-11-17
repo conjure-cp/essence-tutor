@@ -1,3 +1,5 @@
+"use client";
+
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import * as fs from "node:fs";
@@ -11,16 +13,17 @@ import {CodeEditor} from "@/components/panels/Editor";
 import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
 import {cn} from "cn";
-
-export type LessonParams = { chapter?: string; lesson?: string }
+import { useSearchParams } from 'next/navigation';
 
 interface lessonPanelProps {
     className?: string
-    searchParams: LessonParams
 }
 
-export const LessonPanel = async ({ className, searchParams }: lessonPanelProps) => {
-    const { chapter, lesson } = searchParams
+export const LessonPanel = ({ className }: lessonPanelProps) => {
+    const params = useSearchParams();
+    const chapter = params.get("chapter");
+    const lesson = params.get("lesson");
+
     const chapters = getChapters()
 
     const currentChapter =
@@ -70,7 +73,7 @@ interface markdownProps {
 }
 
 const Markdown = ({ filename }: markdownProps) => {
-    const content = fs.readFileSync(filename, 'utf8')
+    const content = "ahhhh this is broken"
 
     return (
         <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
