@@ -2,7 +2,6 @@
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import * as fs from "node:fs";
 import {
     ResizableHandle,
     ResizablePanel,
@@ -11,25 +10,25 @@ import {
 import {Console} from "@/components/panels/Console";
 import {CodeEditor} from "@/components/panels/Editor";
 import {Wrapper} from "@/components/Wrapper";
-import { getChapters } from '@/lib/chapters';
+import { Chapter, getChapters } from '@/lib/content';
 import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
 
 interface lessonPanelProps {
-    className?: string
+    className?: string,
+    chapters: Chapter[]
 }
 
-export const LessonPanel = ({ className }: lessonPanelProps) => {
+export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
     const params = useSearchParams();
+    
     const chapter = params.get("chapter");
     const lesson = params.get("lesson");
 
-    const chapters = getChapters()
-
     const currentChapter =
-        chapters.find((c) => c.urlFriendly === chapter) ?? chapters[0]
+        chapters.find((c) => c.slug === chapter) ?? chapters[0]
     const currentLesson =
-        currentChapter?.lessons.find((l) => l.urlFriendly === lesson) ??
+        currentChapter?.lessons.find((l) => l.slug === lesson) ??
         currentChapter?.lessons[0]
 
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
@@ -41,7 +40,7 @@ export const LessonPanel = ({ className }: lessonPanelProps) => {
             >
                 <ResizablePanel defaultSize="50%">
                     <div className="flex h-full w-full items-center justify-center p-2">
-                        <Markdown filename={currentLesson.filename} />
+                        <Markdown value={currentLesson.value} />
                     </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
@@ -69,16 +68,14 @@ export const LessonPanel = ({ className }: lessonPanelProps) => {
 }
 
 interface markdownProps {
-    filename: string;
+    value: string;
 }
 
-const Markdown = ({ filename }: markdownProps) => {
-    const content = "ahhhh this is broken"
-
+const Markdown = ({ value }: markdownProps) => {
     return (
         <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
             <div className="prose dark:prose-invert max-w-none p-10">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             </div>
         </div>
     )

@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },
+      serverExternal: ['fs']
     },
   },
   output: 'export',
