@@ -53,11 +53,13 @@ self.onmessage = async ({ data }: MessageEvent<WorkerInput>) => {
 
         const exitCode = engine.callMain([...data.args]);
 
-        const files = Object.fromEntries(
-            data.captureFiles.map((path: string) => {
-            operation = `read output file ${path} after CLI exit code ${exitCode}`;
-            return [path, engine.FS.readFile(path, { encoding: "utf8" })];
-        }));
+        const files: Record<string, string> = {};
+        for (const path of data.captureFiles) {
+            try {
+                files[path] =  engine.FS.readFile(path, { encoding: "utf8" });
+            } catch (_) {}
+        }
+
 
         self.postMessage({ type: "result", result: { exitCode, stdout, stderr, files } });
     } catch (error) {

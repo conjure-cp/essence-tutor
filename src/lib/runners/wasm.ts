@@ -22,22 +22,15 @@ export class WASMRunner implements Runner {
         }
 
         const result: RunResult = await this.run(args, files, { captureFiles: ["/solutions.json"] });
-        // output.value = `Exit code: ${result.exitCode}\n\n${result.stdout}${result.stderr}`;
-        // if (result.exitCode === 0) {
-        //     const solutions = JSON.parse(result.files["/solutions.json"]);
-        //     output.value += `\nJSON solutions:\n${JSON.stringify(solutions, null, 2)}`;
-        // }
 
-        switch (result.exitCode) {
-            case 0:
-                model.setState(ModelState.Solved);
-                model.setSolutions(JSON.parse(result.files["/solutions.json"]));
-                break;
-            default:
-                model.setState(ModelState.Unsolved);
-                break;
+        if (result.exitCode !== 0 || !("/solutions.json" in result.files)) {
+            model.setState(ModelState.Unsolved);
+            model.setError?.(result.stderr || result.stdout || `Conjure exited with code ${result.exitCode}`);
+            return;
         }
 
+        model.setState(ModelState.Solved);
+        model.setSolutions(JSON.parse(result.files["/solutions.json"]));
     }
 
     private async run(
