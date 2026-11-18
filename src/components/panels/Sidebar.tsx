@@ -23,16 +23,16 @@ export async function AppSidebar() {
   return (
     <Sidebar variant="floating">
         <SidebarHeader>
-            <span>Essence Tutor</span>
-
             <SidebarMenuButton render={<Link href="/" />}>
-            <span>Home</span>
+                <span className="text-lg font-bold">Essence Tutor</span>
             </SidebarMenuButton>
         </SidebarHeader>
 
         <SidebarGroup className="overflow-x-hidden">
-            <SidebarGroupLabel className="h-10 text-lg font-bold text-foreground">Chapters</SidebarGroupLabel>
-            <SidebarGroupContent>
+            <SidebarGroupContent> 
+                <SidebarMenu>
+                    <span className="text-lg">Chapters</span>
+                </SidebarMenu>
                 <SidebarMenu>
                 {chapters.map((c) => (
                     <SidebarMenuItem key={c.slug}>
