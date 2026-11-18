@@ -43,7 +43,7 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <RunnerPanel initialEditorContent="testing" initialConsoleContent="x = 0" />
+                    <RunnerPanel initialEditorContent='find x, y: bool such that x != y' initialConsoleContent="" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )

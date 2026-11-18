@@ -1,9 +1,19 @@
 import createConjure from "@/lib/runners/conjure.mjs";
 
+interface EmscriptenFS {
+    writeFile(path: string, data: unknown): void;
+    readFile(path: string, opts: { encoding: "utf8" }): string;
+}
+
 interface WorkerInput {
     args: string[];
     files: Record<string, string>;
     captureFiles: string[];
+}
+
+interface ConjureEngine {
+    FS: EmscriptenFS;
+    callMain(args: string[]): number | undefined;
 }
 
 // A Web Worker needs its own entry module. Each run gets a fresh worker and
@@ -18,7 +28,8 @@ self.onmessage = async ({ data }: MessageEvent<WorkerInput>) => {
 
         const wasmUrl = new URL("./conjure_oxide.wasm", import.meta.url).href;
 
-        const engine = await createConjure({
+        // @ts-ignore
+        const engine: ConjureEngine = await createConjure({
             // Emscripten option: wait for callMain() instead of running main() on startup.
             noInitialRun: true,
 
