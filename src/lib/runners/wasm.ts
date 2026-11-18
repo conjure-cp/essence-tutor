@@ -82,7 +82,7 @@ export class WASMRunner implements Runner {
                 timer = setTimeout(() => finish(new DOMException(`Run exceeded ${timeoutMs} ms.`, "TimeoutError")), timeoutMs);
 
                 worker = new Worker(new URL("./worker.ts", import.meta.url), { type: "module" });
-                worker.onmessage = ({ data }) => {
+                worker.onmessage = ({ data }: any) => {
                     if (finished) return;
 
                     if (data.type === "stage") {
