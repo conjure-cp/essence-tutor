@@ -88,7 +88,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
 
     await runner.solve(model, "minion");
     console.log(model);
-    setOutputState(JSON.stringify(model.getSolutions() || ""));
+    setOutputState(JSON.stringify(model.getSolutions() || model.getError() || ""));
   }
 
   const updateRunner = (type: string) => {
