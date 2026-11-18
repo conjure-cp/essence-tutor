@@ -1,4 +1,4 @@
-import {Model} from "@/lib/model";
+import {Model, ModelState} from "@/lib/model";
 import {Runner} from "@/lib/runners/abstract";
 import {RunOptions, RunResult} from "@/lib/runners/wasm-interfaces";
 
@@ -21,7 +21,23 @@ export class WASMRunner implements Runner {
             args.push("--solver", solver);
         }
 
-        const result = await this.run(args, files, { captureFiles: ["/solutions.json"] });
+        const result: RunResult = await this.run(args, files, { captureFiles: ["/solutions.json"] });
+        // output.value = `Exit code: ${result.exitCode}\n\n${result.stdout}${result.stderr}`;
+        // if (result.exitCode === 0) {
+        //     const solutions = JSON.parse(result.files["/solutions.json"]);
+        //     output.value += `\nJSON solutions:\n${JSON.stringify(solutions, null, 2)}`;
+        // }
+
+        switch (result.exitCode) {
+            case 0:
+                model.setState(ModelState.Solved);
+                model.setSolutions(JSON.parse(result.files["/solutions.json"]));
+                break;
+            default:
+                model.setState(ModelState.Unsolved);
+                break;
+        }
+
     }
 
     private async run(
