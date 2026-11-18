@@ -1,12 +1,4 @@
-interface EmscriptenFS {
-    writeFile(path: string, data: unknown): void;
-    readFile(path: string, opts: { encoding: "utf8" }): string;
-}
-
-interface ConjureEngine {
-    FS: EmscriptenFS;
-    callMain(args: string[]): number | undefined;
-}
+import createConjure from "@/lib/runners/conjure.mjs";
 
 interface WorkerInput {
     args: string[];
@@ -24,15 +16,14 @@ self.onmessage = async ({ data }: MessageEvent<WorkerInput>) => {
     try {
         self.postMessage({ type: "stage", stage: "loading" });
 
-        const moduleUrl: string = new URL("conjure.mjs", self.location.origin).href;
-        const createConjure = (await import(moduleUrl)).default;
+        const wasmUrl = new URL("./conjure_oxide.wasm", import.meta.url).href;
 
-        const engine: ConjureEngine = await createConjure({
+        const engine = await createConjure({
             // Emscripten option: wait for callMain() instead of running main() on startup.
             noInitialRun: true,
 
             // Emscripten option: find the Wasm file beside this worker module.
-            locateFile: (name: string) => `/${name}`,
+            locateFile: (name: string) => name.endsWith(".wasm") ? wasmUrl : name,
 
             // Emscripten options: collect the CLI's standard output and standard error.
             print: (line: string) => { stdout += line + "\n"; },

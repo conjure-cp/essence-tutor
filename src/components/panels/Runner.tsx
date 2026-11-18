@@ -69,18 +69,22 @@ interface RunnerPanelProps {
 };
 
 export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: RunnerPanelProps) => {
-  const [runnerType, setRunnerType] = useState("aas");
+  const [runnerType, setRunnerType] = useState("oxide");
   const [editorState, setEditorState] = useState(initialEditorContent);
   const [outputState, setOutputState] = useState(initialConsoleContent);
 
   const RUNNER_TYPES = [
-    { label: "Conjure aaS", value: "aas" },
-    { label: "Conjure Oxide", value: "oxide" }
+    { label: "Local", value: "oxide" },
+    { label: "Remote", value: "aas" }
   ];
 
   const solve = async () => {
+    if (Runner.getInstance() == undefined) {
+      updateRunner(runnerType);
+    }
+
     let model: Model = new Model(editorState || "", new Map<string, string>());
-    let runner: Runner = new WASMRunner();
+    let runner: Runner = Runner.getInstance()!;
 
     await runner.solve(model, "minion");
     console.log(model);
@@ -94,7 +98,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
         Runner.setInstance(new AASRunner());
         break;
       case "oxide":
-        Runner.setInstance(new AASRunner());
+        Runner.setInstance(new WASMRunner());
         setRunnerType("oxide");
         break;
       default:
