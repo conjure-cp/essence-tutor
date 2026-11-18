@@ -1,4 +1,4 @@
-import createConjure from "@/lib/runners/conjure.mjs";
+import createConjure from "@/lib/runners/wasm/conjure.mjs";
 
 interface EmscriptenFS {
     writeFile(path: string, data: unknown): void;

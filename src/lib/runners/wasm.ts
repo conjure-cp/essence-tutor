@@ -1,6 +1,6 @@
 import {Model, ModelState} from "@/lib/model";
 import {Runner} from "@/lib/runners/abstract";
-import {RunOptions, RunResult} from "@/lib/runners/wasm-interfaces";
+import {RunOptions, RunResult} from "@/lib/runners/wasm/wasm-interfaces";
 
 export class WASMRunner implements Runner {
     public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
@@ -81,7 +81,7 @@ export class WASMRunner implements Runner {
                 signal?.addEventListener("abort", cancel, {once: true});
                 timer = setTimeout(() => finish(new DOMException(`Run exceeded ${timeoutMs} ms.`, "TimeoutError")), timeoutMs);
 
-                worker = new Worker(new URL("./worker.ts", import.meta.url), { type: "module" });
+                worker = new Worker(new URL("./wasm/worker.ts", import.meta.url), { type: "module" });
                 worker.onmessage = ({ data }: any) => {
                     if (finished) return;
 
