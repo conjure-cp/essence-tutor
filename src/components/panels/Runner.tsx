@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import {Dispatch, ReactNode, SetStateAction, useEffect, useState} from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Runner } from "@/lib/runners/abstract";
@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
-
+import {useTheme} from "next-themes";
 
 interface WrapperProps {
   title: ReactNode,
@@ -36,25 +36,27 @@ const Wrapper = ({ title, children, action }: WrapperProps) => {
 
 
 interface EditorPanelProps {
+  theme?: "light" | "dark" | "none";
   state?: string,
   setState: Dispatch<SetStateAction<string | undefined>>
 };
 
-const EditorPanel = ({ state, setState }: EditorPanelProps) => {
+const EditorPanel = ({ theme, state, setState }: EditorPanelProps) => {
   return (
-    <ReactCodeMirror value={state} onChange={setState} />
+    <ReactCodeMirror theme={theme ?? "none"} value={state} onChange={setState} />
   );
 };
 
 
 interface OutputPanelProps {
+  theme?: "light" | "dark" | "none";
   state?: string,
   setState: Dispatch<SetStateAction<string | undefined>>
 }
 
-const OutputPanel = ({ state, setState }: OutputPanelProps) => {
+const OutputPanel = ({ theme, state, setState }: OutputPanelProps) => {
   return (
-    <ReactCodeMirror value={state} editable={false} />
+    <ReactCodeMirror theme={theme ?? "none"} value={state} editable={false} />
   );
 }
 
@@ -131,12 +133,17 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
     );
   }
 
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+
   return (
     <ResizablePanelGroup orientation="vertical">
       
       <ResizablePanel defaultSize="75%">
         <Wrapper title="Editor" action={<SolveAction />}>
-          <EditorPanel state={editorState} setState={setEditorState} />
+          <EditorPanel theme={theme} state={editorState} setState={setEditorState} />
         </Wrapper>
       </ResizablePanel>
     
@@ -144,7 +151,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
       
       <ResizablePanel defaultSize="25%">
         <Wrapper title="Output">
-          <OutputPanel state={outputState} setState={setOutputState} />
+          <OutputPanel theme={theme} state={outputState} setState={setOutputState} />
         </Wrapper>
       </ResizablePanel>
     
