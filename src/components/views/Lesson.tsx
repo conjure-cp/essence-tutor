@@ -1,6 +1,7 @@
+"use client"
+
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import * as fs from "node:fs";
 import {
     ResizableHandle,
     ResizablePanel,
