@@ -1,7 +1,7 @@
-# CSPs and Constraints Programming
+# CSPs and Constraint Programming
 CSPs are puzzles in which there are a number of entities that each hold certain constraints, or requirements, relating to how the world may be. Have you ever solved a [Sudoku](https://en.wikipedia.org/wiki/Sudoku) or completed a [Nonogram](https://en.wikipedia.org/wiki/Nonogram)? Congratulations, these are famous CSPs! <!-- not sure I like this -->
 
-Constraints programming involves working with computers to get them to solve these problems systematically. It is a form of artificial intelligence and is of great interest in Computer Science research.
+Constraint programming involves working with computers to get them to solve these problems systematically. It is a form of artificial intelligence and is of great interest in Computer Science research.
 
 ## Conjure and Essence
 As we have mentioned, Essence is a language which allows us to formally define these problems. It does so in a way which is concise and can be interpreted easily.
