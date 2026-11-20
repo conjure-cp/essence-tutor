@@ -23,9 +23,7 @@ export async function AppSidebar() {
   return (
     <Sidebar variant="floating">
         <SidebarHeader>
-            <SidebarMenuButton render={<Link href="/" />}>
-                <span className="text-lg font-bold">Essence Tutor</span>
-            </SidebarMenuButton>
+            <span className="text-lg font-bold">Essence Tutor</span>
         </SidebarHeader>
 
         <SidebarGroup className="overflow-x-hidden">
