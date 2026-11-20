@@ -128,3 +128,24 @@
     @apply font-sans;
   }
 }
+
+/* From Ben Tasker's little tutorial website https://www.bentasker.co.uk/posts/blog/general/making-part-of-an-image-track-the-mouse-position.html */
+
+#image_wrap {
+  position: relative;
+}
+
+#image_wrap canvas {
+  position: absolute;
+  left: 68px;
+  top: 141px;
+  background-color: white;
+  z-index: 1;
+}
+
+#image_wrap img {
+  width: 200px;
+  position: relative;
+  z-index: 50;
+}
+
