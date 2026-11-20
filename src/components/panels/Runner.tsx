@@ -134,9 +134,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
   }
 
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+  const theme = resolvedTheme === "dark" ? "dark" : "light";
 
   return (
     <ResizablePanelGroup orientation="vertical">
