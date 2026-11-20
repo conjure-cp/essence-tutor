@@ -23,40 +23,34 @@ interface WrapperProps {
 const Wrapper = ({ title, children, action }: WrapperProps) => {
   return (
     <div className="flex w-full h-full">
-      <Card className="flex grow m-2 bg-secondary">
-        <CardHeader className="flex items-center justify-between">
+      <Card className="flex felx-col grow m-2 bg-secondary min-h-0">
+        <CardHeader className="flex items-center justify-between shrink-0">
           <CardTitle>{title}</CardTitle>
           <CardAction>{action}</CardAction>
         </CardHeader>
-        <CardContent className="rounded-xl overflow-y-scroll">{children}</CardContent>
+        <CardContent className="flex-1 min-h-0 rounded-xl overflow-y-scroll">{children}</CardContent>
       </Card>
     </div>
   ); 
 }
 
 
-interface EditorPanelProps {
+interface CodePanelProps {
+  className?: string;
   theme?: "light" | "dark" | "none";
   state?: string,
   setState: Dispatch<SetStateAction<string | undefined>>
 };
 
-const EditorPanel = ({ theme, state, setState }: EditorPanelProps) => {
+const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
   return (
-    <ReactCodeMirror theme={theme ?? "none"} value={state} onChange={setState} />
+    <ReactCodeMirror className={className} height="100%" basicSetup={{lineNumbers: true}} theme={theme ?? "none"} value={state} onChange={setState} />
   );
 };
 
-
-interface OutputPanelProps {
-  theme?: "light" | "dark" | "none";
-  state?: string,
-  setState: Dispatch<SetStateAction<string | undefined>>
-}
-
-const OutputPanel = ({ theme, state, setState }: OutputPanelProps) => {
+const OutputPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
   return (
-    <ReactCodeMirror theme={theme ?? "none"} value={state} editable={false} />
+    <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
   );
 }
 
