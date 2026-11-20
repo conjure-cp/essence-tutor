@@ -6,19 +6,21 @@ import {
   SidebarMenuItem,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarGroupContent,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarGroupLabel
+  SidebarGroupContent
 } from "@/components/ui/sidebar"
 
 import Link from "next/link"
 import { getChapters } from "@/lib/content"
-
+import { ChapterMenu } from "./Chapter-Menu"
 
 export async function AppSidebar() {
     const chapters = await getChapters();
+
+    const items = chapters.map((c) => ({
+        slug: c.slug,
+        title: c.title,
+        lessons: c.lessons.map((l) => ({ slug: l.slug, title: l.title })),
+    }))
     
   return (
     <Sidebar variant="floating">
@@ -32,25 +34,7 @@ export async function AppSidebar() {
                     <span className="text-lg">Chapters</span>
                 </SidebarMenu>
                 <SidebarMenu>
-                {chapters.map((c) => (
-                    <SidebarMenuItem key={c.slug}>
-                        <span className="whitespace-normal break-words">{c.title}</span>
-
-                    <SidebarMenuSub>
-                        {c.lessons.map((l) => (
-                        <SidebarMenuSubItem key={l.slug}>
-                            <SidebarMenuSubButton
-                            render={
-                                <Link href={`/?chapter=${c.slug}&lesson=${l.slug}`} />
-                            }
-                            >
-                            <span>{l.title}</span>
-                            </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                        ))}
-                    </SidebarMenuSub>
-                    </SidebarMenuItem>
-                ))}
+                    <ChapterMenu chapters={items} />
                 </SidebarMenu>
             </SidebarGroupContent>
             </SidebarGroup>
