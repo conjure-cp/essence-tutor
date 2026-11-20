@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
+import {WASMRunner} from "@/lib/runners/wasm";
 
 
 interface WrapperProps {
@@ -65,20 +66,26 @@ interface RunnerPanelProps {
 };
 
 export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: RunnerPanelProps) => {
-  const [runnerType, setRunnerType] = useState("aas");
+  const [runnerType, setRunnerType] = useState("oxide");
   const [editorState, setEditorState] = useState(initialEditorContent);
   const [outputState, setOutputState] = useState(initialConsoleContent);
 
   const RUNNER_TYPES = [
-    { label: "Conjure aaS", value: "aas" },
-    { label: "Conjure Oxide", value: "oxide" }
+    { label: "Local", value: "oxide" },
+    { label: "Remote", value: "aas" }
   ];
 
   const solve = async () => {
+    if (Runner.getInstance() == undefined) {
+      updateRunner(runnerType);
+    }
+
     let model: Model = new Model(editorState || "", new Map<string, string>());
-    let runner: Runner = new AASRunner();
-    await runner.solve(model, "kissat");
-    setOutputState(JSON.stringify(model.getSolutions() || "", null, 4));
+    let runner: Runner = Runner.getInstance()!;
+
+    await runner.solve(model, "minion");
+    console.log(model);
+    setOutputState(JSON.stringify(model.getSolutions() || ""));
   }
 
   const updateRunner = (type: string) => {
@@ -88,6 +95,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
         Runner.setInstance(new AASRunner());
         break;
       case "oxide":
+        Runner.setInstance(new WASMRunner());
         setRunnerType("oxide");
         break;
       default:

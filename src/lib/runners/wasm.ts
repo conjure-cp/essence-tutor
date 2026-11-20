@@ -1,0 +1,100 @@
+import {Model, ModelState} from "@/lib/model";
+import {Runner} from "@/lib/runners/abstract";
+import {RunOptions, RunResult} from "@/lib/runners/wasm/wasm-interfaces";
+
+export class WASMRunner implements Runner {
+    public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
+        const args: string[] = ["solve", "/model.essence"];
+        const files: {[key: string]: string} = { "/model.essence": model.getModel() };
+
+        const params: string = model.getParameterEssenceString();
+
+        if (params) {
+            args.push("/model.param");
+            files["/model.param"] = params;
+        }
+
+        // Ordinary CLI arguments: add e.g. "--solver", "sat" or "-n", "1000" here.
+        args.push("--output-format", "json", "-o", "/solutions.json");
+
+        if (solver) {
+            args.push("--solver", solver);
+        }
+
+        const result: RunResult = await this.run(args, files, { captureFiles: ["/solutions.json"] });
+
+        if (result.exitCode !== 0 || !("/solutions.json" in result.files)) {
+            model.setState(ModelState.Unsolved);
+            model.setError?.(result.stderr || result.stdout || `Conjure exited with code ${result.exitCode}`);
+            return;
+        }
+
+        model.setState(ModelState.Solved);
+        model.setSolutions(JSON.parse(result.files["/solutions.json"]));
+    }
+
+    private async run(
+        args: string[],
+        files: Record<string, string>,
+        options: RunOptions = {}
+    ): Promise<RunResult> {
+        const started = performance.now();
+        const { timeoutMs = 30000, signal, onStage, captureFiles = [] } = options;
+
+        // Chris' wise words (CWW): Invalid timer values can silently become a 1 ms deadline in JavaScript.
+        if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 2147483647) {
+            return Promise.reject(new RangeError("timeoutMs must be an integer from 1 to 2147483647."));
+        }
+
+        if (signal?.aborted) {
+            return Promise.reject(new DOMException("Run cancelled.", "AbortError"));
+        }
+
+        return new Promise((resolve, reject) => {
+            let worker: any, timer: NodeJS.Timeout | undefined;
+            let finished: boolean = false;
+
+            // CWW: Every outcome terminates the worker and removes the timer and abort listener.
+            // FIXME: are the arguments actually optional
+            const finish = (error?: any, result?: any) => {
+                if (finished) return;
+
+                finished = true;
+                clearTimeout(timer);
+                signal?.removeEventListener("abort", cancel);
+                worker?.terminate();
+
+                if (error) reject(error);
+                else resolve({ ...result, elapsedMs: performance.now() - started });
+            }
+
+            const cancel = () => finish(new DOMException("Run cancelled.", "AbortError"));
+
+            try {
+                signal?.addEventListener("abort", cancel, {once: true});
+                timer = setTimeout(() => finish(new DOMException(`Run exceeded ${timeoutMs} ms.`, "TimeoutError")), timeoutMs);
+
+                worker = new Worker(new URL("./wasm/worker.ts", import.meta.url), { type: "module" });
+                worker.onmessage = ({ data }: any) => {
+                    if (finished) return;
+
+                    if (data.type === "stage") {
+                        try { onStage?.(data.stage); }
+                        catch(e) { finish(e) }
+                    }
+                    else if (data.type === "error") {
+                        finish(new Error(data.error));
+                    }
+                    else finish(null, data.result)
+                };
+
+                worker.onerror = (error: { message: any; }) => finish(new Error(`Could not load or run worker.mjs. Check that the complete Wasm package is being served: ${error.message}`));
+                worker.onmessageerror = () => finish(new Error("Could not read a message from the CLI worker."));
+                worker.postMessage({ args, files, captureFiles });
+            }
+            catch (e) {
+                finish(e);
+            }
+        })
+    }
+}

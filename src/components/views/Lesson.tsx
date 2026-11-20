@@ -10,7 +10,7 @@ import {
 import { Chapter } from '@/lib/content';
 import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
-import { RunnerPanel } from '../panels/Runner';
+import { RunnerPanel } from '@/components/panels/Runner';
 
 interface lessonPanelProps {
     className?: string,
@@ -43,7 +43,7 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <RunnerPanel initialEditorContent="testing" initialConsoleContent="x = 0" />
+                    <RunnerPanel initialEditorContent='find x, y: bool such that x != y' initialConsoleContent="" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )
