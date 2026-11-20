@@ -7,7 +7,7 @@ The focus of Essence Tutor should be getting learners in front of models and enc
 Notes and exercises should be organised into chapters of related content. In general, each chapter should have at least one note and one exercise.
 
 The general chapter structure should be as follows:
-1. **First Steps** - Cover the basics of using Essence Tutor and introduce learners to Essence and constraints programming in general. This chapter should include a moderately complex exercise with heavy guidance to give the learner an idea as to what is taught.
+1. **First Steps** - Cover the basics of using Essence Tutor and introduce learners to Essence and constraint programming in general. This chapter should include a moderately complex exercise with heavy guidance to give the learner an idea as to what is taught.
 2. **Model Structure** - Cover the basic building blocks of every model, including declarations, constraints and objectives.
 3. **Domains** - Include a chapter for each domain, covering its features and how it can be used.
 4. **Advanced** - Cover more advanced topics, for example advanced operations on specific or a combination of domains. This is particularly for content which does not fit into the categories above.
