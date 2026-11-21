@@ -10,7 +10,9 @@ import {
 import { Chapter } from '@/lib/content';
 import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
-import { RunnerPanel } from '@/components/panels/Runner';
+import { RunnerPanel, ExamplesPanel } from '@/components/panels/Runner';
+import {useTheme} from "next-themes";
+import {ReactNode, useState} from "react";
 
 interface lessonPanelProps {
     className?: string,
@@ -30,7 +32,7 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
         currentChapter?.lessons[0]
 
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
-    
+
     return (
             <ResizablePanelGroup
                 orientation="horizontal"
@@ -54,11 +56,15 @@ interface markdownProps {
 }
 
 const Markdown = ({ value }: markdownProps) => {
+    const { resolvedTheme } = useTheme();
+    const theme = resolvedTheme === "dark" ? "dark" : "light";
+
     return (
-        <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
+        <div className="bg-secondary rounded-lg border w-full h-auto overflow-y-scroll">
             <div className="prose dark:prose-invert max-w-none p-10">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             </div>
+            <ExamplesPanel theme={theme} state={"hello there\nhow are you?"} />
         </div>
     )
 }
