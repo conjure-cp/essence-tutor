@@ -83,3 +83,4 @@ jobs:
         with:
           folder: out
           force: false
+          clean-exclude: preview
