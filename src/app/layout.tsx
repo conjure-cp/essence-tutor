@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               attribute="class"
               defaultTheme="system"
               enableSystem
-              disableTransitionOnChange={false}
+              disableTransitionOnChange
           >
             <SidebarProvider className="h-svh">
               <AppSidebar />

@@ -1,7 +1,0 @@
-{
-  "name": "@conjure-cp/wasm",
-  "version": "0.2.0",
-  "private": true,
-  "type": "module",
-  "exports": { ".": { "types": "./index.d.mts", "default": "./index.mjs" } }
-}
