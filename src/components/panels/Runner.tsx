@@ -13,6 +13,7 @@ import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
 import {useTheme} from "next-themes";
+import {CopyAcrossButton} from "@/components/ui/copy-across";
 
 interface WrapperProps {
   title: ReactNode,
@@ -39,7 +40,7 @@ interface CodePanelProps {
   className?: string;
   theme?: "light" | "dark" | "none";
   state?: string,
-  setState: Dispatch<SetStateAction<string | undefined>>
+  setState?: Dispatch<SetStateAction<string | undefined>>
 };
 
 const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
@@ -51,6 +52,14 @@ const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl",
 const OutputPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
   return (
     <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
+  );
+}
+
+export const ExamplesPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps ) => {
+  return (
+      <Wrapper title="Example" action={<CopyAcrossButton />}>
+        <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
+      </Wrapper>
   );
 }
 
