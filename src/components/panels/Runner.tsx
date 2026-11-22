@@ -1,34 +1,41 @@
 "use client";
 
-import {Dispatch, ReactNode, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useState} from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Runner } from "@/lib/runners/abstract";
 import { AASRunner } from "@/lib/runners/aas";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "../ui/select";
-import { ButtonGroup } from "../ui/button-group";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
 import {WASMRunner} from "@/lib/runners/wasm";
 
 import {useTheme} from "next-themes";
+import {CopyButton} from "@/components/ui/copy-button";
 
 interface WrapperProps {
   title: ReactNode,
-  action?: ReactNode,
+  actions?: ReactNode[],
   children: ReactNode,
 }
 
-const Wrapper = ({ title, children, action }: WrapperProps) => {
+const Wrapper = ({ title, children, actions }: WrapperProps) => {
   return (
     <div className="flex w-full h-full">
       <Card className="flex grow m-2 bg-secondary">
         <CardHeader className="flex items-center justify-between">
           <CardTitle>{title}</CardTitle>
-          <CardAction>{action}</CardAction>
+          {actions && actions.length > 0 && (
+              <CardAction className="flex items-center gap-2">
+                {actions.map((action, i) => (
+                    <Fragment key={i}>{action}</Fragment>
+                ))}
+              </CardAction>
+          )}
         </CardHeader>
         <CardContent className="rounded-xl overflow-y-scroll">{children}</CardContent>
       </Card>
@@ -149,7 +156,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
     <ResizablePanelGroup orientation="vertical">
       
       <ResizablePanel defaultSize="75%">
-        <Wrapper title="Editor" action={<SolveAction />}>
+        <Wrapper title="Editor" actions={[<CopyButton content={editorState} />, <SolveAction />]}>
           <EditorPanel theme={theme} state={editorState} setState={setEditorState} />
         </Wrapper>
       </ResizablePanel>
