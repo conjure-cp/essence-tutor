@@ -53,7 +53,8 @@ export class Model {
   }
 
   getError(): string | undefined {
-    return this.error;
+    if (!this.error) return "";
+    return this.error.split("\n").slice(1).join("\n").trimEnd();
   }
 
   // mutators
