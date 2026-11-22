@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
-import {SquareArrowRightExit} from "lucide-react";
-import {cn} from "cn";
+import {ArrowRight} from "lucide-react";
 
 interface props {
     className?: string;
@@ -16,9 +15,9 @@ export function CopyAcrossButton({ className }: props) {
                     className={className}
                     variant={"outline"}
                     size={"icon-sm"}
-                    onClick={() => {console.log("Clicked")}}
+                    onClick={() => {console.log("Clicked")}} // TODO: add the copying functionality
                 >
-                    <SquareArrowRightExit />
+                    <ArrowRight />
                 </Button>
             } />
             <TooltipContent>
