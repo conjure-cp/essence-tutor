@@ -49,8 +49,8 @@ interface CodePanelProps {
   className?: string;
   theme?: "light" | "dark" | "none";
   state?: string,
-  setState?: Dispatch<SetStateAction<string | undefined>>
-};
+  setState?: Dispatch<SetStateAction<string>>
+}
 
 const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
   return (
@@ -66,22 +66,21 @@ const OutputPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl"
 
 export const ExamplesPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps ) => {
   return (
-      <Wrapper title="Example" actions={[<CopyAcrossButton />]}>
+      <Wrapper title="Example" actions={[<CopyAcrossButton state={state ?? ""} setState={setState} />]}>
         <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
       </Wrapper>
   );
 }
 
-
 interface RunnerPanelProps {
-  initialEditorContent?: string,
+  editorState: string,
+  setEditorState: Dispatch<SetStateAction<string>>,
   initialConsoleContent?: string
-};
+}
 
-export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: RunnerPanelProps) => {
+export const RunnerPanel = ({ editorState, setEditorState, initialConsoleContent }: RunnerPanelProps) => {
   const [runnerType, setRunnerType] = useState("oxide");
-  const [editorState, setEditorState] = useState(initialEditorContent);
-  const [outputState, setOutputState] = useState(initialConsoleContent);
+  const [outputState, setOutputState] = useState(initialConsoleContent ?? "");
 
   const RUNNER_TYPES = [
     { label: "Local", value: "oxide" },
@@ -137,7 +136,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
             </SelectGroup>
           </SelectContent>
         </Select>
-        
+
         <Tooltip>
           <TooltipTrigger render={
             <Button aria-label="Run" variant="outline" onClick={solve}>

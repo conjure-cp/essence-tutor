@@ -12,7 +12,7 @@ import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
 import { RunnerPanel, ExamplesPanel } from '@/components/panels/Runner';
 import {useTheme} from "next-themes";
-import {ReactNode, useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 
 interface lessonPanelProps {
     className?: string,
@@ -33,6 +33,9 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
 
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
 
+    // setup the editor state
+    const [editorState, setEditorState] = useState('find x, y: bool such that x != y');
+
     return (
             <ResizablePanelGroup
                 orientation="horizontal"
@@ -40,12 +43,12 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
             >
                 <ResizablePanel defaultSize="50%">
                     <div className="flex h-full w-full items-center justify-center p-2">
-                        <Markdown value={currentLesson.value} />
+                        <Markdown value={currentLesson.value} setEditorState={setEditorState}  />
                     </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <RunnerPanel initialEditorContent='find x, y: bool such that x != y' initialConsoleContent="" />
+                    <RunnerPanel editorState={editorState} setEditorState={setEditorState} initialConsoleContent="" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )
@@ -53,9 +56,10 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
 
 interface markdownProps {
     value: string;
+    setEditorState: Dispatch<SetStateAction<string>>,
 }
 
-const Markdown = ({ value }: markdownProps) => {
+const Markdown = ({ value, setEditorState }: markdownProps) => {
     const { resolvedTheme } = useTheme();
     const theme = resolvedTheme === "dark" ? "dark" : "light";
 
@@ -64,7 +68,7 @@ const Markdown = ({ value }: markdownProps) => {
             <div className="prose dark:prose-invert max-w-none p-10">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             </div>
-            <ExamplesPanel theme={theme} state={"hello there\nhow are you?"} />
+            <ExamplesPanel theme={theme} state={"hello there\nhow are you?"} setState={setEditorState} />
         </div>
     )
 }
