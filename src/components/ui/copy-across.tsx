@@ -18,7 +18,7 @@ export function CopyAcrossButton({ className, state, setState }: props) {
         <Tooltip>
             <TooltipTrigger render={
                 <Button
-                    aria-label="Copy this to the Editor"
+                    aria-label="Move to the Editor"
                     className={className}
                     variant={"outline"}
                     size={"icon-sm"}
@@ -28,7 +28,7 @@ export function CopyAcrossButton({ className, state, setState }: props) {
                 </Button>
             } />
             <TooltipContent>
-                <p>Copy this to the Editor</p>
+                <p>Move to the Editor</p>
             </TooltipContent>
         </Tooltip>
     )

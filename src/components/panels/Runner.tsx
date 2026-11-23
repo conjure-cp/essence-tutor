@@ -1,13 +1,13 @@
 "use client";
 
-import {Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, Fragment, ReactNode, SetStateAction, useState} from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Runner } from "@/lib/runners/abstract";
 import { AASRunner } from "@/lib/runners/aas";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "../ui/select";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
@@ -66,7 +66,7 @@ const OutputPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl"
 
 export const ExamplesPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps ) => {
   return (
-      <Wrapper title="Example" actions={[<CopyAcrossButton state={state ?? ""} setState={setState} />]}>
+      <Wrapper title="Example" actions={[<CopyButton content={state} />, <CopyAcrossButton state={state ?? ""} setState={setState} />]}>
         <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
       </Wrapper>
   );
