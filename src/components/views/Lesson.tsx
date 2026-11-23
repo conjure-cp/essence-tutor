@@ -77,13 +77,20 @@ const MarkdownPanel = ({ value, setEditorState }: markdownProps) => {
     return (
         <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
             <div className="prose dark:prose-invert max-w-none p-10">
-                <Markdown components={{
-                    pre(props) {
-                        const {node, children, ...rest} = props
-                        const code = getCode(children).replace(/\n$/, "");
-                        return <ExamplesPanel theme={theme} state={code} setState={setEditorState} />
-                    }
-                }}>
+                <Markdown
+                    components={{
+                        pre(props) {
+                            const {node, children, ...rest} = props
+                            const code = getCode(children).replace(/\n$/, "");
+                            return <ExamplesPanel theme={theme} state={code} setState={setEditorState} />
+                        },
+                        code(props) {
+                            const {node, children, ...rest} = props
+                            return <strong className="font-mono">{children}</strong>
+                        },
+                    }}
+                    remarkPlugins={[remarkGfm]}
+                >
                     {value}
                 </Markdown>
             </div>
