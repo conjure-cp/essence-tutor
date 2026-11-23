@@ -49,7 +49,7 @@ interface CodePanelProps {
   className?: string;
   theme?: "light" | "dark" | "none";
   state?: string,
-  setState?: Dispatch<SetStateAction<string>>
+  setState: Dispatch<SetStateAction<string>>
 }
 
 const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
