@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -7,16 +7,14 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import {Console} from "@/components/panels/Console";
-import {CodeEditor} from "@/components/panels/Editor";
-import {Wrapper} from "@/components/Wrapper";
-import { Chapter, getChapters } from '@/lib/content';
+import { Chapter } from '@/lib/content';
 import {cn} from "cn";
 
 import {TabsLine} from "@/components/panels/Tabs"
 
 export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 import { useSearchParams } from 'next/navigation';
+import { RunnerPanel } from '@/components/panels/Runner';
 
 interface lessonPanelProps {
     className?: string,
@@ -25,7 +23,7 @@ interface lessonPanelProps {
 
 export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
     const params = useSearchParams();
-    
+
     const chapter = params.get("chapter");
     const lesson = params.get("lesson");
 
@@ -49,24 +47,7 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <ResizablePanelGroup orientation="vertical">
-                        <ResizablePanel defaultSize="75%">
-                            <div className="flex h-full w-full items-center justify-center p-0">
-                                <TabsLine
-                                    code={<CodeEditor content="testing" />}
-                                    parameters={<CodeEditor content="params..." />}
-                                />
-                            </div>
-                        </ResizablePanel>
-                        <ResizableHandle withHandle />
-                        <ResizablePanel defaultSize="25%">
-                            <div className="flex h-full items-center justify-center p-0">
-                                <Wrapper title="Output">
-                                    <Console output="x = 3" />
-                                </Wrapper>
-                            </div>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
+                    <RunnerPanel initialEditorContent='find x, y: bool such that x != y' initialConsoleContent="" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )
