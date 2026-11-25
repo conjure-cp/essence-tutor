@@ -1,15 +1,21 @@
 "use client";
 
 import ReactCodeMirror from "@uiw/react-codemirror";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { Check, CircleCheck, CircleX, Cross } from "lucide-react";
+import { Check, ChevronsUp, ChevronsUpDown, ChevronUp, CircleCheck, CircleQuestionMark, CircleX, Cross } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
-interface Task {
+export enum TaskState {
+  UNKNOWN = 0,
+  ERROR = 1,
+  SUCCESS = 2
+}
+
+export interface Task {
   title: string,
   description: string,
-  complete: boolean,
+  state: TaskState,
   boilerplate?: string,
 }
 
@@ -18,30 +24,31 @@ interface TaskAccordionProps {
 }
 
 export function TaskAccordion({ tasks }: TaskAccordionProps) {
+  console.log(tasks);
   return (
     <Card className="p-0">
-      <CardContent className="p-0">
-        <Accordion multiple>
-          {
-            tasks.map((t, i) => (
-              <AccordionItem value={i} key={i} className="px-2">
-                <AccordionTrigger>
-                  <div className="w-full flex flex-row items-center justify-between mr-4">
-                    <p><strong className="mr-4">Task {i + 1}</strong>{t.title}</p>
-                    <div className="flex flex-row gap-2">
-                      <Button variant="outline" size="xs">Check Answer</Button>
-                      { t.complete ? <CircleCheck color="green" /> : <CircleX color="red" /> }
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p>{ t.description }</p>
-                  { t.boilerplate && <ReactCodeMirror value={t.boilerplate} editable={false} readOnly={true} /> }
-                </AccordionContent>
-              </AccordionItem>
-            ))
-          }
-        </Accordion>
+      <CardContent className="w-full p-0">
+        {
+          tasks.map((v, i) => (
+            <Collapsible key={i} className="w-full p-3 not-last:border-b-1">
+              <div className="w-full flex justify-between items-center">
+                <p><strong className="pr-4">Task {i + 1}</strong>{v.title}</p>
+                <div className="flex items-center gap-4">
+                  <Button variant="outline" size="sm" onClick={() => alert(v.state)}>Check Answer</Button>
+                  { v.state == TaskState.SUCCESS ? <CircleCheck color="green" /> : v.state == TaskState.ERROR ? <CircleX color="red" /> : <CircleQuestionMark color="orange" /> }
+                  <CollapsibleTrigger render={<Button variant="ghost" size="icon"><ChevronUp className="group-data-panel-open/button:rotate-180" /></Button>} />
+                </div>
+              </div>
+              
+              <CollapsibleContent className="my-2">
+                <p>
+                  {v.description}
+                </p>
+                { v.boilerplate && <ReactCodeMirror value={v.boilerplate} readOnly={true} editable={false} /> }
+              </CollapsibleContent>
+            </Collapsible>
+          ))
+        }
       </CardContent>
     </Card>
   );

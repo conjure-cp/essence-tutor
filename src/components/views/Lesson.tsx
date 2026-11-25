@@ -12,7 +12,7 @@ import {Wrapper} from "@/components/Wrapper";
 import { getChapters } from '@/lib/chapters';
 import {cn} from "cn";
 import { RunnerPanel } from '../panels/Runner';
-import { Task, TaskAccordion } from '../TaskComponent';
+import { Task, TaskAccordion, TaskState } from '../TaskComponent';
 
 export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 
@@ -64,8 +64,9 @@ const Markdown = ({ filename }: markdownProps) => {
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
                 <TaskAccordion tasks={[
-                    { title: "Hello world!", description: "This is a sample task.", complete: false },
-                    { title: "Another task!", description: "This time it's complete.", boilerplate: "And has some boilerplate.", complete: true }
+                    { title: "Hello world!", description: "This is a sample task.", state: 0 },
+                    { title: "Another task!", description: "This time it's complete.", boilerplate: "And has some boilerplate.", state: 2 },
+                    { title: "Yet another task!", description: "Some description", state: 1 }
                 ]} />
         </div>
     )
