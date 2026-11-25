@@ -28,10 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure GitHub Pages
-        id: setup_pages
-        uses: actions/configure-pages@v5
-
+      - name: Get GitHub Pages URL
+        run: |
+          url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.html_url')
+          echo "url=$url" >> $GITHUB_ENV
+        
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -60,7 +61,7 @@ jobs:
       - name: Build with Next.js
         run: pnpm run build
         env:
-          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
+          PAGES_BASE_PATH: ${{ url }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
