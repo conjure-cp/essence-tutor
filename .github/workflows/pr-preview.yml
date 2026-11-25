@@ -26,6 +26,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -54,7 +57,7 @@ jobs:
       - name: Build with Next.js
         run: pnpm run build
         env:
-          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
+          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}/preview/pr-${{ github.event.number }}/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -69,7 +72,6 @@ jobs:
           preview-branch: gh-pages
           qr-code: true
           umbrella-dir: preview
-          wait-for-pages-deployment: true
           action: deploy
 
   cleanup:
