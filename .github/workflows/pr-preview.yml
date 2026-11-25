@@ -72,17 +72,17 @@ jobs:
           wait-for-pages-deployment: true
           action: deploy
 
-    cleanup:
-      runs-on: ubuntu-latest
-      if: github.event.action == 'closed'
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Clean up
-          uses: rossjrw/pr-preview-action@v1
-          with:
-            source-dir: ./out
-            preview-branch: gh-pages
-            umbrella-dir: preview
-            action: remove
+      - name: Clean up
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./out
+          preview-branch: gh-pages
+          umbrella-dir: preview
+          action: remove
