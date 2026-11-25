@@ -1,4 +1,4 @@
-:HL["/preview/pr-83/_next/static/chunks/1g4w07ca_y1tr.css","style"]
+:HL["/essence-tutor/preview/pr-83/_next/static/chunks/1g4w07ca_y1tr.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":64,"c":"$Q2"}]]
-0:{"b":"L4YF-Knby-NEwGTR-pdhy","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"fop32-hzQ-yPnMfj9GAKj","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
