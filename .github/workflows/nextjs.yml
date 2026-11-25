@@ -61,7 +61,7 @@ jobs:
       - name: Build with Next.js
         run: pnpm run build
         env:
-          PAGES_BASE_PATH: ${{ url }}
+          PAGES_BASE_PATH: ${{ env.url }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
