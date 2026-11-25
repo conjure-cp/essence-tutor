@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     if: github.event.action != 'closed'
     steps:
@@ -62,16 +62,7 @@ jobs:
           name: build
           path: ./out
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: ./out
-      - name: Deploy preview to GitHub Pages
+      - name: Deploy
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./out
@@ -79,3 +70,19 @@ jobs:
           qr-code: true
           umbrella-dir: preview
           wait-for-pages-deployment: true
+          action: deploy
+
+    cleanup:
+      runs-on: ubuntu-latest
+      if: github.event.action == 'closed'
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Clean up
+          uses: rossjrw/pr-preview-action@v1
+          with:
+            source-dir: ./out
+            preview-branch: gh-pages
+            umbrella-dir: preview
+            action: remove
