@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     },
   },
   output: 'export',
-  basePath: process.env.PAGES_BASE_URL && new URL(process.env.PAGES_BASE_URL).pathname,
+  basePath: process.env.PAGES_BASE_URL && new URL(process.env.PAGES_BASE_URL).pathname.replace("/\/+$/", ""),
 };
 
 export default nextConfig;
