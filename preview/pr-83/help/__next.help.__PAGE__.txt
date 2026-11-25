@@ -1,7 +1,7 @@
 2:"$Sreact.fragment"
-3:"/_next/static/chunks/1e4xy-_1_iurn.js"
-4:"/_next/static/chunks/2pc8n3ogan3ov.js"
-5:"/_next/static/chunks/42oi9j4w6_04c.js"
+3:"/essence-tutor/preview/pr-83/_next/static/chunks/1e4xy-_1_iurn.js"
+4:"/essence-tutor/preview/pr-83/_next/static/chunks/2pc8n3ogan3ov.js"
+5:"/essence-tutor/preview/pr-83/_next/static/chunks/42oi9j4w6_04c.js"
 6:I[29731,["$3","$4","$5"],"default"]
 7:I[83960,["$3","$4","$5"],"default"]
 c:I[29959,["$3","$4","$5"],"OutletBoundary"]
@@ -16,7 +16,7 @@ d:"$Sreact.suspense"
 a:X
 b:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$2","c",{"children":[["$","div",null,{"className":"p-6","children":[["$","h1",null,{"className":"text-2xl font-semibold","children":"Help"}],["$","p",null,{"children":"Help content goes here."}]]}],null,["$","$Lc",null,{"children":["$","$d",null,{"name":"Next.MetadataOutlet","children":"$@e"}]}]]}],"p":"$@f","v":null,"s":"$a"}}]]
 1:[["children",{"s":"help","h":64,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@8","v":"$9","s":"$a"},"c":"$Qb"}]]
-0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L11",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L13",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$d",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Essence Tutor"}],["$","meta","1",{"name":"description","content":"Learn Essence from scratch"}],["$","link","2",{"rel":"icon","href":"/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L14","3",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@15","v":null,"s":"$a"}},"a":"$@16","u":"$@17","b":"-yEUL5aoQIu_ik9ZcYmGk"}
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L11",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L13",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$d",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Essence Tutor"}],["$","meta","1",{"name":"description","content":"Learn Essence from scratch"}],["$","link","2",{"rel":"icon","href":"/essence-tutor/preview/pr-83/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L14","3",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@15","v":null,"s":"$a"}},"a":"$@16","u":"$@17","b":"KaAjj7jBKY_V2P_SK565o"}
 e:null
 17:true
 a:300
