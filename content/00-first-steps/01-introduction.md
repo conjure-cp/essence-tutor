@@ -15,6 +15,17 @@ Essence Tutor is composed of two parts: the learning material and the runner.
 
 The runner is designed to be used alongside an editor of your choice. All you have to do is open a text editor in this directory and follow along!
 
+```yaml
+tasks:
+  - number: 1
+    title: A task!
+    description: Do something fun!
+    
+  - number: 2
+    title: Another task!
+    description: Do something else fun!
+```
+
 ### Quick Tips!
 If you're editing a model, the runner will automatically process it for you when you save your changes. 
 
@@ -25,6 +36,13 @@ can take at a given time. Here are some of the common ones:
 - `s`: skip task.
 - `r`: manually re-run model.
 - `q`/`<esc>`: quit.
+
+```yaml
+tasks:
+  - number: 3
+    title: A final task.
+    description: You've finished the section!
+```
 
 ## Feedback?
 If you have feedback on how Essence Tutor works for you or have run into a problem, let us know!
