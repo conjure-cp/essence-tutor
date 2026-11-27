@@ -27,7 +27,7 @@ interface WrapperProps {
 const Wrapper = ({ title, children, actions }: WrapperProps) => {
   return (
     <div className="flex w-full h-full">
-      <Card className="flex felx-col grow m-2 bg-secondary min-h-0">
+      <Card className="flex flex-col grow m-2 bg-secondary min-h-0">
         <CardHeader className="flex items-center justify-between shrink-0">
           <CardTitle>{title}</CardTitle>
           {actions && actions.length > 0 && (
