@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { RunnerPanel, ExamplesPanel } from '@/components/panels/Runner';
 import {useTheme} from "next-themes";
 import {Dispatch, isValidElement, ReactNode, SetStateAction, useState} from "react";
+import { TaskList } from "@/components/TaskList";
 
 interface lessonPanelProps {
     className?: string,
