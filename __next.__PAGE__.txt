@@ -6,11 +6,11 @@
 7:"/essence-tutor/_next/static/chunks/2zdbeybjet-7e.js"
 8:"/essence-tutor/_next/static/chunks/2zc23xuapduh2.js"
 9:I[91589,["$4","$5","$6","$7","$8"],"LessonPanel"]
-15:"ViewportBoundary"
-16:I[29959,["$4","$5","$6"],"$15"]
-17:"MetadataBoundary"
-18:I[29959,["$4","$5","$6"],"$17"]
-19:I[47089,["$4","$5","$6"],"IconMark"]
+16:"ViewportBoundary"
+17:I[29959,["$4","$5","$6"],"$16"]
+18:"MetadataBoundary"
+19:I[29959,["$4","$5","$6"],"$18"]
+1a:I[47089,["$4","$5","$6"],"IconMark"]
 a:T730,# Introduction
 Welcome to Essence Tutor!
 
@@ -42,22 +42,41 @@ can take at a given time. Here are some of the common ones:
 ## Feedback?
 If you have feedback on how Essence Tutor works for you or have run into a problem, let us know!
 [Submit an issue](https://github.com/conjure-cp/essence-tutor/issues/new).
-b:T5f8,# CSPs and Constraint Programming
-CSPs are puzzles in which there are a number of entities that each hold certain constraints, or requirements, relating to how the world may be. Have you ever solved a [Sudoku](https://en.wikipedia.org/wiki/Sudoku) or completed a [Nonogram](https://en.wikipedia.org/wiki/Nonogram)? Congratulations, these are famous CSPs! <!-- not sure I like this -->
+b:T880,# CSPs and Constraints Programming
+A Constraint Satisfaction Problem, or CSP, is a puzzle that contains a few important fields that all play a part in getting to the solution, and does so without much guidance aside from being given some rules, or *constraints*. CSPs will be covered more later on.
 
-Constraint programming involves working with computers to get them to solve these problems systematically. It is a form of artificial intelligence and is of great interest in Computer Science research.
+For now, we can think of CSPs as regular problems that are modelled a bit differently, and rely on a set of constraints to create a solution; they're not given other instructions!
 
-## Conjure and Essence
-As we have mentioned, Essence is a language which allows us to formally define these problems. It does so in a way which is concise and can be interpreted easily.
+Have you ever solved a [Sudoku](https://en.wikipedia.org/wiki/Sudoku)? Well congratulations, that's a famous CSP! Let's explore it:
+* The empty tiles in a Sudoku puzzle are our *placeholders*
+* Our *constraints* are the numbers 1-9, as well as whether or not they can be placed in a certain position (no number can repeat in any single row, column, or grouping of tiles)
+* And our *values* are again just the numbers 1-9, since that's all that the puzzle permits as input to the tiles
 
-Conjure is a tool which takes an Essence model, determines the best way to solve it and produces the results. It separates _how_ the model is solved from the constraints within the model.
+Constraint programming involves working with computers to get them to solve these problems systematically. It is a form of artificial intelligence and is of great interest in the computer science research community.
 
-From this point in the guide, Conjure will be mentioned sparingly. If you would like to learn more about it, see the [Conjure documentation](https://conjure.readthedocs.io/).
+## Conjure, Conjure-Oxide, and Essence
+As previously mentioned, Essence is a language which allows us to formally define these problems. It does so in a way which is concise and can be interpreted easily.
+
+Conjure and Conjure-Oxide are tools that take an Essence model, determine the best way to solve it, and produce the results. They separate _how_ the model is solved from the constraints within the model.
+
+From this point in the guide, Conjure and Conjure-Oxide will be mentioned sparingly. If you would like to learn more about it, see the [Conjure documentation](https://conjure.readthedocs.io/).
 
 > **Aside:** [Conjure Oxide](https://github.com/conjure-cp/conjure-oxide) is a re-write of Conjure in Rust and is the subject of the AI for Decision Making VIP at the University of St. Andrews. While it has not yet reached feature parity, you can try it out with Essence Tutor by <insert how that works here>.
 
 In the next section, we will see an example Essence model for a simple CSP.
-c:Td00,# Model Structure
+c:T41b,# Essence
+So, why use Essence?
+
+There are a number of reasons, but they all essentially come back to making it easier to get computers to solve CSPs.
+
+- Essence provides a standard way of describing problems.
+    - You don't have to understand (or even care about!) the ways in which different kinds of problems are solved. Instead, you can tell the computer what you want to achieve, and it figures it out for you via Essence statements.
+- It is a high-level language for working with problems which you can plug into a variety of solvers. 
+    - You don't need to know how to communicate with any solvers specifically, which saves you the time and trouble of wrestling with them. Just write your problem description in Essence instead, and it can be automatically translated.
+
+## The First Model
+So, let's have a look at our first model and some of the basic constructs you will use when writing Essence. In the next section we will look at a model which solves a simple problem, and walk through each Essence component that represents the problem.
+d:Td00,# Model Structure
 Essence models can broadly be split into three sections: declarations, constraints and objectives. Together, they build a precise definition of the solution you are looking for that can be transferred between solvers.
 
 > **Aside:** Domains describe the range of values something can be. You can think of them like data types or the bag of values that a solver can choose from. More on these later.
@@ -143,7 +162,7 @@ Say you wanted to minimise the value of `x`, you would include this in the model
 minimising x
 ```
 _Making x as small as possible._
-d:T10a9,# Logic Operations
+e:T10a9,# Logic Operations
 You can perform logic operations on declarations with a Boolean domain to create statements which hold an overall logical truth-value.
 
 ## The Fundamental Operations
@@ -249,7 +268,7 @@ This looks complicated, so let's break it down, adding brackets to make things m
 - Now we look at AND, so `!y /\ !(z -> y)` is next.
 - After this we look at OR, so `x \/ (!y /\ !(z -> y))` is evaluated.
 - Finally, we look at iff, and we evaluate the overall statement `(x \/ (!y /\ !(z -> y))) <-> x`.
-e:T9fb,# The Integer Domain
+f:T9fb,# The Integer Domain
 Integer domains are used to refer to a set of whole numbers. This set can be constrained to a range or can be left open.
 
 Some properties:
@@ -312,7 +331,7 @@ find e : int(..10)
 
 ## Bounded By An Expression
 !! TODO
-f:Td11,# Basic Domains
+10:Td11,# Basic Domains
 The last section briefly introduced you to domains. To recap, these define the range of values that any given variable or declaration can hold. You can think of them as similar to that of data types in traditional programming languages, or the bag from which a value can be chosen.
 
 Domains can refer to a finite or infinite set of values, but infinite domains can only be used for aliases and parameters.
@@ -388,17 +407,17 @@ If you wanted to declare an alias `y` which is the set `{1,2,3}`, you would writ
 ```
 letting y be {1,2,3}
 ````
-14:X
-1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","$3",null,{"fallback":"loading...","children":["$","$L9",null,{"chapters":[{"slug":"00-first-steps","title":"First steps","lessons":[{"slug":"01-introduction","title":"Introduction","value":"$a"},{"slug":"02-constraint-problems","title":"CSPs and Constraint Programming","value":"$b"},{"slug":"03-essence","title":"Essence","value":"# Essence\nSo, why use Essence?\n\nThere are a number of reasons, but they all essentially come back to making it easier to get computers to solve CSPs.\n\n- Essence provides a standard way of describing problems; you don't have to understand (or even care about!) the ways in which different kinds of problems are solved. Instead, you tell the computer what you want to achieve and it figures it out for you.\n- It is a high-level language for working with problems which you can plug into a variety of solvers. You don't need to know how to communicate with any specifically, just write your problem description in Essence and it can be translated.\n\n## A First Model\nSo, let's have a look at a first model and some of the basic constructs you will use when writing Essence. In the next section we will look at a model which solves a simple problem.\n"}]},{"slug":"01-model-structure","title":"Model structure","lessons":[{"slug":"01-model-structure","title":"Model Structure","value":"$c"}]},{"slug":"02-booleans","title":"Booleans","lessons":[{"slug":"01-the-boolean-domain","title":"The Boolean Domain","value":"# The Boolean Domain\nBoolean domains are used to express the truth-value of logical constructs. Something with a Boolean domain can be of the value `true` or `false`.\n\nSome properties:\n- Declarations with the Boolean domain can hold one of the values `true` or `false`.\n- The Boolean domain is finite, since there are only two possible values within it.\n- Objective statements cannot be used on declarations with a Boolean domain at this time. That means they cannot be directly minimised or maximised.\n\nThe keyword `bool` is used to denote this domain. So, if you wanted to declare a decision variable `a` with a Boolean domain, you would write the following in your model:\n\n```\nfind a : bool\n```\n*Find an a which is either true or false.*\n\nRemember you can't directly minimise or maximise a Boolean!\n\n```\n$ Invalid!\nmaximise a\n```\n"},{"slug":"02-logic-operations","title":"Logic Operations","value":"$d"}]},{"slug":"03-integers","title":"Integers","lessons":[{"slug":"01-the-integer-domain","title":"The Integer Domain","value":"$e"},{"slug":"02-arithmetic-and-comparison","title":"Arithmetic and Comparison","value":"# Arithmetic and Comparison\nEssence includes the standard arithmetic and comparison operators.\n\n## Arithmetic\n- `x + y` - addition.\n- `x - y` - subtraction.\n- `x * y` - multiplication.\n- `x / y` - *integer* division.\n- `x % y` - modulo (remainder of `x` divided by `y`).\n- `x ** y` - exponential (`x` to the power of `y`).\n- `x!` or `factorial(x)` - factorial.\n- `|x|` - absolute value (positive value).\n\n## Comparison\n- `x = y` - equality (notice that it's one symbol!).\n- `x != y` - inequality.\n- `x < y` - less than.\n- `x <= y` - less than or equal to.\n- `x > y` - greater than.\n- `x >= y` - greater than or equal to.\n"}]},{"slug":"99-misc","title":"Misc","lessons":[{"slug":"02-basic-domains","title":"Basic Domains","value":"$f"}]}]}]}],["$L10","$L11"],"$L12"]}],"p":"$@13","v":null,"s":"$14"}}]]
-0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L16",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Essence Tutor"}],["$","meta","1",{"name":"description","content":"Learn Essence from scratch"}],["$","link","2",{"rel":"icon","href":"/essence-tutor/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L19","3",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@1a","v":null,"s":"$14"}},"a":"$@1b","u":"$@1c","b":"l9Lzf5UI_YbJunsc7gCKl"}
-1d:I[29959,["$4","$5","$6"],"OutletBoundary"]
-10:["$","script","script-0",{"src":"/essence-tutor/_next/static/chunks/2zdbeybjet-7e.js","async":true}]
-11:["$","script","script-1",{"src":"/essence-tutor/_next/static/chunks/2zc23xuapduh2.js","async":true}]
-12:["$","$L1d",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]
-1c:true
-1e:null
-14:300
-14:C
-1b:0
-1a:"$undefined"
-13:"$undefined"
+15:X
+1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","$3",null,{"fallback":"loading...","children":["$","$L9",null,{"chapters":[{"slug":"00-first-steps","title":"First steps","lessons":[{"slug":"01-introduction","title":"Introduction","value":"$a"},{"slug":"02-constraint-problems","title":"CSPs and Constraints Programming","value":"$b"},{"slug":"03-essence","title":"Essence","value":"$c"}]},{"slug":"01-model-structure","title":"Model structure","lessons":[{"slug":"01-model-structure","title":"Model Structure","value":"$d"}]},{"slug":"02-booleans","title":"Booleans","lessons":[{"slug":"01-the-boolean-domain","title":"The Boolean Domain","value":"# The Boolean Domain\nBoolean domains are used to express the truth-value of logical constructs. Something with a Boolean domain can be of the value `true` or `false`.\n\nSome properties:\n- Declarations with the Boolean domain can hold one of the values `true` or `false`.\n- The Boolean domain is finite, since there are only two possible values within it.\n- Objective statements cannot be used on declarations with a Boolean domain at this time. That means they cannot be directly minimised or maximised.\n\nThe keyword `bool` is used to denote this domain. So, if you wanted to declare a decision variable `a` with a Boolean domain, you would write the following in your model:\n\n```\nfind a : bool\n```\n*Find an a which is either true or false.*\n\nRemember you can't directly minimise or maximise a Boolean!\n\n```\n$ Invalid!\nmaximise a\n```\n"},{"slug":"02-logic-operations","title":"Logic Operations","value":"$e"}]},{"slug":"03-integers","title":"Integers","lessons":[{"slug":"01-the-integer-domain","title":"The Integer Domain","value":"$f"},{"slug":"02-arithmetic-and-comparison","title":"Arithmetic and Comparison","value":"# Arithmetic and Comparison\nEssence includes the standard arithmetic and comparison operators.\n\n## Arithmetic\n- `x + y` - addition.\n- `x - y` - subtraction.\n- `x * y` - multiplication.\n- `x / y` - *integer* division.\n- `x % y` - modulo (remainder of `x` divided by `y`).\n- `x ** y` - exponential (`x` to the power of `y`).\n- `x!` or `factorial(x)` - factorial.\n- `|x|` - absolute value (positive value).\n\n## Comparison\n- `x = y` - equality (notice that it's one symbol!).\n- `x != y` - inequality.\n- `x < y` - less than.\n- `x <= y` - less than or equal to.\n- `x > y` - greater than.\n- `x >= y` - greater than or equal to.\n"}]},{"slug":"99-misc","title":"Misc","lessons":[{"slug":"02-basic-domains","title":"Basic Domains","value":"$10"}]}]}]}],["$L11","$L12"],"$L13"]}],"p":"$@14","v":null,"s":"$15"}}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L17",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L19",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Essence Tutor"}],["$","meta","1",{"name":"description","content":"Learn Essence from scratch"}],["$","link","2",{"rel":"icon","href":"/essence-tutor/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L1a","3",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@1b","v":null,"s":"$15"}},"a":"$@1c","u":"$@1d","b":"xhZ98_EHfz0NKk1i1iXHq"}
+1e:I[29959,["$4","$5","$6"],"OutletBoundary"]
+11:["$","script","script-0",{"src":"/essence-tutor/_next/static/chunks/2zdbeybjet-7e.js","async":true}]
+12:["$","script","script-1",{"src":"/essence-tutor/_next/static/chunks/2zc23xuapduh2.js","async":true}]
+13:["$","$L1e",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@1f"}]}]
+1d:true
+1f:null
+15:300
+15:C
+1c:0
+1b:"$undefined"
+14:"$undefined"
