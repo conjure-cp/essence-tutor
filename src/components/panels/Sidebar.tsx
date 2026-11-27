@@ -6,66 +6,58 @@ import {
   SidebarMenuItem,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarGroupContent,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarGroupLabel
+  SidebarGroupContent
 } from "@/components/ui/sidebar"
 
 import Link from "next/link"
 import { getChapters } from "@/lib/content"
-
+import { ChapterMenu } from "./Chapter-Menu"
+import { ChapterSearch } from "./Chapter-Search"
 
 export async function AppSidebar() {
     const chapters = await getChapters();
+
+    const items = chapters.map((c) => ({
+        urlFriendly: c.urlFriendly,
+        title: c.title,
+        lessons: c.lessons.map((l) => ({ urlFriendly: l.urlFriendly, title: l.title })),
+    }))
+
+    const searchEntries = chapters.flatMap((c) => c.lessons.map((l) => ({
+        chapterUrlFriendly: c.urlFriendly,
+        chapterTitle: c.title,
+        lessonUrlFriendly: l.urlFriendly,
+        lessonTitle: l.title,
+        content: l.value,
+    })))
     
-  return (
-    <Sidebar variant="floating">
-        <SidebarHeader>
-            <span>Essence Tutor</span>
+    return (
+        <Sidebar variant="floating">
+            <SidebarHeader>
+                <span className="text-lg font-bold">Essence Tutor</span>
+                 <ChapterSearch entries={searchEntries} />
+            </SidebarHeader>
 
-            <SidebarMenuButton render={<Link href="/" />}>
-            <span>Home</span>
-            </SidebarMenuButton>
-        </SidebarHeader>
+            <SidebarGroup className="overflow-x-hidden">
+                <SidebarGroupContent> 
+                    <SidebarMenu>
+                        <span className="text-lg">Chapters</span>
+                    </SidebarMenu>
+                    <SidebarMenu>
+                        <ChapterMenu chapters={items} />
+                    </SidebarMenu>
+                </SidebarGroupContent>
+                </SidebarGroup>
 
-        <SidebarGroup className="overflow-x-hidden">
-            <SidebarGroupLabel className="h-10 text-lg font-bold text-foreground">Chapters</SidebarGroupLabel>
-            <SidebarGroupContent>
+            <SidebarFooter>
                 <SidebarMenu>
-                {chapters.map((c) => (
-                    <SidebarMenuItem key={c.slug}>
-                        <span className="whitespace-normal break-words">{c.title}</span>
-
-                    <SidebarMenuSub>
-                        {c.lessons.map((l) => (
-                        <SidebarMenuSubItem key={l.slug}>
-                            <SidebarMenuSubButton
-                            render={
-                                <Link href={`/?chapter=${c.slug}&lesson=${l.slug}`} />
-                            }
-                            >
-                            <span>{l.title}</span>
-                            </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                        ))}
-                    </SidebarMenuSub>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton render={<Link href={"/help"} />} >
+                        <span>Help</span>
+                        </SidebarMenuButton>
                     </SidebarMenuItem>
-                ))}
                 </SidebarMenu>
-            </SidebarGroupContent>
-            </SidebarGroup>
-
-        <SidebarFooter>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton render={<Link href={"/help"} />} >
-                    <span>Help</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarFooter>
-    </Sidebar>
-  )
+            </SidebarFooter>
+        </Sidebar>
+    )
 }

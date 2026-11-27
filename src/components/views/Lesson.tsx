@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/resizable"
 import { Chapter } from '@/lib/content';
 import {cn} from "cn";
+
+export type LessonParams = Promise<{ chapter?: string; lesson?: string }>
 import { useSearchParams } from 'next/navigation';
 import { RunnerPanel, ExamplesPanel } from '@/components/panels/Runner';
 import {useTheme} from "next-themes";
@@ -26,9 +28,9 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
     const lesson = params.get("lesson");
 
     const currentChapter =
-        chapters.find((c) => c.slug === chapter) ?? chapters[0]
+        chapters.find((c) => c.urlFriendly === chapter) ?? chapters[0]
     const currentLesson =
-        currentChapter?.lessons.find((l) => l.slug === lesson) ??
+        currentChapter?.lessons.find((l) => l.urlFriendly === lesson) ??
         currentChapter?.lessons[0]
 
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
