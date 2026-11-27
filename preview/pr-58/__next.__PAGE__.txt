@@ -1,0 +1,423 @@
+2:"$Sreact.fragment"
+3:"$Sreact.suspense"
+4:"/essence-tutor/preview/pr-58/_next/static/chunks/1e4xy-_1_iurn.js"
+5:"/essence-tutor/preview/pr-58/_next/static/chunks/2pc8n3ogan3ov.js"
+6:"/essence-tutor/preview/pr-58/_next/static/chunks/42oi9j4w6_04c.js"
+7:"/essence-tutor/preview/pr-58/_next/static/chunks/2x9ssz3ucxm5c.js"
+8:"/essence-tutor/preview/pr-58/_next/static/chunks/40d81xu2ymm0h.js"
+9:I[91589,["$4","$5","$6","$7","$8"],"LessonPanel"]
+16:"ViewportBoundary"
+17:I[29959,["$4","$5","$6"],"$16"]
+18:"MetadataBoundary"
+19:I[29959,["$4","$5","$6"],"$18"]
+1a:I[47089,["$4","$5","$6"],"IconMark"]
+a:T730,# Introduction
+Welcome to Essence Tutor!
+
+Essence is a modelling language used to describe and solve constraint satisfaction problems (CSPs). It is declarative, meaning you do not need to have knowledge of _how_ to solve such problems to be able to solve them.
+
+## What To Expect
+By the end of this guide, you will have an understanding of CSPs and how to use Essence to model and solve them.
+
+Essence Tutor contains two types of material: notes and exercises. You will learn Essence concepts before putting them into practice by working with example models. You will also be given real-world problems to solve from scratch throughout.
+
+## How To Use This Guide
+Essence Tutor is composed of two parts: the learning material and the runner.
+
+> **Don't want to use the runner?** No problem! You can follow the guide with any Markdown viewer and text editor using the files in the directory you created when you ran `estut new`. You may want to view the [Conjure documentation](https://conjure.readthedocs.io/en/latest/welcome.html) to learn how to run models yourself.
+
+The runner is designed to be used alongside an editor of your choice. All you have to do is open a text editor in this directory and follow along!
+
+### Quick Tips!
+If you're editing a model, the runner will automatically process it for you when you save your changes. 
+
+Aside from this, you will interact with the runner via the keyboard. The bar at the bottom (TBC) will show all actions you
+can take at a given time. Here are some of the common ones:
+- `<enter>`: continue reading.
+- `c`: mark reading as complete.
+- `s`: skip task.
+- `r`: manually re-run model.
+- `q`/`<esc>`: quit.
+
+## Feedback?
+If you have feedback on how Essence Tutor works for you or have run into a problem, let us know!
+[Submit an issue](https://github.com/conjure-cp/essence-tutor/issues/new).
+b:T880,# CSPs and Constraints Programming
+A Constraint Satisfaction Problem, or CSP, is a puzzle that contains a few important fields that all play a part in getting to the solution, and does so without much guidance aside from being given some rules, or *constraints*. CSPs will be covered more later on.
+
+For now, we can think of CSPs as regular problems that are modelled a bit differently, and rely on a set of constraints to create a solution; they're not given other instructions!
+
+Have you ever solved a [Sudoku](https://en.wikipedia.org/wiki/Sudoku)? Well congratulations, that's a famous CSP! Let's explore it:
+* The empty tiles in a Sudoku puzzle are our *placeholders*
+* Our *constraints* are the numbers 1-9, as well as whether or not they can be placed in a certain position (no number can repeat in any single row, column, or grouping of tiles)
+* And our *values* are again just the numbers 1-9, since that's all that the puzzle permits as input to the tiles
+
+Constraint programming involves working with computers to get them to solve these problems systematically. It is a form of artificial intelligence and is of great interest in the computer science research community.
+
+## Conjure, Conjure-Oxide, and Essence
+As previously mentioned, Essence is a language which allows us to formally define these problems. It does so in a way which is concise and can be interpreted easily.
+
+Conjure and Conjure-Oxide are tools that take an Essence model, determine the best way to solve it, and produce the results. They separate _how_ the model is solved from the constraints within the model.
+
+From this point in the guide, Conjure and Conjure-Oxide will be mentioned sparingly. If you would like to learn more about it, see the [Conjure documentation](https://conjure.readthedocs.io/).
+
+> **Aside:** [Conjure Oxide](https://github.com/conjure-cp/conjure-oxide) is a re-write of Conjure in Rust and is the subject of the AI for Decision Making VIP at the University of St. Andrews. While it has not yet reached feature parity, you can try it out with Essence Tutor by <insert how that works here>.
+
+In the next section, we will see an example Essence model for a simple CSP.
+c:T41b,# Essence
+So, why use Essence?
+
+There are a number of reasons, but they all essentially come back to making it easier to get computers to solve CSPs.
+
+- Essence provides a standard way of describing problems.
+    - You don't have to understand (or even care about!) the ways in which different kinds of problems are solved. Instead, you can tell the computer what you want to achieve, and it figures it out for you via Essence statements.
+- It is a high-level language for working with problems which you can plug into a variety of solvers. 
+    - You don't need to know how to communicate with any solvers specifically, which saves you the time and trouble of wrestling with them. Just write your problem description in Essence instead, and it can be automatically translated.
+
+## The First Model
+So, let's have a look at our first model and some of the basic constructs you will use when writing Essence. In the next section we will look at a model which solves a simple problem, and walk through each Essence component that represents the problem.
+d:Td00,# Model Structure
+Essence models can broadly be split into three sections: declarations, constraints and objectives. Together, they build a precise definition of the solution you are looking for that can be transferred between solvers.
+
+> **Aside:** Domains describe the range of values something can be. You can think of them like data types or the bag of values that a solver can choose from. More on these later.
+
+## Declarations
+Declarations are where you assign names to values (aliases), introduce changable values that will be provided alongside the model (parameters) and tell the solver the type of data it is going to search for (decision variables).
+
+### Aliases
+Aliases can be thought of as similar to variables in traditional programming languages. You take an expression or a domain *(explain)*, and you assign a name to it which you can use throughout the rest of the model. This is done with `letting` statements.
+
+```
+letting <name> be <expression>
+letting <name> be domain <domain>
+```
+
+For example, if you wanted to assign the expression `4 * 5` to the name `twenty`, you would do so as follows:
+
+```
+letting twenty be 4 * 5
+```
+_Let twenty refer to the value that is 4 times 5 (20)._
+
+Similarly, if you wanted to easily refer to the domain of numbers between one and ten by the name `range`, you could do as follows:
+
+```
+letting range be domain int(1..5)
+```
+_Let range refer to the domain of integers between 1 and 5._
+
+### Parameters
+Parameters are similar in that they assign a name to a provided value, only the provided value is not part of the model itself. When you declare that a parameter is expected, it will need to be provided in a separate file. You declare parameters using `given` statements, giving the domain it is expected to be.
+
+```
+given <name> : <domain>
+```
+
+For instance, if you wanted the user of your model to provide a variable temperature with the name `temp`, you could state the following:
+
+```
+given temp : int(-100..100)
+```
+_Given the parameter temp which is an integer between -100 and 100._
+
+### Decision Variables
+Decision variables are used to tell the solver what it is supposed to look for. These are declared alongside the domain they are expected to be within with `find` statements. You need one or more of these within your model for it to do anything useful.
+
+```
+find <name(s)> : <domain>
+```
+
+Say you wanted to look for an integer between one and ten and you wanted to call it `x`, you would then do the following:
+
+```
+find x : int(1..10)
+```
+_Find an x which is an integer between 1 and 10._
+
+## Constraints
+Constraints are where you tell the solver the conditions that the values it finds must satisfy. For example, that the number `x` must be twice that of `y`. You do this with `such that` statements with expressions which outline said conditions.
+
+```
+such that <expression>
+```
+
+Using the example mentioned before, you would do as follows:
+
+```
+such that x = 2 * y
+```
+_Such that x must be two times y._
+
+## Objectives
+Finally, objectives optionally tell the solver additional requirements, like that it needs to minimise or maximise a final result.
+
+```
+minimising <expression>
+maximising <expression>
+```
+
+Say you wanted to minimise the value of `x`, you would include this in the model like so:
+
+```
+minimising x
+```
+_Making x as small as possible._
+e:T10a9,# Logic Operations
+You can perform logic operations on declarations with a Boolean domain to create statements which hold an overall logical truth-value.
+
+## The Fundamental Operations
+This part covers the fundamental logical operators in detail. If you already know these, feel free to skip!
+
+### AND (Conjunction)
+Essence uses `/\` as its logical AND operator. For an AND operation to be true, both operands also must be true.
+
+`x /\ y` can be read as *"x and y"* and has the following truth table:
+
+| `x`   | `y`   | `x /\ y` |
+|-------|-------|----------|
+| true  | true  | true     |
+| true  | false | false    |
+| false | true  | false    |
+| false | false | false    |
+
+### OR (Disjunction)
+Essence uses `\/` as its logical OR operator. For an OR operation to be true, one or more of its operands must be true.
+
+`x \/ y` can be read as *"x or y"* and has the following truth table:
+
+| `x`   | `y`   | `x \/ y` |
+|-------|-------|----------|
+| true  | true  | true     |
+| true  | false | true     |
+| false | true  | true     |
+| false | false | false    |
+
+### Implies (If-Then)
+Essence uses `->` to denote implies.
+
+Implies takes two operands: an antecedent and a consequent. It effectively states that if the antecedent is true then the consequent must also be true. For an implies operation to be true, then, it must *not* be the case that the antecedent can be true and the consequent be false.
+
+> **Tip:** This is confusing at first for some. Remember that it's only one-way! 
+> To illustrate, the statement *"the Sun is blue implies Earth has land"* is *always* true because the colour of the Sun has no bearing on the fact Earth has land. Earth has land whether or not the Sun is blue.
+
+`x -> y` can be read as *"x implies y"* or *"if x, then y"* and has the following truth table:
+
+| `x`   | `y`   | `x -> y` |
+|-------|-------|----------|
+| true  | true  | true     |
+| true  | false | false    |
+| false | true  | true     |
+| false | false | true     |
+
+### If And Only If (Iff)
+Essence uses `<->` to denote iff.
+
+Once again, iff takes two operands: an antecedent and a consequent. The difference is that now it works both ways: it is only true if the antecedent and consequent have the same truth-value.
+
+`x <-> y` can be read as *"if and only if (iff) x, then y"* and has the following truth table:
+
+| `x`   | `y`   | `x <-> y` |
+|-------|-------|-----------|
+| true  | true  | true      |
+| true  | false | false     |
+| false | true  | false     |
+| false | false | true      |
+
+> **Aside:** Notice that the truth table for `<->` is the same as other logical operators. That is because it is equivalent to the identity relation or to XOR. It can also be expanded to the AND of two implies statements.
+
+### NOT (Negation)
+Finally, Essence uses `!` as its logical NOT operator. For a NOT operation to be true, it's sole operand must be false.
+
+`!x` can be read as *"not x"* and has the following truth table:
+
+| `x`   | `!x`  |
+|-------|-------|
+| true  | false |
+| false | true  |
+
+## Combining Operators
+Logical operators can be combined to create complex logical statements.
+
+For example, if you wanted to know whether it's true that both the hare (Rh) and the tortoise (Rt) are taking part in the race, and either the hare (Wh) or the tortoise (Wt) will win, you could join them together like so:
+
+```
+(Rh /\ Rt) /\ (Wh \/ Wt)
+```
+*Hare is racing and tortoise is racing, and hare will win or tortoise will win.*
+
+## Order Of Precedence
+Logical operators have an order of precedence much like typical arithmetic operators. That which is of a higher precedence will be evaluated first.
+
+The standard order of precedence (highest first) is:
+- Brackets
+- NOT `!`
+- AND `/\`
+- OR `\/`
+- Implies `->`
+- Iff `<->`
+
+Look at the following example:
+
+```
+x \/ !y /\ !(z -> y) <-> x
+```
+
+This looks complicated, so let's break it down, adding brackets to make things more clear:
+- Brackets are evaluated first, so `z -> y` will be worked out first.
+- NOT is next, so the next subformulae to be worked out are `!y` and `!(z -> y)`.
+- Now we look at AND, so `!y /\ !(z -> y)` is next.
+- After this we look at OR, so `x \/ (!y /\ !(z -> y))` is evaluated.
+- Finally, we look at iff, and we evaluate the overall statement `(x \/ (!y /\ !(z -> y))) <-> x`.
+f:T9fb,# The Integer Domain
+Integer domains are used to refer to a set of whole numbers. This set can be constrained to a range or can be left open.
+
+Some properties:
+- An integer domain which is declared with a range that has a start and end value is finite. This is the _only_ way to declare a finite integer domain.
+- If you do not specify one of the start or end, or do not specify a range at all, then the domain will be _infinite_.
+- You cannot declare a decision variable with an infinite integer domain.
+
+You can declare an integer domain using the keyword `int`.
+3. `int(expression)` refers to the integer domain with bounds described by the expression.
+
+## Unbounded
+You can refer to the infinite integer domain (-infty to +infty) with the keyword `int` alone.
+
+For example, if you wanted to declare an alias `a` which refers to the infinite integer domain, you would write the following in your model:
+
+```
+letting a be domain int
+```
+*Let a refer to the infinite domain of integers.*
+
+Remember, since this domain is infinite you cannot use it when declaring decision variables.
+
+```
+$ Invalid!
+find b : int
+```
+
+## Bounded By Range(s)
+You can also refer to a bounded integer domain by using ranges alongside `int`. These can be finite or infinite, depending on the parameters you give the range.
+
+Let's look at how ranges work before we go further:
+- Ranges are declared using the syntax `start..end`, which refers to the values between `start` and `end`.
+    - `1..10` refers to the values between one and ten.
+- You can omit either `start` or `end` as a bound for integers to create an infinite range.
+    - `1..` refers to the values from one up to +infty.
+    - `..10` refers to the values from -infty to ten.
+
+Putting this together, you declare integer domains bounded by ranges with the syntax `int(r1, r2, ...)` where `r1`, `r2`, ... are ranges.
+
+For example, if you wanted to declare a decision variable `c` with the integer domain bounded between one and ten or negative ten and negative one, you would write the following in your model:
+
+```
+find c : int(1..10, -10..-1)
+```
+*Find a c which may be any integer from 1 to 10 or from -10 to -1.*
+
+Similarly, if you wanted to declare an alias `d` which refers to the integer domain bounded from one to +infty, you would write the following:
+
+```
+letting d be domain int(1..)
+```
+*Find a d which may be any integer from 1 to +infty.*
+
+Once again, remember you cannot declare decision variables with an infinite domain.
+
+```
+$ Invalid!
+find e : int(..10)
+```
+
+## Bounded By An Expression
+!! TODO
+10:Td11,# Basic Domains
+The last section briefly introduced you to domains. To recap, these define the range of values that any given variable or declaration can hold. You can think of them as similar to that of data types in traditional programming languages, or the bag from which a value can be chosen.
+
+Domains can refer to a finite or infinite set of values, but infinite domains can only be used for aliases and parameters.
+
+For now we will focus on Booleans, integers, tuples and sets. You will be introduced to more domains as you progress through this guide.
+
+## Booleans (`bool`)
+Boolean domains can be one of either `true` or `false`. They are always finite.
+
+For example, if you wanted to find a Boolean decision variable `x`, you would write the following:
+
+```
+find x : bool
+```
+
+An important caveat with Boolean domains is that they do not currently support objective statements. That means they cannot directly be minimised or maximised.
+
+## Integers (`int`)
+Integer domains refer to a set of whole numbers. They can be used in a few ways:
+- `int` refers to the infinite set of integers.
+- `int(r1,r2,...)` refers to an integer within one or more of the ranges `r1`, `r2`, etc. These can be finite or infinite.
+- `int(expression)` refers to an integer within the bounds described by the expression.
+
+Ranges have the syntax `start..end`, where only one of `start` and `end` is required. For example:
+- `int(1..10)` refers to the finite set of integers from one to ten.
+- `int(1..)` refers to the infinite set of all integers that are greater than or equal to one.
+- `int(..10)` refers to the infinite set of integers that are less than or equal to ten.
+
+To avoid unexpected results, values in an integer domain should be between $-2^{62}+1$ and $2^{62}-1$.
+
+For example, if you wanted to declare an unbounded integer parameter `x`, you would write the following:
+
+```
+given x : int
+```
+
+If you wanted to find an integer decision variable `y` within the range -100 to 100, you would write the following:
+
+```
+find y : int(-100..100)
+```
+
+You can also state specific values. So if you wanted to find an integer decision variable `z` that could only be 10 or 25, you would write the following:
+
+```
+find z : int(10,25)
+```
+
+## Tuples (`tuple`)
+Tuples domains refer to a tuple of any arity with values of any domain. You can use the `tuple` keyword to denote a tuple or, where the tuple's arity is two or more, you can simply surround the domains with brackets.
+
+You can refer to domains inside a tuple using their positions, starting from 1.
+
+For example, if you wanted to declare a decision variable `x` which would find a two-arity tuple of integers between 1 and 10, you would write the following:
+
+```
+find x : (int(1..10),int(1..10))
+```
+
+## Sets (`set`)
+Set domains refer to a set of any size containing values of any domain. They can be used in a one of two ways:
+- `set(size,minSize,maxSize) of domain` refers to a set with optional cardinality attributes (size) containing values of a domain.
+- `{1,2,3}` refers to an integer set containing the numbers `1`, `2` and `3`.
+
+If you wanted to declare a decision variable `x` which is a set of size 2, you would write the following:
+
+```
+find x : set(2)
+```
+
+If you wanted to declare an alias `y` which is the set `{1,2,3}`, you would write the following:
+
+```
+letting y be {1,2,3}
+````
+15:X
+1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","$3",null,{"fallback":"loading...","children":["$","$L9",null,{"chapters":[{"slug":"00-first-steps","title":"First steps","lessons":[{"slug":"01-introduction","title":"Introduction","value":"$a"},{"slug":"02-constraint-problems","title":"CSPs and Constraints Programming","value":"$b"},{"slug":"03-essence","title":"Essence","value":"$c"}]},{"slug":"01-model-structure","title":"Model structure","lessons":[{"slug":"01-model-structure","title":"Model Structure","value":"$d"}]},{"slug":"02-booleans","title":"Booleans","lessons":[{"slug":"01-the-boolean-domain","title":"The Boolean Domain","value":"# The Boolean Domain\nBoolean domains are used to express the truth-value of logical constructs. Something with a Boolean domain can be of the value `true` or `false`.\n\nSome properties:\n- Declarations with the Boolean domain can hold one of the values `true` or `false`.\n- The Boolean domain is finite, since there are only two possible values within it.\n- Objective statements cannot be used on declarations with a Boolean domain at this time. That means they cannot be directly minimised or maximised.\n\nThe keyword `bool` is used to denote this domain. So, if you wanted to declare a decision variable `a` with a Boolean domain, you would write the following in your model:\n\n```\nfind a : bool\n```\n*Find an a which is either true or false.*\n\nRemember you can't directly minimise or maximise a Boolean!\n\n```\n$ Invalid!\nmaximise a\n```\n"},{"slug":"02-logic-operations","title":"Logic Operations","value":"$e"}]},{"slug":"03-integers","title":"Integers","lessons":[{"slug":"01-the-integer-domain","title":"The Integer Domain","value":"$f"},{"slug":"02-arithmetic-and-comparison","title":"Arithmetic and Comparison","value":"# Arithmetic and Comparison\nEssence includes the standard arithmetic and comparison operators.\n\n## Arithmetic\n- `x + y` - addition.\n- `x - y` - subtraction.\n- `x * y` - multiplication.\n- `x / y` - *integer* division.\n- `x % y` - modulo (remainder of `x` divided by `y`).\n- `x ** y` - exponential (`x` to the power of `y`).\n- `x!` or `factorial(x)` - factorial.\n- `|x|` - absolute value (positive value).\n\n## Comparison\n- `x = y` - equality (notice that it's one symbol!).\n- `x != y` - inequality.\n- `x < y` - less than.\n- `x <= y` - less than or equal to.\n- `x > y` - greater than.\n- `x >= y` - greater than or equal to.\n"}]},{"slug":"99-misc","title":"Misc","lessons":[{"slug":"02-basic-domains","title":"Basic Domains","value":"$10"}]}]}]}],["$L11","$L12"],"$L13"]}],"p":"$@14","v":null,"s":"$15"}}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L17",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L19",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Essence Tutor"}],["$","meta","1",{"name":"description","content":"Learn Essence from scratch"}],["$","link","2",{"rel":"icon","href":"/essence-tutor/preview/pr-58/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L1a","3",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@1b","v":null,"s":"$15"}},"a":"$@1c","u":"$@1d","b":"um4jJappz8TuuZhG_4DG_"}
+1e:I[29959,["$4","$5","$6"],"OutletBoundary"]
+11:["$","script","script-0",{"src":"/essence-tutor/preview/pr-58/_next/static/chunks/2x9ssz3ucxm5c.js","async":true}]
+12:["$","script","script-1",{"src":"/essence-tutor/preview/pr-58/_next/static/chunks/40d81xu2ymm0h.js","async":true}]
+13:["$","$L1e",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@1f"}]}]
+1d:true
+1f:null
+15:300
+15:C
+1c:0
+1b:"$undefined"
+14:"$undefined"
