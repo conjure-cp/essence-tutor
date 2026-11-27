@@ -1,6 +1,6 @@
 "use client"
 
-import ReactMarkdown from 'react-markdown'
+import Markdown from "react-markdown"
 import remarkGfm from 'remark-gfm'
 import {
     ResizableHandle,
@@ -10,7 +10,9 @@ import {
 import { Chapter } from '@/lib/content';
 import {cn} from "cn";
 import { useSearchParams } from 'next/navigation';
-import { RunnerPanel } from '../panels/Runner';
+import { RunnerPanel, ExamplesPanel } from '@/components/panels/Runner';
+import {useTheme} from "next-themes";
+import {Dispatch, isValidElement, ReactNode, SetStateAction, useState} from "react";
 
 interface lessonPanelProps {
     className?: string,
@@ -30,7 +32,10 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
         currentChapter?.lessons[0]
 
     if (!currentLesson) return <p className="p-10">No lessons found.</p>
-    
+
+    // setup the editor state
+    const [editorState, setEditorState] = useState('find x, y: bool such that x != y');
+
     return (
             <ResizablePanelGroup
                 orientation="horizontal"
@@ -38,12 +43,12 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
             >
                 <ResizablePanel defaultSize="50%">
                     <div className="flex h-full w-full items-center justify-center p-2">
-                        <Markdown value={currentLesson.value} />
+                        <MarkdownPanel value={currentLesson.value} setEditorState={setEditorState}  />
                     </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize="50%">
-                    <RunnerPanel initialEditorContent="testing" initialConsoleContent="x = 0" />
+                    <RunnerPanel editorState={editorState} setEditorState={setEditorState} initialConsoleContent="" />
                 </ResizablePanel>
             </ResizablePanelGroup>
     )
@@ -51,13 +56,42 @@ export const LessonPanel = ({ className, chapters }: lessonPanelProps) => {
 
 interface markdownProps {
     value: string;
+    setEditorState: Dispatch<SetStateAction<string>>,
 }
 
-const Markdown = ({ value }: markdownProps) => {
+const MarkdownPanel = ({ value, setEditorState }: markdownProps) => {
+    const { resolvedTheme } = useTheme();
+    const theme = resolvedTheme === "dark" ? "dark" : "light";
+
+    // Multi-line code blocks in markdown are converted to <pre><code class="language">...</code></pre>
+    // Meanwhile, single-line code becomes <code></code>
+    const getCode = (children: ReactNode) => {
+        if (isValidElement<{ children?: ReactNode }>(children)) {
+            const inner = children.props.children;
+            return typeof inner === "string" ? inner : Array.isArray(inner) ? inner.join("") : "";
+        }
+        return "";
+    }
+
     return (
         <div className="bg-secondary rounded-lg border w-full h-full overflow-y-scroll">
             <div className="prose dark:prose-invert max-w-none p-10">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
+                <Markdown
+                    components={{
+                        pre(props) {
+                            const {node, children, ...rest} = props
+                            const code = getCode(children).replace(/\n$/, "");
+                            return <ExamplesPanel theme={theme} state={code} setState={setEditorState} />
+                        },
+                        code(props) {
+                            const {node, children, ...rest} = props
+                            return <strong className="font-mono">{children}</strong>
+                        },
+                    }}
+                    remarkPlugins={[remarkGfm]}
+                >
+                    {value}
+                </Markdown>
             </div>
         </div>
     )

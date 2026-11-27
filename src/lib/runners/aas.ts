@@ -7,7 +7,6 @@ export const CONJURE_AAS_APPNAME = "essence-tutor";
 
 const sleep = (period: number) => new Promise(resolve => setTimeout(resolve, period));
 
-
 export class AASRunner implements Runner {
   public async solve(model: Model, solver?: string, options?: string[]): Promise<void> {
       const jobId = await this.submit(model, solver ? solver : "kissat", options ? options : []);
@@ -57,6 +56,11 @@ export class AASRunner implements Runner {
         })
       }
     )).json());
+
+    if (response.status.startsWith("terminated")) {
+      model.setError(response.logs.toString());
+      return;
+    }
 
     if (response.status.startsWith("terminated")) {
       model.setError(response.logs.toString());
