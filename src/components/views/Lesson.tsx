@@ -86,11 +86,7 @@ const MarkdownPanel = ({ value, setEditorState }: markdownProps) => {
 
               if (YAML.parse(code).tasks) {
                 try {
-                  let taskData: Task[] = YAML.parse(code).tasks.map((v: Task) => {
-                    if (v.state == undefined) v.state = TaskState.UNKNOWN;
-                    if (v.number == undefined) v.number = -1;
-                    return v;
-                  });
+                  let taskData: Task[] = YAML.parse(code).tasks;
                   return <TaskList tasks={taskData} />;
                 } catch {
                   console.error(`error occurred while parsing YAML in markdown!`)
