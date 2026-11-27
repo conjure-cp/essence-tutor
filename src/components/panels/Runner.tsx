@@ -81,8 +81,6 @@ interface RunnerPanelProps {
 
 export const RunnerPanel = ({ editorState, setEditorState, initialConsoleContent }: RunnerPanelProps) => {
   const [runnerType, setRunnerType] = useState("oxide");
-  const [editorState, setEditorState] = useState(initialEditorContent);
-  const [outputState, setOutputState] = useState(initialConsoleContent);
   const [paramsState, setParamsState] = useState<string>("");
   const [outputState, setOutputState] = useState(initialConsoleContent ?? "");
 
