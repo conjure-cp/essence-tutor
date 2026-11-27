@@ -13,6 +13,7 @@ import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { Model } from "@/lib/model";
 import {WASMRunner} from "@/lib/runners/wasm";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {useTheme} from "next-themes";
 import {CopyButton} from "@/components/ui/copy-button";
@@ -73,6 +74,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
   const [runnerType, setRunnerType] = useState("oxide");
   const [editorState, setEditorState] = useState(initialEditorContent);
   const [outputState, setOutputState] = useState(initialConsoleContent);
+  const [paramsState, setParamsState] = useState<string>("");
 
   const RUNNER_TYPES = [
     { label: "Local", value: "oxide" },
@@ -150,10 +152,26 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
     <ResizablePanelGroup orientation="vertical">
       
       <ResizablePanel defaultSize="75%">
-        <Wrapper title="Editor" actions={[<CopyButton content={editorState} />, <SolveAction />]}>
-          <EditorPanel theme={theme} state={editorState} setState={setEditorState} />
+      <Tabs defaultValue="code" className="h-full w-full gap-0">
+        <Wrapper
+          title={
+            <TabsList variant="line">
+              <TabsTrigger value="code" className="text-base font-bold">Code</TabsTrigger>
+              <TabsTrigger value="parameters" className="text-base font-bold">Parameters</TabsTrigger>
+            </TabsList>
+          }
+          actions={[<CopyButton content={editorState} />, <SolveAction />]} >
+          
+          <TabsContent value="code" className="h-full">
+            <EditorPanel theme={theme} state={editorState} setState={setEditorState} />
+          </TabsContent>
+          
+          <TabsContent value="parameters" className="h-full">
+            <EditorPanel theme={theme} state={paramsState} setState={setParamsState} />
+          </TabsContent>
         </Wrapper>
-      </ResizablePanel>
+      </Tabs>
+    </ResizablePanel>
     
       <ResizableHandle withHandle />
       

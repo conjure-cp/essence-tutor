@@ -17,9 +17,9 @@ export async function AppSidebar() {
     const chapters = await getChapters();
 
     const items = chapters.map((c) => ({
-        slug: c.slug,
+        urlFriendly: c.urlFriendly,
         title: c.title,
-        lessons: c.lessons.map((l) => ({ slug: l.slug, title: l.title })),
+        lessons: c.lessons.map((l) => ({ urlFriendly: l.urlFriendly, title: l.title })),
     }))
     
   return (

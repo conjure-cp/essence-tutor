@@ -4,13 +4,13 @@ import path from "path";
 const CONTENT_DIR = path.join(process.cwd(), "content")
 
 export interface Lesson {
-  slug: string,  // url-friendly string
+  urlFriendly: string,  // url-friendly string
   title: string,  // lesson name
   value: string,  // content of md file
 };
 
 export interface Chapter {
-  slug: string,  // url-friendly string
+  urlFriendly: string,  // url-friendly string
   title: string,  // chapter name
   lessons: Lesson[]  // contained lessons
 };
@@ -35,12 +35,12 @@ export const getChapters = async (): Promise<Chapter[]> => {
           const text = fs.readFileSync(path.join(CONTENT_DIR, folder, f), "utf8")
           const heading = text.match(/^#\s+(.+)$/m)
           return {
-            slug: f.replace(/\.md$/, ""),
+            urlFriendly: f.replace(/\.md$/, ""),
             title: heading ? heading[1].trim() : prettify(f),
             value: fs.readFileSync(path.join(CONTENT_DIR, folder, f), { encoding: "utf-8", flag: "r" }),
           } satisfies Lesson;
         });
 
-      return { slug: folder, title: prettify(folder), lessons } satisfies Chapter;
+      return { urlFriendly: folder, title: prettify(folder), lessons } satisfies Chapter;
     })
 }
