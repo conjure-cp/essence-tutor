@@ -1,13 +1,13 @@
 "use client";
 
-import {Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, Fragment, ReactNode, SetStateAction, useState} from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Runner } from "@/lib/runners/abstract";
 import { AASRunner } from "@/lib/runners/aas";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "../ui/select";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { PlayIcon } from "lucide-react";
 import ReactCodeMirror from "@uiw/react-codemirror";
@@ -16,6 +16,7 @@ import {WASMRunner} from "@/lib/runners/wasm";
 
 import {useTheme} from "next-themes";
 import {CopyButton} from "@/components/ui/copy-button";
+import {CopyAcrossButton} from "@/components/ui/copy-across";
 
 interface WrapperProps {
   title: ReactNode,
@@ -48,8 +49,8 @@ interface CodePanelProps {
   className?: string;
   theme?: "light" | "dark" | "none";
   state?: string,
-  setState: Dispatch<SetStateAction<string | undefined>>
-};
+  setState: Dispatch<SetStateAction<string>>
+}
 
 const EditorPanel = ({ className = "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps) => {
   return (
@@ -63,16 +64,23 @@ const OutputPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl"
   );
 }
 
+export const ExamplesPanel = ({ className =  "border-1 h-full overflow-hidden rounded-xl", theme, state, setState }: CodePanelProps ) => {
+  return (
+      <Wrapper title="Example" actions={[<CopyButton content={state} />, <CopyAcrossButton state={state ?? ""} setState={setState} />]}>
+        <ReactCodeMirror className={className} height="100%" basicSetup={{highlightActiveLine: false, highlightActiveLineGutter: false}} theme={theme ?? "none"} value={state} editable={false} />
+      </Wrapper>
+  );
+}
 
 interface RunnerPanelProps {
-  initialEditorContent?: string,
+  editorState: string,
+  setEditorState: Dispatch<SetStateAction<string>>,
   initialConsoleContent?: string
-};
+}
 
-export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: RunnerPanelProps) => {
+export const RunnerPanel = ({ editorState, setEditorState, initialConsoleContent }: RunnerPanelProps) => {
   const [runnerType, setRunnerType] = useState("oxide");
-  const [editorState, setEditorState] = useState(initialEditorContent);
-  const [outputState, setOutputState] = useState(initialConsoleContent);
+  const [outputState, setOutputState] = useState(initialConsoleContent ?? "");
 
   const RUNNER_TYPES = [
     { label: "Local", value: "oxide" },
@@ -128,7 +136,7 @@ export const RunnerPanel = ({ initialEditorContent, initialConsoleContent }: Run
             </SelectGroup>
           </SelectContent>
         </Select>
-        
+
         <Tooltip>
           <TooltipTrigger render={
             <Button aria-label="Run" variant="outline" onClick={solve}>
