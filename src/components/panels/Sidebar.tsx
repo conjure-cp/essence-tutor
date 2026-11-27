@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/sidebar"
 
 import Link from "next/link"
-import { getChapters } from "@/lib/chapters"
+import { getChapters } from "@/lib/content"
 
-export function AppSidebar() {
-  const chapters = getChapters()
 
+export async function AppSidebar() {
+    const chapters = await getChapters();
+    
   return (
     <Sidebar variant="floating">
         <SidebarHeader>
@@ -34,15 +35,15 @@ export function AppSidebar() {
             <SidebarGroupContent>
                 <SidebarMenu>
                 {chapters.map((c) => (
-                    <SidebarMenuItem key={c.urlFriendly}>
+                    <SidebarMenuItem key={c.slug}>
                         <span className="whitespace-normal break-words">{c.title}</span>
 
                     <SidebarMenuSub>
                         {c.lessons.map((l) => (
-                        <SidebarMenuSubItem key={l.urlFriendly}>
+                        <SidebarMenuSubItem key={l.slug}>
                             <SidebarMenuSubButton
                             render={
-                                <Link href={`/?chapter=${c.urlFriendly}&lesson=${l.urlFriendly}`} />
+                                <Link href={`/?chapter=${c.slug}&lesson=${l.slug}`} />
                             }
                             >
                             <span>{l.title}</span>
