@@ -25,26 +25,25 @@ export interface TaskListProps {
 }
 
 export function TaskList({ tasks }: TaskListProps) {
-  console.log(tasks);
   return (
     <Card className="p-0">
       <CardContent className="w-full p-0">
         {
           tasks.map((v, i) => (
-            <Collapsible key={i} className="w-full p-3 not-last:border-b-1">
+            <Collapsible key={i} className="w-full px-4 py-2 not-last:border-b-1">
               <div className="w-full flex justify-between items-center">
-                <p><strong className="pr-4">Task {v.number}</strong>{v.title}</p>
-                <div className="flex items-center gap-4">
+                <span><strong className="pr-2">Task {v.number}</strong>{v.title}</span>
+                <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" onClick={() => alert(v.state)}>Check Answer</Button>
                   { v.state == TaskState.SUCCESS ? <CircleCheck color="green" /> : v.state == TaskState.ERROR ? <CircleX color="red" /> : <CircleQuestionMark color="orange" /> }
                   <CollapsibleTrigger render={<Button variant="ghost" size="icon"><ChevronUp className="group-data-panel-open/button:rotate-180" /></Button>} />
                 </div>
               </div>
               
-              <CollapsibleContent className="my-2">
-                <p>
+              <CollapsibleContent className="py-2">
+                <span>
                   {v.description}
-                </p>
+                </span>
                 { v.boilerplate && <ReactCodeMirror value={v.boilerplate} readOnly={true} editable={false} /> }
               </CollapsibleContent>
             </Collapsible>
