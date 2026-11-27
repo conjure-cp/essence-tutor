@@ -1,4 +1,4 @@
-name: Deploy main to GitHub Pages
+name: Main Deployment
 
 on:
   # Runs on pushes targeting the default branch
