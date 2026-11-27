@@ -47,7 +47,7 @@ function TaskListItem({ task }: { task: Task }) {
   return (
     <Collapsible className="w-full px-4 py-2 not-last:border-b-1">
       <div className="w-full flex justify-between items-center">
-        <CollapsibleTrigger className="hover:cursor-pointer"><strong className="mr-2">Task {task.number}</strong><span className="hover:underline">{task.title}</span></CollapsibleTrigger>
+        <CollapsibleTrigger className="hover:cursor-pointer flex-grow text-left"><strong className="mr-2">Task {task.number}</strong><span className="hover:underline">{task.title}</span></CollapsibleTrigger>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setTaskState(TaskState.WAITING)}>Check Answer</Button>
           
